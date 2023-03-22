@@ -1,10 +1,12 @@
 import 'package:final2/Screens/Login.dart';
 import 'package:final2/Screens/LoginScreen.dart';
+import 'package:final2/Screens/Profile.dart';
 import 'package:final2/Screens/Splash.dart';
 import 'package:final2/Screens/Supplier.dart';
 import 'package:final2/Screens/Welcome.dart';
 import 'package:final2/Screens/onBoarding.dart';
 import 'package:final2/Screens/sign_up_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Screens/CustomerHomeScreen.dart';

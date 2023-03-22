@@ -1,214 +1,337 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../Minor_screen/TabBarPage.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  final String documentId;
+
+  const ProfileScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String ProfileName = "Profile";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            shadowColor: Colors.black,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            expandedHeight: 250,
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraint) {
-                return FlexibleSpaceBar(
-                  title: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity: constraint.biggest.height <= 120 ? 1 : 0,
-                    child: Text(
-                      ProfileName,
-                      style: GoogleFonts.abyssinicaSil(
+      backgroundColor: Colors.grey.shade300,
+      body: Stack(
+        children: [
+          Container(
+            height: 230,
+            decoration: const BoxDecoration(
+              color: Colors.black
+                ),
+          ),
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                centerTitle: true,
+                pinned: true,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                expandedHeight: 140,
+                flexibleSpace: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return FlexibleSpaceBar(
+                      title: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 200),
+                        opacity: constraints.biggest.height <= 120 ? 1 : 0,
+                        child: const Text(
+                          'Profile',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      background: Container(
+                        decoration: const BoxDecoration(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24),
-                    ),
-                  ),
-                  background: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [Color(0xffcbfa5c), Color(0xffcbfa5c)]),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 33, left: 30),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 50,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 50),
-                            child: Container(
-                              height: 170,
-                              width: MediaQuery.of(context).size.width*0.50,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 22,
-                                  ),
-                                  TextF(
-                                    text: 'Name',
-                                    color: Colors.black,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  TextF(
-                                    text: 'Email',
-                                    color: Colors.black,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  TextF(
-                                    text: 'Edit Profile',
-                                    color: Colors.black,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                ],
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 25, left: 30),
+                          child: Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 50,
+                                backgroundColor: Colors.white,
+                                backgroundImage:
+                                    AssetImage('images/Profile_images/Profile_image.jpeg'),
                               ),
+                              SizedBox(width: 100,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 25),
+                                child: Text(
+                                  "Name",
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    bottomLeft: Radius.circular(30))),
+                            child: TextButton(
+                              child: SizedBox(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Center(
+                                  child: Text(
+                                    'Cart',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            color: Colors.black,
+                            child: TextButton(
+                              child: SizedBox(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Center(
+                                  child: Text(
+                                    'Orders',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(30),
+                                    bottomRight: Radius.circular(30))),
+                            child: TextButton(
+                              child: SizedBox(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Center(
+                                  child: Text(
+                                    'Wishlist',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {},
                             ),
                           )
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  height: 200,
-                  margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Color(0xffe8eaf3),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10))),
-                  child: Center(
-                      child: TextF(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    text: 'Streak',
-                  )),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  height: 60,
-                  margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xffe8eaf3),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+                    Container(
+                      color: Colors.grey.shade300,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 150,
+                            child: Image(
+                              width: double.infinity,
+                                image: AssetImage('images/Blur/blur.png')),
+                          ),
+                          const ProfileHeaderLabel(
+                            headerLabel: '  Account Info.  ',
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 260,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  RepeatedListTile(
+                                      icon: Icons.email,
+                                      title: 'Email Address'),
+                                  const YellowDivider(),
+                                  RepeatedListTile(
+                                      icon: Icons.phone, title: 'Phone No.'),
+                                  const YellowDivider(),
+                                  RepeatedListTile(
+                                      icon: Icons.location_pin,
+                                      title: 'Address'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const ProfileHeaderLabel(
+                              headerLabel: '  Account Settings  '),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              height: 260,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: Column(
+                                children: [
+                                  RepeatedListTile(
+                                    title: 'Edit Profile',
+                                    subTitle: '',
+                                    icon: Icons.edit,
+                                    onPressed: () {},
+                                  ),
+                                  const YellowDivider(),
+                                  RepeatedListTile(
+                                    title: 'Change Password',
+                                    icon: Icons.lock,
+                                    onPressed: () {},
+                                  ),
+                                  const YellowDivider(),
+                                  RepeatedListTile(
+                                    title: 'Log Out',
+                                    icon: Icons.logout,
+                                    onPressed: () async {
+                                      // MyAlertDilaog.showMyDialog(
+                                      //     context: context,
+                                      //     title: 'Log Out',
+                                      //     content:
+                                      //     'Are you sure to log out ?',
+                                      //     tabNo: () {
+                                      //       Navigator.pop(context);
+                                      //     },
+                                      //     tabYes: () async {
+                                      //       await FirebaseAuth.instance
+                                      //           .signOut();
+                                      //       Navigator.pop(context);
+                                      //       Navigator
+                                      //           .pushReplacementNamed(
+                                      //           context,
+                                      //           '/welcome_screen');
+                                      //     });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TabBarList(color: Colors.black , width: 120 , borderradius: 10 ,fontsize: 20 ,onPressed: (){} , str: 'Statistic'),
-                      TabBarList(color: Colors.black , width: 120 , borderradius: 10 ,fontsize: 20 ,onPressed: (){} , str: 'Cart'),
-                      TabBarList(color: Colors.black , width: 120 , borderradius: 10 ,fontsize: 20 ,onPressed: (){} , str: 'Courses'),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
+                  ],
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );
   }
 }
 
-class TabBarList extends StatelessWidget {
-  final Color color;
-  final Function() onPressed;
-  final double width;
-  final String str;
-  final double borderradius;
-  final double fontsize;
-  const TabBarList({
-    super.key, required this.width , required this.str ,required this.onPressed , required this.color ,required this.borderradius ,required this.fontsize
-  });
+class AppbarBackButton {}
+
+class YellowDivider extends StatelessWidget {
+  const YellowDivider({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 40),
+      child: Divider(
+        color: Colors.black,
+        thickness: 1,
+      ),
+    );
+  }
+}
+
+class RepeatedListTile extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final IconData icon;
+  final Function()? onPressed;
+
+  const RepeatedListTile(
+      {Key? key,
+      required this.icon,
+      this.onPressed,
+      this.subTitle = '',
+      required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: Container(
-          height: MediaQuery.of(context).size.height * 0.30,
-          width: width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderradius),
-            color: Colors.white,
-          ),
-          child: Center(
-            child: Text(
-              str,
-              style: GoogleFonts.abyssinicaSil(
-                  color: color,
-                  fontWeight: FontWeight.normal,
-                  fontSize: fontsize),
-            ),
-          )),
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subTitle),
+        leading: Icon(icon),
+      ),
     );
   }
 }
 
-class TextF extends StatelessWidget {
-  final String text;
-  var color;
-  var fontWeight;
-  double fontSize;
+class ProfileHeaderLabel extends StatelessWidget {
+  final String headerLabel;
 
-  TextF(
-      {super.key,
-      required this.color,
-      required this.fontSize,
-      required this.fontWeight,
-      required this.text});
+  const ProfileHeaderLabel({Key? key, required this.headerLabel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.abyssinicaSil(
-          color: color, fontWeight: fontWeight, fontSize: fontSize),
+    return SizedBox(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 40,
+            width: 50,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+          Text(
+            headerLabel,
+            style: const TextStyle(
+                color: Colors.grey, fontSize: 24, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(
+            height: 40,
+            width: 50,
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
