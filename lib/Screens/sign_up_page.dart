@@ -167,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         backgroundColor: Colors.transparent,
         content: AwesomeSnackbarContent(
           title: 'On Snap!',
-          message: 'Please Enter all the above fields',
+          message: 'Please Enter all the above fields correctly',
           contentType: ContentType.failure,
         ),
       ));
@@ -343,8 +343,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Phone No';
-                              } else
-                                return null;
+                              }
+                              if (value.length != 10) {
+                                return 'Mobile Number must be of 10 digit';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                                 hintText: 'Phone No',
@@ -578,7 +581,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               width: MediaQuery.of(context).size.width,
                               child: Center(
                                 child: processing == true
-                                    ? const CircularProgressIndicator(color: Colors.white,)
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
                                     : Text(
                                         'Sign Up',
                                         style: TextStyle(
