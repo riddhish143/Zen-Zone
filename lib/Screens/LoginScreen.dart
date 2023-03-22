@@ -1,161 +1,98 @@
-import 'dart:io';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:google_fonts/google_fonts.dart';
 
-// final TextEditingController _namecontroller = TextEditingController();
-// final TextEditingController _emailcontroller = TextEditingController();
-// final TextEditingController _phonecontroller = TextEditingController();
-// final TextEditingController _passwordcontroller = TextEditingController();
-
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class loginScreen extends StatefulWidget {
+  const loginScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<loginScreen> createState() => _loginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  late String name;
+class _loginScreenState extends State<loginScreen> {
   late String email;
-  late String phone;
   late String password;
-  late String profileImage;
-  late String _uid;
   bool processing = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscureText = true;
 
-  XFile? _imageFile;
-  dynamic _pickImageError;
-
-  CollectionReference customers =
-      FirebaseFirestore.instance.collection('customers');
-
-  void _pickImageFromCamera() async {
-    try {
-      final pickedImage = await ImagePicker().pickImage(
-        source: ImageSource.camera,
-        maxHeight: 300,
-        maxWidth: 300,
-        imageQuality: 96,
-      );
-      setState(() {
-        _imageFile = pickedImage;
-      });
-    } catch (e) {
-      setState(() {
-        _pickImageError = e;
-      });
-      print(_pickImageError);
-    }
-  }
-
-  void _pickImageFromGallery() async {
-    try {
-      final pickedImage = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        maxHeight: 300,
-        maxWidth: 300,
-        imageQuality: 96,
-      );
-      setState(() {
-        _imageFile = pickedImage;
-      });
-    } catch (e) {
-      setState(() {
-        _pickImageError = e;
-      });
-      print(_pickImageError);
-    }
-  }
-
-  void signUp() async {
+  void logIn() async {
     setState(() {
       processing = true;
     });
     if (_formkey.currentState!.validate()) {
-      if (_imageFile != null) {
-        // print('Picked Image');
-        // print('Valid');
-        // print(name);
-        // print(email);
-        // print(phone);
-        // print(password);
-        try {
-          await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password);
-
-          firebase_storage.Reference ref = firebase_storage
-              .FirebaseStorage.instance
-              .ref('cust-image/$email.jpg');
-          await ref.putFile(File(_imageFile!.path));
-          profileImage = await ref.getDownloadURL();
-
-          _uid = FirebaseAuth.instance.currentUser!.uid;
-          await customers.doc(_uid).set({
-            'name': name,
-            'email': email,
-            'profileimage': profileImage,
-            'phone': '',
-            'address': '',
-            'cid': _uid
-          });
-
-          _formkey.currentState!.reset();
+      try {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        _formkey.currentState!.reset();
+        Navigator.pushReplacementNamed(context, '/Customer_screen');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
           setState(() {
-            _imageFile = null;
+            processing = false;
           });
-          Navigator.pushReplacementNamed(context, '/Customer_screen');
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'weak-password') {
-            setState(() {
-              processing = false;
-            });
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
-                message: 'This password in too weak',
+                message:
+                    'No user found for that Email , Please check once again !',
                 contentType: ContentType.failure,
               ),
-            ));
-          } else if (e.code == 'email-already-in-use') {
-            setState(() {
-              processing = false;
-            });
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            ),
+          );
+        } else if (e.code == 'wrong-password') {
+          setState(() {
+            processing = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
-                message: 'This account already exists for that email',
+                message: 'Wrong password , Please enter again !',
                 contentType: ContentType.failure,
               ),
-            ));
-          }
+            ),
+          );
         }
-      } else {
-        setState(() {
-          processing = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          elevation: 0,
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: AwesomeSnackbarContent(
-            title: 'On Snap!',
-            message: 'You should also pick Image',
-            contentType: ContentType.failure,
-          ),
-        ));
+        // if (e.code == 'weak-password')
+        // {
+        //   setState(() {
+        //     processing = false;
+        //   });
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     elevation: 0,
+        //     behavior: SnackBarBehavior.floating,
+        //     backgroundColor: Colors.transparent,
+        //     content: AwesomeSnackbarContent(
+        //       title: 'On Snap!',
+        //       message: 'This password in too weak',
+        //       contentType: ContentType.failure,
+        //     ),
+        //   ));
+        // } else if (e.code == 'email-already-in-use')
+        // {
+        //   setState(() {
+        //     processing = false;
+        //   });
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     elevation: 0,
+        //     behavior: SnackBarBehavior.floating,
+        //     backgroundColor: Colors.transparent,
+        //     content: AwesomeSnackbarContent(
+        //       title: 'On Snap!',
+        //       message: 'This account already exists for that email',
+        //       contentType: ContentType.failure,
+        //     ),
+        //   ));
+        // }
       }
     } else {
       setState(() {
@@ -187,117 +124,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Column(children: [
                     SizedBox(
-                      height: 10,
+                      height: 40,
                     ),
-                    Container(
-                      child: Text('Sign-Up',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 28,
-                              color: Colors.black)),
+                    Center(
+                      child: Container(
+                        child: Text('Login ',
+                            style: GoogleFonts.abyssinicaSil(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 28,
+                                color: Colors.black)),
+                      ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 50,
-                        backgroundImage: _imageFile == null
-                            ? null
-                            : FileImage(File(_imageFile!.path)),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              _pickImageFromCamera();
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5),
-                                      topRight: Radius.circular(5))),
-                              child: Icon(
-                                Icons.camera,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              _pickImageFromGallery();
-                            },
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(5),
-                                      bottomRight: Radius.circular(5))),
-                              child: Icon(
-                                Icons.image,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ]),
-                    SizedBox(
-                      height: 15,
+                    Icon(
+                      Icons.account_circle_sharp,
+                      size: 200,
                     ),
                   ]),
                   Form(
                     key: _formkey,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              name = value;
-                            },
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Your Full Name';
-                              } else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Full Name',
-                                labelText: 'Full Name',
-                                floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  //borderSide: BorderSide(color: Colors.blueGrey)
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                prefixIcon: Icon(
-                                  Icons.person_2_outlined,
-                                  color: Colors.black,
-                                )),
-                          ),
+                        SizedBox(
+                          height: 15,
                         ),
-                        SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: TextFormField(
@@ -332,37 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 suffixIconColor: Colors.grey),
                           ),
                         ),
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: TextFormField(
-                            onChanged: (value) {
-                              phone = value;
-                            },
-                            keyboardType: TextInputType.phone,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please Enter Your Phone No';
-                              } else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Phone No',
-                                labelText: 'Phone No',
-                                floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                prefixIcon:
-                                    Icon(Icons.phone, color: Colors.black),
-                                suffixIconColor: Colors.black),
-                          ),
-                        ),
+                        SizedBox(height: 10),
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -570,7 +392,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   MaterialStateProperty.all(Colors.white),
                             ),
                             onPressed: () {
-                              signUp();
+                              logIn();
                             },
                             child: Container(
                               //margin: EdgeInsets.symmetric(horizontal: 20),
@@ -578,9 +400,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               width: MediaQuery.of(context).size.width,
                               child: Center(
                                 child: processing == true
-                                    ? const CircularProgressIndicator(color: Colors.white,)
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
                                     : Text(
-                                        'Sign Up',
+                                        'Login',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 24,
@@ -680,10 +504,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, '/Login_screen');
+                              context, '/Customer_register_screen');
                         },
                         child: Text(
-                          'Already have an Account?',
+                          'Don\'t have an Account?',
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),

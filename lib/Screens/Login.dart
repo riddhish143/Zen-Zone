@@ -1,11 +1,8 @@
 import 'dart:ui';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final TextEditingController _emailcontroller = TextEditingController();
-final TextEditingController _passwordcontroller = TextEditingController();
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -64,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: TextFormField(
-                                    controller: _emailcontroller,
+                                    onChanged: (value)
+                                    {
+                                      email = value;
+                                    },
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -99,7 +99,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: TextFormField(
-                                    controller: _passwordcontroller,
+                                    onChanged: (value)
+                                    {
+                                      password = value;
+                                    },
                                     keyboardType: TextInputType.visiblePassword,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -315,8 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       if (_formkey.currentState!.validate()) {
                                         print('Valid');
                                         setState(() {
-                                          email = _emailcontroller.text;
-                                          password = _passwordcontroller.text;
+
                                         });
                                         print(email);
                                         print(password);

@@ -1,8 +1,8 @@
 import 'package:final2/Screens/Login.dart';
+import 'package:final2/Screens/LoginScreen.dart';
 import 'package:final2/Screens/Splash.dart';
 import 'package:final2/Screens/Supplier.dart';
 import 'package:final2/Screens/Welcome.dart';
-import 'package:final2/Screens/login_page.dart';
 import 'package:final2/Screens/onBoarding.dart';
 import 'package:final2/Screens/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/Splash_screen',
+      initialRoute: '/Login_screen',
       routes: {
         '/Splash_screen': (context) => const SplashScreen(),
         '/OnBoarding_screen': (context) => onBoarding(),
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         '/Customer_screen': (context) => const CustomerHomeScreen(),
         '/Supplier_screen': (context) => const SupplierScreen(),
         '/Customer_register_screen' : (context) => const SignUpScreen(),
-        '/Login_screen' : (context) => const LoginScreen(),
+        '/Login_screen' : (context) => const loginScreen(),
       },
     );
   }
