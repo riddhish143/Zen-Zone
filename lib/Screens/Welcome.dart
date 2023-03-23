@@ -1,3 +1,7 @@
+import 'package:final2/Screens/LoginScreen.dart';
+import 'package:final2/Screens/sign_up_page.dart';
+import 'package:final2/auth/supplier_login.dart';
+import 'package:final2/auth/supplier_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -130,7 +134,7 @@ class ExtractedColumn extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/Login_screen');
+              Navigator.pushReplacementNamed(context, SupplierloginScreen.id);
             },
             child: Text(
               'Login',
@@ -158,8 +162,7 @@ class ExtractedColumn extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(
-                  context, '/Customer_register_screen');
+              Navigator.pushReplacementNamed(context, SupplierSignUpScreen.id);
             },
             child: Text(
               'Sign up',
@@ -199,7 +202,7 @@ class ExtractedColumn1 extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/Login_screen');
+              Navigator.pushReplacementNamed(context, loginScreen.id);
             },
             child: Text(
               'Login',
@@ -227,8 +230,7 @@ class ExtractedColumn1 extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(
-                  context, '/Customer_register_screen');
+              Navigator.pushReplacementNamed(context, SignUpScreen.id);
             },
             child: Text(
               'Sign up',

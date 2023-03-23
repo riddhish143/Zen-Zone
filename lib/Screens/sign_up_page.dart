@@ -1,7 +1,8 @@
 import 'dart:io';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Screens/Login.dart';
+import 'package:final2/Screens/LoginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,9 +13,11 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 // final TextEditingController _phonecontroller = TextEditingController();
 // final TextEditingController _passwordcontroller = TextEditingController();
 
+final _firestore = FirebaseFirestore.instance;
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
-
+  static const String id='/Customer_signup_screen';
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
@@ -29,12 +32,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool processing = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscureText = true;
-
+  final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
   dynamic _pickImageError;
 
-  CollectionReference customers =
-      FirebaseFirestore.instance.collection('customers');
+  // CollectionReference customers =
+  //     FirebaseFirestore.instance.collection('customers');
 
   void _pickImageFromCamera() async {
     try {
@@ -80,12 +83,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
     if (_formkey.currentState!.validate()) {
       if (_imageFile != null) {
-        // print('Picked Image');
-        // print('Valid');
-        // print(name);
-        // print(email);
-        // print(phone);
-        // print(password);
         try {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
@@ -94,23 +91,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .FirebaseStorage.instance
               .ref('cust-image/$email.jpg');
           await ref.putFile(File(_imageFile!.path));
-          profileImage = await ref.getDownloadURL();
-
           _uid = FirebaseAuth.instance.currentUser!.uid;
-          await customers.doc(_uid).set({
+          profileImage = await ref.getDownloadURL();
+          await _firestore.collection('customer').doc(_uid).set({
             'name': name,
             'email': email,
             'profileimage': profileImage,
-            'phone': '',
+            'phone': phone,
             'address': '',
-            'cid': _uid
+            'sid': _uid
           });
 
           _formkey.currentState!.reset();
           setState(() {
             _imageFile = null;
           });
-          Navigator.pushReplacementNamed(context, '/Customer_screen');
+          Navigator.pushReplacementNamed(context, loginScreen.id);
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             setState(() {
@@ -308,9 +304,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Email';
-                              } else if (value.isValidEmail() == false) {
+                              } else if (!RegExp(
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                  .hasMatch(value)) {
                                 return 'Invalid Email';
-                              } else if (value.isValidEmail() == true) {
+                              } else if (RegExp(
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                  .hasMatch(value)) {
                                 return null;
                               }
                               return null;

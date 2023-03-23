@@ -1,6 +1,7 @@
 import 'package:final2/Screens/Dashboard.dart';
 import 'package:final2/Screens/Library.dart';
 import 'package:final2/Screens/Profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -16,7 +17,7 @@ class SupplierScreen extends StatefulWidget {
 
 class _SupplierScreenState extends State<SupplierScreen> {
   List<Widget> _tabs = [
-    HomeScreen(),
+    HomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
     ExploreScreen(),
     DashboardScreen(),
     Center(

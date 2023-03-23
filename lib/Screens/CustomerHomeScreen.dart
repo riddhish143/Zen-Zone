@@ -1,10 +1,8 @@
 import 'package:final2/Screens/Library.dart';
 import 'package:final2/Screens/Profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
 import 'Explore.dart';
 import 'Home.dart';
 
@@ -17,7 +15,7 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   List<Widget> _tabs = [
-    HomeScreen(),
+    HomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid,),
     ExploreScreen(),
     LibraryScreen(),
     ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),

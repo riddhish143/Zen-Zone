@@ -1,4 +1,4 @@
-import 'package:final2/Screens/Login.dart';
+import 'dart:ui';
 import 'package:final2/Screens/LoginScreen.dart';
 import 'package:final2/Screens/Profile.dart';
 import 'package:final2/Screens/Splash.dart';
@@ -6,6 +6,8 @@ import 'package:final2/Screens/Supplier.dart';
 import 'package:final2/Screens/Welcome.dart';
 import 'package:final2/Screens/onBoarding.dart';
 import 'package:final2/Screens/sign_up_page.dart';
+import 'package:final2/auth/supplier_login.dart';
+import 'package:final2/auth/supplier_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,14 +17,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async
 {
+  WidgetsFlutterBinding.ensureInitialized(
+  );
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]);
-  WidgetsFlutterBinding.ensureInitialized(
-  );
-  await Firebase.initializeApp(
-  );
+  ]).then((value) =>  runApp(const MyApp()));
   runApp(const MyApp());
 }
 
@@ -37,16 +38,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/Login_screen',
+      initialRoute: '/Welcome_screen',
       routes: {
         '/Splash_screen': (context) => const SplashScreen(),
         '/OnBoarding_screen': (context) => onBoarding(),
         '/Welcome_screen': (context) => const WelcomeScreen(),
         '/Customer_screen': (context) => const CustomerHomeScreen(),
         '/Supplier_screen': (context) => const SupplierScreen(),
-        '/Customer_register_screen' : (context) => const SignUpScreen(),
-        '/Login_screen' : (context) => const loginScreen(),
+        ProfileScreen.id : (context) =>  ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
+        SignUpScreen.id : (context) => const SignUpScreen(),
+        loginScreen.id : (context) => const loginScreen(),
+        SupplierSignUpScreen.id : (context) => const SupplierSignUpScreen(),
+        SupplierloginScreen.id : (context) => const SupplierloginScreen(),
       },
     );
   }

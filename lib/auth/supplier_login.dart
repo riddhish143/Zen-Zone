@@ -1,17 +1,18 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:final2/Screens/sign_up_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class loginScreen extends StatefulWidget {
-  const loginScreen({Key? key}) : super(key: key);
-  static const String id='/Customer_login_screen';
+class SupplierloginScreen extends StatefulWidget {
+  const SupplierloginScreen({Key? key}) : super(key: key);
+  static const String id='/Supplier_login_screen';
+
+
   @override
-  State<loginScreen> createState() => _loginScreenState();
+  State<SupplierloginScreen> createState() => _SupplierloginScreenState();
 }
 
-class _loginScreenState extends State<loginScreen> {
+class _SupplierloginScreenState extends State<SupplierloginScreen> {
   late String email;
   late String password;
   bool processing = false;
@@ -27,7 +28,7 @@ class _loginScreenState extends State<loginScreen> {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
         _formkey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/Customer_screen');
+        Navigator.pushReplacementNamed(context, '/Supplier_login_screen');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -41,7 +42,7 @@ class _loginScreenState extends State<loginScreen> {
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
                 message:
-                    'No user found for that Email , Please check once again !',
+                'No user found for that Email , Please check once again !',
                 contentType: ContentType.failure,
               ),
             ),
@@ -161,13 +162,9 @@ class _loginScreenState extends State<loginScreen> {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Email';
-                              } else if (!RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                  .hasMatch(value)) {
+                              } else if (value.isValidEmail() == false) {
                                 return 'Invalid Email';
-                              } else if (RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                  .hasMatch(value)) {
+                              } else if (value.isValidEmail() == true) {
                                 return null;
                               }
                               return null;
@@ -176,14 +173,14 @@ class _loginScreenState extends State<loginScreen> {
                                 hintText: 'Email Address',
                                 labelText: 'Email',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon: Icon(Icons.email_outlined,
                                     color: Colors.black),
                                 suffixIconColor: Colors.grey),
@@ -210,14 +207,14 @@ class _loginScreenState extends State<loginScreen> {
                                 hintText: 'Password',
                                 labelText: 'Password',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon: Icon(Icons.fingerprint_sharp,
                                     color: Colors.black),
                                 suffixIcon: GestureDetector(
@@ -250,7 +247,7 @@ class _loginScreenState extends State<loginScreen> {
                                       padding: EdgeInsets.all(40),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             'Make Selection!',
@@ -275,7 +272,7 @@ class _loginScreenState extends State<loginScreen> {
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                                 color: Colors.grey[400],
                                               ),
                                               child: Row(
@@ -292,15 +289,15 @@ class _loginScreenState extends State<loginScreen> {
                                                   ),
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                     children: [
                                                       Text(
                                                         'E-mail',
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                             fontSize: 15),
                                                       ),
                                                       Text(
@@ -308,7 +305,7 @@ class _loginScreenState extends State<loginScreen> {
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight.w400,
+                                                            FontWeight.w400,
                                                             fontSize: 15),
                                                       )
                                                     ],
@@ -326,7 +323,7 @@ class _loginScreenState extends State<loginScreen> {
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                                 color: Colors.grey[400],
                                               ),
                                               child: Row(
@@ -343,15 +340,15 @@ class _loginScreenState extends State<loginScreen> {
                                                   ),
                                                   Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                     children: [
                                                       Text(
                                                         'Phone',
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                            FontWeight.bold,
                                                             fontSize: 15),
                                                       ),
                                                       Text(
@@ -359,7 +356,7 @@ class _loginScreenState extends State<loginScreen> {
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight.w400,
+                                                            FontWeight.w400,
                                                             fontSize: 15),
                                                       )
                                                     ],
@@ -392,9 +389,9 @@ class _loginScreenState extends State<loginScreen> {
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
+                              MaterialStateProperty.all(Colors.black),
                               shadowColor:
-                                  MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
                             ),
                             onPressed: () {
                               logIn();
@@ -406,15 +403,15 @@ class _loginScreenState extends State<loginScreen> {
                               child: Center(
                                 child: processing == true
                                     ? const CircularProgressIndicator(
-                                        color: Colors.white,
-                                      )
+                                  color: Colors.white,
+                                )
                                     : Text(
-                                        'Login',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 24,
-                                            color: Colors.white),
-                                      ),
+                                  'Login',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 24,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
@@ -450,7 +447,7 @@ class _loginScreenState extends State<loginScreen> {
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(200)))),
+                                        BorderRadius.circular(200)))),
                             icon: Image(
                               image: AssetImage(
                                   'images/loginandsignup/Google_logo.png'),
@@ -481,7 +478,7 @@ class _loginScreenState extends State<loginScreen> {
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(200)))),
+                                        BorderRadius.circular(200)))),
                             icon: Image(
                               image: AssetImage(
                                   'images/loginandsignup/iphone.png'),
@@ -509,7 +506,7 @@ class _loginScreenState extends State<loginScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, SignUpScreen.id);
+                              context, '/Customer_register_screen');
                         },
                         child: Text(
                           'Don\'t have an Account?',
@@ -532,7 +529,7 @@ class _loginScreenState extends State<loginScreen> {
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

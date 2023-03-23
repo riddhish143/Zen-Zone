@@ -1,99 +1,158 @@
+import 'dart:io';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:final2/Screens/sign_up_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/auth/supplier_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class loginScreen extends StatefulWidget {
-  const loginScreen({Key? key}) : super(key: key);
-  static const String id='/Customer_login_screen';
+// final TextEditingController _namecontroller = TextEditingController();
+// final TextEditingController _emailcontroller = TextEditingController();
+// final TextEditingController _phonecontroller = TextEditingController();
+// final TextEditingController _passwordcontroller = TextEditingController();
+
+final _firestore = FirebaseFirestore.instance;
+
+class SupplierSignUpScreen extends StatefulWidget {
+  const SupplierSignUpScreen({Key? key}) : super(key: key);
+  static const String id='/Supplier_Signup_screen';
   @override
-  State<loginScreen> createState() => _loginScreenState();
+  State<SupplierSignUpScreen> createState() => _SupplierSignUpScreenState();
 }
 
-class _loginScreenState extends State<loginScreen> {
+class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
+  late String name;
   late String email;
+  late String phone;
   late String password;
+  late String profileImage;
+  late String _uid;
   bool processing = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscureText = true;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _imageFile;
+  dynamic _pickImageError;
 
-  void logIn() async {
+  //
+  // CollectionReference suppliers =
+  // _firestore.collection('suppliers');
+
+  void _pickImageFromCamera() async {
+    try {
+      final pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        maxHeight: 300,
+        maxWidth: 300,
+        imageQuality: 96,
+      );
+      setState(() {
+        _imageFile = pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+      print(_pickImageError);
+    }
+  }
+
+  void _pickImageFromGallery() async {
+    try {
+      final pickedImage = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxHeight: 300,
+        maxWidth: 300,
+        imageQuality: 96,
+      );
+      setState(() {
+        _imageFile = pickedImage;
+      });
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+      print(_pickImageError);
+    }
+  }
+
+  void signUp() async {
     setState(() {
       processing = true;
     });
     if (_formkey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        _formkey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/Customer_screen');
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          setState(() {
-            processing = false;
+      if (_imageFile != null) {
+        try {
+          await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: email, password: password);
+
+          firebase_storage.Reference ref = firebase_storage
+              .FirebaseStorage.instance
+              .ref('cust-image/$email.jpg');
+          await ref.putFile(File(_imageFile!.path));
+          _uid = FirebaseAuth.instance.currentUser!.uid;
+          profileImage = await ref.getDownloadURL();
+
+          await _firestore.collection('suppliers').doc(_uid).set({
+            'name': name,
+            'email': email,
+            'profileimage': profileImage,
+            'phone': phone,
+            'address': '',
+            'sid': _uid
           });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+
+          _formkey.currentState!.reset();
+          setState(() {
+            _imageFile = null;
+          });
+          Navigator.pushReplacementNamed(context, SupplierloginScreen.id);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'weak-password') {
+            setState(() {
+              processing = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
-                message:
-                    'No user found for that Email , Please check once again !',
+                message: 'This password in too weak',
                 contentType: ContentType.failure,
               ),
-            ),
-          );
-        } else if (e.code == 'wrong-password') {
-          setState(() {
-            processing = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            ));
+          } else if (e.code == 'email-already-in-use') {
+            setState(() {
+              processing = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               elevation: 0,
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
-                message: 'Wrong password , Please enter again !',
+                message: 'This account already exists for that email',
                 contentType: ContentType.failure,
               ),
-            ),
-          );
+            ));
+          }
         }
-        // if (e.code == 'weak-password')
-        // {
-        //   setState(() {
-        //     processing = false;
-        //   });
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     elevation: 0,
-        //     behavior: SnackBarBehavior.floating,
-        //     backgroundColor: Colors.transparent,
-        //     content: AwesomeSnackbarContent(
-        //       title: 'On Snap!',
-        //       message: 'This password in too weak',
-        //       contentType: ContentType.failure,
-        //     ),
-        //   ));
-        // } else if (e.code == 'email-already-in-use')
-        // {
-        //   setState(() {
-        //     processing = false;
-        //   });
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     elevation: 0,
-        //     behavior: SnackBarBehavior.floating,
-        //     backgroundColor: Colors.transparent,
-        //     content: AwesomeSnackbarContent(
-        //       title: 'On Snap!',
-        //       message: 'This account already exists for that email',
-        //       contentType: ContentType.failure,
-        //     ),
-        //   ));
-        // }
+      } else {
+        setState(() {
+          processing = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'On Snap!',
+            message: 'You should also pick Image',
+            contentType: ContentType.failure,
+          ),
+        ));
       }
     } else {
       setState(() {
@@ -105,7 +164,7 @@ class _loginScreenState extends State<loginScreen> {
         backgroundColor: Colors.transparent,
         content: AwesomeSnackbarContent(
           title: 'On Snap!',
-          message: 'Please Enter all the above fields',
+          message: 'Please Enter all the above fields correctly',
           contentType: ContentType.failure,
         ),
       ));
@@ -125,32 +184,117 @@ class _loginScreenState extends State<loginScreen> {
                 children: [
                   Column(children: [
                     SizedBox(
-                      height: 40,
+                      height: 10,
                     ),
-                    Center(
-                      child: Container(
-                        child: Text('Login ',
-                            style: GoogleFonts.abyssinicaSil(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 28,
-                                color: Colors.black)),
-                      ),
+                    Container(
+                      child: Text('Sign-Up',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 28,
+                              color: Colors.black)),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    Icon(
-                      Icons.account_circle_sharp,
-                      size: 200,
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.black,
+                        radius: 50,
+                        backgroundImage: _imageFile == null
+                            ? null
+                            : FileImage(File(_imageFile!.path)),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              _pickImageFromCamera();
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(5),
+                                      topRight: Radius.circular(5))),
+                              child: Icon(
+                                Icons.camera,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _pickImageFromGallery();
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(5),
+                                      bottomRight: Radius.circular(5))),
+                              child: Icon(
+                                Icons.image,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+                    SizedBox(
+                      height: 15,
                     ),
                   ]),
                   Form(
                     key: _formkey,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 15,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: TextFormField(
+                            onChanged: (value) {
+                              name = value;
+                            },
+                            keyboardType: TextInputType.name,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Your Full Name';
+                              } else
+                                return null;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Full Name',
+                                labelText: 'Full Name',
+                                floatingLabelStyle:
+                                    TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  //borderSide: BorderSide(color: Colors.blueGrey)
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide:
+                                        BorderSide(color: Colors.black)),
+                                prefixIcon: Icon(
+                                  Icons.person_2_outlined,
+                                  color: Colors.black,
+                                )),
+                          ),
                         ),
+                        SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: TextFormField(
@@ -162,11 +306,11 @@ class _loginScreenState extends State<loginScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Email';
                               } else if (!RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return 'Invalid Email';
                               } else if (RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return null;
                               }
@@ -189,7 +333,40 @@ class _loginScreenState extends State<loginScreen> {
                                 suffixIconColor: Colors.grey),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: TextFormField(
+                            onChanged: (value) {
+                              phone = value;
+                            },
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Your Phone No';
+                              }
+                              if (value.length != 10) {
+                                return 'Mobile Number must be of 10 digit';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Phone No',
+                                labelText: 'Phone No',
+                                floatingLabelStyle:
+                                    TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: BorderSide(color: Colors.grey)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide:
+                                        BorderSide(color: Colors.black)),
+                                prefixIcon:
+                                    Icon(Icons.phone, color: Colors.black),
+                                suffixIconColor: Colors.black),
+                          ),
+                        ),
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -397,7 +574,7 @@ class _loginScreenState extends State<loginScreen> {
                                   MaterialStateProperty.all(Colors.white),
                             ),
                             onPressed: () {
-                              logIn();
+                              signUp();
                             },
                             child: Container(
                               //margin: EdgeInsets.symmetric(horizontal: 20),
@@ -409,7 +586,7 @@ class _loginScreenState extends State<loginScreen> {
                                         color: Colors.white,
                                       )
                                     : Text(
-                                        'Login',
+                                        'Sign Up',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: 24,
@@ -509,10 +686,10 @@ class _loginScreenState extends State<loginScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, SignUpScreen.id);
+                              context, '/Login_screen');
                         },
                         child: Text(
-                          'Don\'t have an Account?',
+                          'Already have an Account?',
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),
