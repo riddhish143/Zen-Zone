@@ -1,10 +1,9 @@
 import 'package:final2/Screens/Dashboard.dart';
-import 'package:final2/Screens/Library.dart';
-import 'package:final2/Screens/Profile.dart';
+import 'package:final2/Screens/HomeSupplier.dart';
+import 'package:final2/Screens/Upload_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
 import 'Explore.dart';
 import 'Home.dart';
 
@@ -17,12 +16,10 @@ class SupplierScreen extends StatefulWidget {
 
 class _SupplierScreenState extends State<SupplierScreen> {
   List<Widget> _tabs = [
-    HomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
+    SupplierHomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
     ExploreScreen(),
     DashboardScreen(),
-    Center(
-      child: Text('Upload'),
-    ),
+    UploadProductScreen(),
   ];
   int _selectedIndex = 0;
   @override

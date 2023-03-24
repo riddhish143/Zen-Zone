@@ -28,7 +28,7 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
         _formkey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/Supplier_login_screen');
+        Navigator.pushReplacementNamed(context, '/Supplier_screen');
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -64,37 +64,6 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
             ),
           );
         }
-        // if (e.code == 'weak-password')
-        // {
-        //   setState(() {
-        //     processing = false;
-        //   });
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     elevation: 0,
-        //     behavior: SnackBarBehavior.floating,
-        //     backgroundColor: Colors.transparent,
-        //     content: AwesomeSnackbarContent(
-        //       title: 'On Snap!',
-        //       message: 'This password in too weak',
-        //       contentType: ContentType.failure,
-        //     ),
-        //   ));
-        // } else if (e.code == 'email-already-in-use')
-        // {
-        //   setState(() {
-        //     processing = false;
-        //   });
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     elevation: 0,
-        //     behavior: SnackBarBehavior.floating,
-        //     backgroundColor: Colors.transparent,
-        //     content: AwesomeSnackbarContent(
-        //       title: 'On Snap!',
-        //       message: 'This account already exists for that email',
-        //       contentType: ContentType.failure,
-        //     ),
-        //   ));
-        // }
       }
     } else {
       setState(() {

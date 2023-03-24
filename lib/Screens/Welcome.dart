@@ -67,7 +67,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     Column(
                       children: [
                         Text(
-                          'Supplier',
+                          'Admin Panel',
                           style: GoogleFonts.abyssinicaSil(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,

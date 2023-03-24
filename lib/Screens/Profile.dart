@@ -89,13 +89,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 25),
-                                        child: Text(
-                                          data['name'].toUpperCase(),
-                                          style: const TextStyle(
-                                              fontSize: 24,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600),
+                                            const EdgeInsets.only(left:0),
+                                        child: Expanded(
+                                          child: Text(
+                                            data['name'].toUpperCase(),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600),
+                                            softWrap: false,
+                                            maxLines: 1,
+                                          ),
                                         ),
                                       )
                                     ],
@@ -276,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                         context);
                                                                     Navigator.pushReplacementNamed(
                                                                         context,
-                                                                        '/welcome_screen');
+                                                                        '/Welcome_screen');
                                                                   }),
                                                               CupertinoDialogAction(
                                                                 child:

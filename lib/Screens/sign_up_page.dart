@@ -685,7 +685,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, '/Login_screen');
+                              context, loginScreen.id);
                         },
                         child: Text(
                           'Already have an Account?',
