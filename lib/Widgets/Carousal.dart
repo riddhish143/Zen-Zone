@@ -23,17 +23,18 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
       'Slider3',
     ];
 
-    List<Widget> container(int index){
-      return colorArray.map((e) =>
-          ClipRect(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: colorArray[index],
-                  borderRadius: BorderRadius.circular(5)
+    List<Widget> container(int index) {
+      return colorArray
+          .map(
+            (e) => ClipRect(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: colorArray[index],
+                    borderRadius: BorderRadius.circular(5)),
               ),
             ),
-          ),
-      ).toList();
+          )
+          .toList();
     }
 
     return Container(
@@ -41,10 +42,16 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
       padding: EdgeInsets.only(top: 10),
       child: Stack(
         children: [
-          CarouselSlider(items: container(0), options: CarouselOptions(
-            enlargeCenterPage: true,
-            autoPlay: true,
-          ))
+          CarouselSlider(
+              items: container(0),
+              options: CarouselOptions(
+                enlargeCenterPage: true,
+                autoPlay: true,
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                viewportFraction: 0.8,
+                autoPlayCurve: Curves.bounceInOut,
+
+              ))
         ],
       ),
     );

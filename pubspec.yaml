@@ -55,6 +55,7 @@ dependencies:
   cloud_firestore: ^4.4.5
   firebase_storage: ^11.0.16
   firebase_core: ^2.8.0
+  audioplayers: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,7 @@ flutter:
     - images/Podcast/
     - images/loginandsignup/
     - images/Blur/
+    - images/MusicPlayer/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

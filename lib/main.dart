@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:final2/Screens/LoginScreen.dart';
+import 'package:final2/Screens/Musicplayer.dart';
 import 'package:final2/Screens/Profile.dart';
 import 'package:final2/Screens/Splash.dart';
 import 'package:final2/Screens/Supplier.dart';
@@ -41,6 +42,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
+      // home: MusicPlayer(),
       initialRoute: '/Welcome_screen',
       routes: {
         '/Splash_screen': (context) => const SplashScreen(),
