@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Utilities/Category.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 List<String> category = [
   'Focus',
@@ -30,9 +34,11 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   late int quantity;
   late String proName;
   late String proDesc;
+  late String prodId;
+  bool processing = false;
   String mainCategValue = 'Focus';
-  final ImagePicker _picker = ImagePicker();
   List<XFile>? _imageFileList = [];
+  List<String> _imageUrlList = [];
   dynamic _pickImageError;
 
   void _pickProductImages() async {
@@ -68,13 +74,29 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
     }
   }
 
-  void uploadProduct() {
+  Future<void> uploadImages() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       if (_imageFileList!.isNotEmpty) {
         setState(() {
+          processing = true;
+        });
+        try {
+          for (var image in _imageFileList!) {
+            firebase_storage.Reference ref = firebase_storage
+                .FirebaseStorage.instance
+                .ref('product/${path.basename(image.path)}');
+            await ref.putFile(File(image.path)).whenComplete(() async {
+              await ref.getDownloadURL().then((value) {
+                _imageUrlList.add(value);
+              });
+            });
+          }
+        } catch (e) {
+          print(e);
+        }
+        setState(() {
           _imageFileList = [];
-          mainCategValue = "Focus";
         });
         _formKey.currentState!.reset();
       } else {
@@ -103,10 +125,38 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
     }
   }
 
-  void SelectedMainCategory(String? value)
-  {
-    setState(() {
-      mainCategValue = value!;
+  void uploadData() async {
+    if (_imageUrlList.isNotEmpty) {
+      CollectionReference productRef =
+          FirebaseFirestore.instance.collection('products');
+      prodId = const Uuid().v4();
+      await productRef.doc(prodId).set({
+        'proid': prodId,
+        'maincateg': mainCategValue,
+        'price': price,
+        'instock': quantity,
+        'proname': proName,
+        'prodesc': proDesc,
+        'sid': FirebaseAuth.instance.currentUser!.uid,
+        'proimages': _imageUrlList,
+        'discount': 0,
+      }).whenComplete(() {
+        setState(() {
+          processing = false;
+          _imageFileList = [];
+          mainCategValue = 'Focus';
+          _imageUrlList = [];
+        });
+        _formKey.currentState!.reset();
+      });
+    } else {
+      print('No Images');
+    }
+  }
+
+  void uploadProduct() async {
+    await uploadImages().whenComplete(() {
+      uploadData();
     });
   }
 
@@ -153,27 +203,60 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                   Container(
                     height: MediaQuery.of(context).size.width * 0.5,
                     width: MediaQuery.of(context).size.width * 0.5,
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.20),
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.20),
                     child: Column(
                       children: [
                         const Text("Select Category"),
+                        // DropdownButton(
+                        //     focusColor: Colors.black,
+                        //     dropdownColor: Colors.grey,
+                        //     menuMaxHeight: 500,
+                        //     elevation: 0,
+                        //     borderRadius: BorderRadius.circular(5),
+                        //     enableFeedback: true,
+                        //     icon: Icon(Icons.arrow_drop_down_circle_outlined),
+                        //     value: mainCategValue,
+                        //     items: mainCateg
+                        //         .map<DropdownMenuItem<String>>((value) {
+                        //       return DropdownMenuItem(
+                        //         child: Text(
+                        //           value,
+                        //           style: TextStyle(color: Colors.black),
+                        //         ),
+                        //         value: value,
+                        //       );
+                        //     }).toList(),
+                        //     onChanged: (String? value) {
+                        //       setState(() {
+                        //         mainCategValue = value!;
+                        //       });
+                        //     })
                         DropdownButton(
-                         focusColor: Colors.black,
-                          dropdownColor: Colors.grey,
-                          menuMaxHeight: 500,
-                          elevation: 0,
+                            iconSize: 40,
                             borderRadius: BorderRadius.circular(5),
                             enableFeedback: true,
-                            icon: Icon(Icons.arrow_drop_down_circle_outlined),
+                            elevation: 0,
+                            focusColor: Colors.black,
+                            dropdownColor: Colors.grey,
+                            menuMaxHeight: 500,
+                            icon: Icon(
+                              Icons.arrow_drop_down_circle_outlined,
+                              size: 30,
+                            ),
+                            disabledHint: const Text('select category'),
                             value: mainCategValue,
-                            items:mainCateg.map<DropdownMenuItem<String>>((value) {
+                            items: mainCateg
+                                .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
-                                child: Text(value , style: TextStyle(color: Colors.black),),
+                                child: Text(value),
                                 value: value,
                               );
                             }).toList(),
-                            onChanged: (String? value) {
-                              SelectedMainCategory(value);
+                            onChanged: (value) {
+                              setState(() {
+                                mainCategValue = value!;
+                              });
                             })
                       ],
                     ),
@@ -329,14 +412,20 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
             ),
           ),
           FloatingActionButton(
-            onPressed: () {
-              uploadProduct();
-            },
+            onPressed: processing == true
+                ? null
+                : () {
+                    uploadProduct();
+                  },
             backgroundColor: Colors.black,
-            child: const Icon(
-              Icons.upload,
-              color: Colors.white,
-            ),
+            child: processing == true
+                ? CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : const Icon(
+                    Icons.upload,
+                    color: Colors.white,
+                  ),
           ),
         ],
       ),

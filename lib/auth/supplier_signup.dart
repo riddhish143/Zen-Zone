@@ -16,7 +16,8 @@ final _firestore = FirebaseFirestore.instance;
 
 class SupplierSignUpScreen extends StatefulWidget {
   const SupplierSignUpScreen({Key? key}) : super(key: key);
-  static const String id='/Supplier_Signup_screen';
+  static const String id = '/Supplier_Signup_screen';
+
   @override
   State<SupplierSignUpScreen> createState() => _SupplierSignUpScreenState();
 }
@@ -34,6 +35,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
   dynamic _pickImageError;
+  bool _phoneExist = false;
 
   //
   // CollectionReference suppliers =
@@ -89,7 +91,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
 
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
-              .ref('cust-image/$email.jpg');
+              .ref('supp-image/$email.jpg');
           await ref.putFile(File(_imageFile!.path));
           _uid = FirebaseAuth.instance.currentUser!.uid;
           profileImage = await ref.getDownloadURL();
@@ -171,6 +173,17 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
 
       //Navigator.pushReplacementNamed(context, '/Customer_screen');
     }
+  }
+
+  void checkPhoneNo(String phoneNumber) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('customer')
+        .where('phone', isEqualTo: phoneNumber)
+        .get();
+
+    setState(() {
+      _phoneExist = snapshot.docs.isNotEmpty;
+    });
   }
 
   @override
@@ -686,7 +699,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, '/Login_screen');
+                              context, SupplierloginScreen.id);
                         },
                         child: Text(
                           'Already have an Account?',

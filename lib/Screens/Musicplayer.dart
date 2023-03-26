@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({Key? key}) : super(key: key);
+  final String titleName;
+  final String image;
+  MusicPlayer({Key? key , required this.titleName, required this.image}) : super(key: key);
   static const String id = '/Music_player';
 
   @override
@@ -23,14 +25,19 @@ class _MusicPlayerState extends State<MusicPlayer> {
             decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
-                    image: AssetImage('images/MusicPlayer/justin.jpeg'),
+                    image: NetworkImage(widget.image),
                     fit: BoxFit.cover)),
           ),
           AppBar(
             backgroundColor: Colors.transparent,
-            leading: Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.black,
+            leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.black,
+              ),
             ),
           ),
 
@@ -39,7 +46,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             top: ScreenHeight * .50,
             child: Center(
               child: Text(
-                'Justin',
+                widget.titleName,
                 style: GoogleFonts.abyssinicaSil(
                     color: Colors.white, fontSize: 90),
               ),

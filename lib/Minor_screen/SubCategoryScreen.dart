@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Color/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SubCategoryProduct extends StatelessWidget {
+class SubCategoryProduct extends StatefulWidget {
   final String SubCategoryName;
   final int index;
   const SubCategoryProduct({Key? key, required this.SubCategoryName, required this.index})
       : super(key: key);
+
+  @override
+  State<SubCategoryProduct> createState() => _SubCategoryProductState();
+}
+
+class _SubCategoryProductState extends State<SubCategoryProduct> {
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,7 @@ class SubCategoryProduct extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [ colorArray[index] , Color(0xffffffff)]
+          colors: [ colorArray[widget.index] , Color(0xffffffff)]
         )
       ),
       child: Scaffold(
@@ -23,7 +30,7 @@ class SubCategoryProduct extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           title: Text(
-            SubCategoryName,
+            widget.SubCategoryName,
             style: GoogleFonts.abyssinicaSil(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24),
           ),

@@ -1,5 +1,6 @@
 import 'package:final2/Screens/Dashboard.dart';
 import 'package:final2/Screens/HomeSupplier.dart';
+import 'package:final2/Screens/SupplierExplore.dart';
 import 'package:final2/Screens/Upload_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SupplierScreen extends StatefulWidget {
 class _SupplierScreenState extends State<SupplierScreen> {
   List<Widget> _tabs = [
     SupplierHomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
-    ExploreScreen(),
+    SupplierExplore(),
     DashboardScreen(),
     UploadProductScreen(),
   ];

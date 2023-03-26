@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         centerTitle: true,
                         pinned: true,
                         elevation: 0,
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.black,
                         expandedHeight: 140,
                         flexibleSpace: LayoutBuilder(
                           builder: (context, constraints) {
@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     constraints.biggest.height <= 120 ? 1 : 0,
                                 child: const Text(
                                   'Profile',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                               background: Container(
