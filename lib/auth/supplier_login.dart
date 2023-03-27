@@ -291,7 +291,9 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                             height: 30,
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+
+                                            },
                                             child: Container(
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(

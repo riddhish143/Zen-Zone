@@ -24,7 +24,7 @@ class ProductModelHomeScreen extends StatelessWidget {
                     )));
       },
       child: Padding(
-        padding: EdgeInsets.all(6),
+        padding: EdgeInsets.all(0),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -32,7 +32,7 @@ class ProductModelHomeScreen extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: Container(
-                constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
+                constraints: BoxConstraints(minHeight: 100, maxWidth: 200),
                 child: Image(
                   image: NetworkImage(products['proimages'][0]),
                 ),
@@ -45,14 +45,17 @@ class ProductModelHomeScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    Text(
-                      products['proname'],
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.abyssinicaSil(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                    Flexible(
+                      child: Text(
+                        products['proname'],
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.abyssinicaSil(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   Row(children: [

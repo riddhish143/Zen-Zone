@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      // home: MusicPlayer(),
+      // home: SupplierScreen(),
       initialRoute: '/Welcome_screen',
       routes: {
         '/Splash_screen': (context) => const SplashScreen(),

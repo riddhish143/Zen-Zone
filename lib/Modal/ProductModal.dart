@@ -1,4 +1,5 @@
 import 'package:final2/Screens/Musicplayer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -66,19 +67,29 @@ class ProductModel extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite_border_outlined,
-                          color: Colors.red,
-                        ),
-                      ),
-                      Icon(
-                        Icons.lock,
-                        color: Colors.grey.shade800,
-                      )
-                    ])
+                    products['sid'] == FirebaseAuth.instance.currentUser!.uid
+                        ? IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.black,
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.favorite_border_outlined,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Icon(
+                                Icons.lock,
+                                color: Colors.grey.shade800,
+                              )
+                            ],
+                          )
                   ],
                 )
               ]),

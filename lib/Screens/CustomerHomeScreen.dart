@@ -33,7 +33,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           backgroundColor: Colors.white,
           color: Colors.black,
           activeColor: Colors.white,
-          haptic: true,
           rippleColor: Colors.black,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           tabBackgroundColor: Colors.grey.shade600,

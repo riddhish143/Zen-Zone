@@ -90,7 +90,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left:0),
-                                        child: Expanded(
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width*.40,
                                           child: Text(
                                             data['name'].toUpperCase(),
                                             overflow: TextOverflow.ellipsis,

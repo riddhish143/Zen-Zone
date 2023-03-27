@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               body: SingleChildScrollView(
-                padding: EdgeInsets.all(6),
+                padding: EdgeInsets.all(10),
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
@@ -111,15 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }
 
-                        // ListView.builder(
-                        //   scrollDirection: Axis.horizontal,
-                        //     itemCount: 3,
-                        //     shrinkWrap:  true,
-                        //     itemBuilder: (context , index){
-                        //   return ProductModelHomeScreen(products: snapshot.data!.docs[index],);
-                        // });
-
                         return SingleChildScrollView(
+                          padding: EdgeInsets.all(10),
                           child: StaggeredGridView.countBuilder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -154,35 +147,38 @@ class ProfileHeaderLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 40,
-            width: 50,
-            child: Divider(
-              color: Colors.black,
-              thickness: 1,
+    return Container(
+      width: MediaQuery.of(context).size.width*.95,
+      child: SizedBox(
+        height: 40,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 40,
+              width: 50,
+              child: Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
             ),
-          ),
-          SizedBox(width: 20,),
-          Text(
-            headerLabel,
-            style: GoogleFonts.abyssinicaSil(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.normal),
-          ),
-          SizedBox(width: 20,),
-          const SizedBox(
-            height: 40,
-            width: 50,
-            child: Divider(
-              color: Colors.black,
-              thickness: 1,
+            SizedBox(width: 20,),
+            Text(
+              headerLabel,
+              style: GoogleFonts.abyssinicaSil(
+                  color: Colors.black, fontSize: 24, fontWeight: FontWeight.normal),
             ),
-          ),
-        ],
+            SizedBox(width: 20,),
+            const SizedBox(
+              height: 40,
+              width: 50,
+              child: Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

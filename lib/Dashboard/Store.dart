@@ -1,28 +1,81 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class StoreScreen extends StatelessWidget {
+import '../Minor_screen/Visitor.dart';
+
+class StoreScreen extends StatefulWidget {
   const StoreScreen({Key? key}) : super(key: key);
 
   @override
+  State<StoreScreen> createState() => _StoreScreenState();
+}
+
+class _StoreScreenState extends State<StoreScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title:Text(
-          'Store',
-          style: GoogleFonts.abyssinicaSil(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
+        flexibleSpace: Container(
+          color: Colors.white,
         ),
-        leading: IconButton(
-          onPressed: (){
-            Navigator.pop(context);
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          "STORE",
+          style: GoogleFonts.abyssinicaSil(
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(6),
+        child: StreamBuilder<QuerySnapshot>(
+          stream:
+              FirebaseFirestore.instance.collection('suppliers').snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return GridView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 25,
+                      crossAxisSpacing: 25,
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VisitorScreen(
+                                      suppId: snapshot.data!.docs[index]['sid'],
+                                    )));
+                      },
+                      child: Column(children: [
+                        SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: Image.network(
+                              snapshot.data!.docs[index]['profileimage'],
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high,
+                            )),
+                        Text(
+                          snapshot.data!.docs[index]['name'].toUpperCase(),
+                          style: GoogleFonts.abyssinicaSil(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      ]),
+                    );
+                  });
+            }
+            return Container(
+              child: Text('No store'),
+            );
           },
-          icon: Icon(Icons.arrow_back_ios_new ,color: Colors.black,),
         ),
       ),
     );
