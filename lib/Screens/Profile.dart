@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/ProfileList/Favourites.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +130,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           0.23,
                                       child: Center(
                                         child: Text(
-                                          'Cart',
+                                          'Favorites',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouriteScreen()));
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: TextButton(
+                                    child: SizedBox(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.23,
+                                      child: Center(
+                                        child: Text(
+                                          'Courses',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20),
@@ -150,28 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           0.23,
                                       child: Center(
                                         child: Text(
-                                          'Orders',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
-                                        ),
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: TextButton(
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.23,
-                                      child: Center(
-                                        child: Text(
-                                          'Wishlist',
+                                          'Collection',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20),

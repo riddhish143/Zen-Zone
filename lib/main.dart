@@ -1,9 +1,12 @@
 import 'dart:ui';
+import 'package:final2/Provider/ProductProvider.dart';
 import 'package:final2/Screens/LoginScreen.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:final2/Screens/Profile.dart';
 import 'package:final2/Screens/Splash.dart';
 import 'package:final2/Screens/Supplier.dart';
+import 'package:final2/Screens/Upload.dart';
+import 'package:final2/Screens/Upload_pdf.dart';
 import 'package:final2/Screens/Welcome.dart';
 import 'package:final2/Screens/onBoarding.dart';
 import 'package:final2/Screens/sign_up_page.dart';
@@ -12,9 +15,11 @@ import 'package:final2/auth/supplier_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'Screens/CustomerHomeScreen.dart';
 import 'Screens/OnBoarding1.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:final2/Provider/ProductProvider.dart';
 
 void main() async
 {
@@ -43,7 +48,8 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      // home: SupplierScreen(),
+      // home: UploadPdf(),
+      // home: MainPage(),
       initialRoute: '/Welcome_screen',
       routes: {
         '/Splash_screen': (context) => const SplashScreen(),

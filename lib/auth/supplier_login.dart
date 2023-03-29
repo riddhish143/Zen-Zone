@@ -293,6 +293,7 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                           GestureDetector(
                                             onTap: () {
 
+
                                             },
                                             child: Container(
                                               padding: EdgeInsets.all(20),

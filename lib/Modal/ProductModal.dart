@@ -1,8 +1,10 @@
+import 'package:final2/Provider/ProductProvider.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductModel extends StatelessWidget {
   final dynamic products;
@@ -19,7 +21,8 @@ class ProductModel extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MusicPlayer(
+                builder: (context) =>
+                    MusicPlayer(
                       titleName: products['proname'],
                       image: products['proimages'][0],
                     )));
@@ -69,27 +72,31 @@ class ProductModel extends StatelessWidget {
                     ),
                     products['sid'] == FirebaseAuth.instance.currentUser!.uid
                         ? IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.black,
-                            ),
-                          )
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.black,
+                      ),
+                    )
                         : Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.favorite_border_outlined,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Icon(
-                                Icons.lock,
-                                color: Colors.grey.shade800,
-                              )
-                            ],
-                          )
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            // context.read<Favourite>().addItem(
+                            //     products['proname'], products['proimages'],
+                            //     products['proid'], products['sid']);
+                          },
+                          icon: Icon(
+                            Icons.favorite_border_outlined,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Icon(
+                          Icons.lock,
+                          color: Colors.grey.shade800,
+                        )
+                      ],
+                    )
                   ],
                 )
               ]),

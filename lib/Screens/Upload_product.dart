@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Utilities/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
@@ -163,6 +164,15 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text(
+          'Upload',
+          style: GoogleFonts.abyssinicaSil(
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           reverse: true,
@@ -172,6 +182,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
             key: _formKey,
             child: Column(
               children: [
+                SizedBox(height: 2,),
                 Row(children: [
                   Stack(children: [
                     Container(
@@ -208,30 +219,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                     child: Column(
                       children: [
                         const Text("Select Category"),
-                        // DropdownButton(
-                        //     focusColor: Colors.black,
-                        //     dropdownColor: Colors.grey,
-                        //     menuMaxHeight: 500,
-                        //     elevation: 0,
-                        //     borderRadius: BorderRadius.circular(5),
-                        //     enableFeedback: true,
-                        //     icon: Icon(Icons.arrow_drop_down_circle_outlined),
-                        //     value: mainCategValue,
-                        //     items: mainCateg
-                        //         .map<DropdownMenuItem<String>>((value) {
-                        //       return DropdownMenuItem(
-                        //         child: Text(
-                        //           value,
-                        //           style: TextStyle(color: Colors.black),
-                        //         ),
-                        //         value: value,
-                        //       );
-                        //     }).toList(),
-                        //     onChanged: (String? value) {
-                        //       setState(() {
-                        //         mainCategValue = value!;
-                        //       });
-                        //     })
                         DropdownButton(
                             iconSize: 40,
                             borderRadius: BorderRadius.circular(5),
@@ -428,6 +415,41 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                   ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TabsRepeated extends StatelessWidget {
+  final String title;
+  final Color colors;
+  const TabsRepeated({
+    super.key, required this.title, required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final double size  = MediaQuery.of(context).size.width as double;
+    return Container(
+      width: size*.33,
+      decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(5)),
+      child: TextButton(
+        child: SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width *
+              0.23,
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: colors,
+                  fontSize: 20),
+            ),
+          ),
+        ),
+        onPressed: () {},
       ),
     );
   }

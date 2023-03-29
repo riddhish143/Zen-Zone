@@ -1,11 +1,13 @@
+import 'package:final2/ProfileList/Favourites.dart';
+import 'package:final2/Provider/ProductProvider.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductModelHomeScreen extends StatelessWidget {
   final dynamic products;
-
   const ProductModelHomeScreen({
     super.key,
     required this.products,
@@ -60,7 +62,9 @@ class ProductModelHomeScreen extends StatelessWidget {
                     ),
                   Row(children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             icon: Icon(
                               Icons.favorite_border_outlined,
                               color: Colors.red,

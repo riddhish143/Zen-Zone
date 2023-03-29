@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../Minor_screen/SubCategoryScreen.dart';
+import '../Modal/ProductModal.dart';
+import '../Modal/ProductModelBook.dart';
 
 class EbookScreen extends StatefulWidget {
   const EbookScreen({Key? key}) : super(key: key);
@@ -52,50 +58,49 @@ class _EbookScreenState extends State<EbookScreen> {
     'Pdf18',
   ];
 
+  final Stream<QuerySnapshot> _productStream =
+  FirebaseFirestore.instance.collection('Book_detail').snapshots();
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 5,
-                  crossAxisSpacing: 5,
+    return StreamBuilder<QuerySnapshot>(
+      stream: _productStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.data!.docs.isEmpty) {
+          return  Center(
+              child: Text(
+                'No Ebooks',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.abyssinicaSil(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
                 ),
-                itemCount: Track.length,
-                itemBuilder: (BuildContext, index) {
-                  return InkWell(
-                    onTap: (){
-                      Navigator.push((context), MaterialPageRoute(builder: (context) => SubCategoryProduct(SubCategoryName: Track[index], index: index)));
-                    },
-                    child: Stack(children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: colorArray[index],
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      // Positioned(
-                      //   top: 175,
-                      //   left: 10,
-                      //   child: Text(
-                      //     Track[index],
-                      //     style: GoogleFonts.abyssinicaSil(
-                      //       color: Colors.black,
-                      //       fontWeight: FontWeight.w500,
-                      //     ),
-                      //   ),
-                      // ),
-                    ]),
-                  );
-                }
-            ),
-          )
-        ],
-      ),
+              ));
+        }
+
+        return SingleChildScrollView(
+          child: StaggeredGridView.countBuilder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: snapshot.data!.docs.length,
+              crossAxisCount: 2,
+              itemBuilder: (context, index) {
+                return ProductModelBook(products: snapshot.data!.docs[index],);
+              },
+              staggeredTileBuilder: (context) => const StaggeredTile.fit(1)),
+        );
+      },
     );
   }
 }
