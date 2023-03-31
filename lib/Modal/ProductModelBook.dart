@@ -1,4 +1,4 @@
-import 'package:final2/Provider/ProductProvider.dart';
+// import 'package:final2/Provider/ProductProvider.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,15 +26,23 @@ class ProductModelBook extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> View(url: products['BookUrl'],)));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => View(
+                              products: products,
+                              url: products['BookUrl'],
+                            )));
               },
-              child: Container(
-                constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
-                child: Image(
-                  image: NetworkImage(products['Bookimages'][0]),
+              child: Stack(children: [
+                Container(
+                  constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
+                  child: Image(
+                    image: NetworkImage(products['Bookimages'][0]),
+                  ),
                 ),
-              ),
+              ]),
             ),
           ),
           Padding(
@@ -47,49 +55,49 @@ class ProductModelBook extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.abyssinicaSil(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 alignment: Alignment.topLeft,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    products['Bookprice'].toStringAsFixed(2) + (' Rs'),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.abyssinicaSil(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  products['sid'] == FirebaseAuth.instance.currentUser!.uid
-                      ? IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.black,
-                    ),
-                  )
-                      : Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // context.read<Favourite>().addItem(
-                          //     products['proname'], products['proimages'],
-                          //     products['proid'], products['sid']);
-                        },
-                        icon: Icon(
-                          Icons.favorite_border_outlined,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              )
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     // Text(
+              //     //   products['Bookprice'].toStringAsFixed(2) + (' Rs'),
+              //     //   maxLines: 2,
+              //     //   overflow: TextOverflow.ellipsis,
+              //     //   style: GoogleFonts.abyssinicaSil(
+              //     //     color: Colors.black,
+              //     //     fontWeight: FontWeight.w200,
+              //     //   ),
+              //     // ),
+              //     products['sid'] == FirebaseAuth.instance.currentUser!.uid
+              //         ? IconButton(
+              //       onPressed: () {},
+              //       icon: Icon(
+              //         Icons.edit,
+              //         color: Colors.black,
+              //       ),
+              //     )
+              //         : Row(
+              //       children: [
+              //         IconButton(
+              //           onPressed: () {
+              //             // context.read<Favourite>().addItem(
+              //             //     products['proname'], products['proimages'],
+              //             //     products['proid'], products['sid']);
+              //           },
+              //           icon: Icon(
+              //             Icons.favorite_border_outlined,
+              //             color: Colors.red,
+              //           ),
+              //         ),
+              //       ],
+              //     )
+              //   ],
+              // )z
             ]),
           ),
         ]),
@@ -101,18 +109,34 @@ class ProductModelBook extends StatelessWidget {
 class View extends StatelessWidget {
   PdfViewerController? _pdfViewerController;
   final url;
-  View({Key? key, required this.url}) : super(key: key);
+  final dynamic products;
+
+  View({Key? key, required this.url, this.products}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pdf Viewer' , style: TextStyle(color: Colors.black , fontSize: 24),),
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
+        title: Text(
+          products['Bookname'],
+          style: TextStyle(color: Colors.black, fontSize: 24),
+        ),
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      body: SfPdfViewer.network(url , controller: _pdfViewerController,),
+      body: SfPdfViewer.network(
+        url,
+        controller: _pdfViewerController,
+      ),
     );
   }
 }
-

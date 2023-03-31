@@ -1,5 +1,5 @@
 import 'package:final2/ProfileList/Favourites.dart';
-import 'package:final2/Provider/ProductProvider.dart';
+// import 'package:final2/Provider/ProductProvider.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,7 +55,7 @@ class ProductModelHomeScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.abyssinicaSil(
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -68,11 +68,13 @@ class ProductModelHomeScreen extends StatelessWidget {
                             icon: Icon(
                               Icons.favorite_border_outlined,
                               color: Colors.red,
+                              size: 18,
                             ),
                           ),
                           Icon(
                             Icons.lock,
                             color: Colors.grey.shade800,
+                            size: 18,
                           )
                         ])
                   ]),

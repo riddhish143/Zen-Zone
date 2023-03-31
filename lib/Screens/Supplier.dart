@@ -2,6 +2,7 @@ import 'package:final2/Dashboard/Store.dart';
 import 'package:final2/Screens/Dashboard.dart';
 import 'package:final2/Screens/HomeSupplier.dart';
 import 'package:final2/Screens/SupplierExplore.dart';
+import 'package:final2/Screens/Upload.dart';
 import 'package:final2/Screens/Upload_pdf.dart';
 import 'package:final2/Screens/Upload_product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,8 +22,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
     SupplierExplore(),
     StoreScreen(),
     DashboardScreen(),
-    // UploadProductScreen(),
-    UploadBook(),
+    Upload(),
   ];
   int _selectedIndex = 0;
   @override

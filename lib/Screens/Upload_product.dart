@@ -1,14 +1,19 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:final2/Utilities/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
+
+import 'Upload.dart';
 
 List<String> category = [
   'Focus',
@@ -20,6 +25,8 @@ List<String> category = [
   'Ambient Sound',
   'Free'
 ];
+
+File? file;
 
 class UploadProductScreen extends StatefulWidget {
   const UploadProductScreen({Key? key}) : super(key: key);
@@ -41,6 +48,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   List<XFile>? _imageFileList = [];
   List<String> _imageUrlList = [];
   dynamic _pickImageError;
+  UploadTask? task;
+  late String url;
 
   void _pickProductImages() async {
     try {
@@ -60,6 +69,36 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
     }
   }
 
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        allowedExtensions: ['mp3'],
+        type: FileType.custom);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() => file = File(path));
+  }
+
+  Future uploadFile() async {
+    if (file == null) return;
+    final fileName = path.basename(file!.path);
+    final destination = 'Audio/$fileName';
+    task = FirebaseApi.uploadFile(destination, file!);
+    if (task == null) return;
+    final snapshot = await task!.whenComplete(() {});
+    String Url = await snapshot.ref.getDownloadURL();
+  }
+
+  Future uploadAudio() async {
+    if (file == null) return;
+    final fileName = path.basename(file!.path);
+    final destination = 'Audio/$fileName';
+    var pdfFile = FirebaseStorage.instance.ref(destination);
+    firebase_storage.UploadTask task = pdfFile.putFile(file!);
+    TaskSnapshot snapshot = await task;
+    url = await snapshot.ref.getDownloadURL();
+  }
+
   Widget previewImages() {
     if (_imageFileList!.isNotEmpty) {
       return ListView.builder(
@@ -74,6 +113,24 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
       );
     }
   }
+
+  Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+        stream: task.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final snap = snapshot.data!;
+            final progress = snap.bytesTransferred / snap.totalBytes;
+            final percentage = (progress * 100).toStringAsFixed(2);
+
+            return Text(
+              '$percentage %',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
 
   Future<void> uploadImages() async {
     if (_formKey.currentState!.validate()) {
@@ -141,6 +198,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
         'sid': FirebaseAuth.instance.currentUser!.uid,
         'proimages': _imageUrlList,
         'discount': 0,
+        'AudioUrl': url,
       }).whenComplete(() {
         setState(() {
           processing = false;
@@ -156,13 +214,15 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   }
 
   void uploadProduct() async {
-    await uploadImages().whenComplete(() {
+    await uploadAudio().then((value) => uploadImages()).whenComplete(() {
       uploadData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var filename =
+        file != null ? path.basename(file!.path) : 'No Audio Selected';
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -182,7 +242,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(height: 2,),
+                SizedBox(
+                  height: 2,
+                ),
                 Row(children: [
                   Stack(children: [
                     Container(
@@ -338,7 +400,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -358,6 +420,35 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           Icons.description,
                           color: Colors.black,
                         )),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ButtonWidget(
+                          text: 'Select Audio',
+                          icon: Icons.attach_file,
+                          onClicked: selectFile,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          filename,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(height: 15),
+                        // ButtonWidget(
+                        //   text: 'Upload File',
+                        //   icon: Icons.cloud_upload_outlined,
+                        //   onClicked: uploadFile,
+                        // ),
+                        // SizedBox(height: 15),
+                        task != null ? buildUploadStatus(task!) : Container(),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -423,29 +514,28 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
 class TabsRepeated extends StatelessWidget {
   final String title;
   final Color colors;
+
   const TabsRepeated({
-    super.key, required this.title, required this.colors,
+    super.key,
+    required this.title,
+    required this.colors,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double size  = MediaQuery.of(context).size.width as double;
+    final double size = MediaQuery.of(context).size.width as double;
     return Container(
-      width: size*.33,
+      width: size * .33,
       decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(5)),
+          color: Colors.black, borderRadius: BorderRadius.circular(5)),
       child: TextButton(
         child: SizedBox(
           height: 40,
-          width: MediaQuery.of(context).size.width *
-              0.23,
+          width: MediaQuery.of(context).size.width * 0.23,
           child: Center(
             child: Text(
               title,
-              style: TextStyle(
-                  color: colors,
-                  fontSize: 20),
+              style: TextStyle(color: colors, fontSize: 20),
             ),
           ),
         ),
@@ -486,5 +576,26 @@ extension PriceValidator on String {
 extension DiscountValidator on String {
   bool isValidDiscount() {
     return RegExp(r'^([0-9]*)$').hasMatch(this);
+  }
+}
+
+class FirebaseApi {
+  static UploadTask? uploadFile(String destination, File file) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+      return ref.putFile(file);
+    } on FirebaseException catch (e) {
+      return null;
+    }
+  }
+
+  static UploadTask? uploadBytes(String destination, Uint8List data) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return ref.putData(data);
+    } on FirebaseException catch (e) {
+      return null;
+    }
   }
 }

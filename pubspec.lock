@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.18"
+  animated_text_kit:
+    dependency: "direct main"
+    description:
+      name: animated_text_kit
+      sha256: "37392a5376c9a1a503b02463c38bc0342ef814ddbb8f9977bc90f2a84b22fa92"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.2"
   archive:
     dependency: transitive
     description:
@@ -97,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.1"
+  badges:
+    dependency: "direct main"
+    description:
+      name: badges
+      sha256: d33d4e07197d6e61ddc940640f2b4dc303d3c80887011344940e24d7522f8d26
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   barcode:
     dependency: transitive
     description:
@@ -704,11 +720,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: "86d08f85f1f58583b7b4b941d989f48ea6ce08c1724a1d10954a277c2ec36592"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
+  slide_to_act:
+    dependency: "direct main"
+    description:
+      name: slide_to_act
+      sha256: e3ed8b7fdb3f4bff43ac3370c9dd27b4e48fb2518007f6d28745109f7aea275d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   smooth_page_indicator:
     dependency: "direct main"
     description:
@@ -813,6 +845,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "20.4.54"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: "7f1270313c0cdb245b583ed8518982c01d4a7e95869b3c30abcbae3b642c45d0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.8"
   term_glyph:
     dependency: transitive
     description:

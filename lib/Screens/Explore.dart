@@ -6,6 +6,12 @@ import 'package:final2/Categories/Podcast.dart';
 import 'package:final2/Categories/Productivity.dart';
 import 'package:final2/Categories/Sleep.dart';
 import 'package:final2/Categories/Focus1.dart';
+import 'package:final2/galleries/_ambientSound.dart';
+import 'package:final2/galleries/_focus.dart';
+import 'package:final2/galleries/_free.dart';
+import 'package:final2/galleries/_kids.dart';
+import 'package:final2/galleries/_productivity.dart';
+import 'package:final2/galleries/_sleep.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,14 +60,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
         body: const TabBarView(
           children: [
-            Focus1Screen(),
+            // Focus1Screen(),
+            // PodcastScreen(),
+            // SleepScreen(),
+            // DeepScreen(),
+            // KidScreen(),
+            // ProductivityScreen(),
+            // AmbientScreen(),
+            // FreeScreen()
+            FocusGallery(),
             PodcastScreen(),
-            SleepScreen(),
+            SleepGallery(),
             DeepScreen(),
-            KidScreen(),
-            ProductivityScreen(),
-            AmbientScreen(),
-            FreeScreen()
+            KidsGallery(),
+            ProductivityGallery(),
+            AmbientGallery(),
+            FreeGallery(),
           ],
         ),
       ),

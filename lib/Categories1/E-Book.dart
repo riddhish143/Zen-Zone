@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
-
 import '../Minor_screen/SubCategoryScreen.dart';
 import '../Modal/ProductModal.dart';
 import '../Modal/ProductModelBook.dart';

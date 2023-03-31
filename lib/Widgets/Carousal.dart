@@ -30,6 +30,9 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
               child: Container(
                 decoration: BoxDecoration(
                     color: colorArray[index],
+                    // image: DecorationImage(
+                    //   image: NetworkImage()
+                    // ),
                     borderRadius: BorderRadius.circular(5)),
               ),
             ),
@@ -37,20 +40,31 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
           .toList();
     }
 
+    final List<String> image = [
+          'images/Blur/behance4.jpg',
+          'images/Blur/behance2.jpg',
+          'images/Blur/behance3.jpeg',
+    ];
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(top: 10),
       child: Stack(
         children: [
           CarouselSlider(
-              items: container(0),
+              items: image
+                  .map((e) => Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: colorArray[1],
+                            image: DecorationImage(image: AssetImage(e) , fit: BoxFit.cover)),
+                      ))
+                  .toList(),
               options: CarouselOptions(
                 enlargeCenterPage: true,
                 autoPlay: true,
                 autoPlayAnimationDuration: Duration(milliseconds: 800),
                 viewportFraction: 0.8,
                 autoPlayCurve: Curves.bounceInOut,
-
               ))
         ],
       ),

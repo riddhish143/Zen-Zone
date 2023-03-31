@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Modal/ProductModal.dart';
 import 'package:final2/Modal/ProductModelHomeScreen.dart';
 import 'package:final2/Widgets/Carousal.dart';
+import 'package:final2/Widgets/Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import 'Profile.dart';
 
 class HomeScreen extends StatefulWidget {
   final String documentId;
@@ -42,8 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
                 return Scaffold(
+                  drawer: NavDrawer(email: data['email'] , Name: data['name'], Image: data['profileimage']),
               backgroundColor: Colors.white,
               appBar: AppBar(
+                iconTheme: IconThemeData(color: Colors.black),
                 elevation: 0,
                 title: Text(
                   'FeelBetter',
@@ -53,18 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 24),
                 ),
                 backgroundColor: Colors.white,
-                leading: Icon(
-                  Icons.density_medium,
-                  size: 30,
-                  color: Colors.black,
-                ),
                 actions: [
-                  InkWell(
-                //     onTap: (){
-                //       Navigator.pushReplacementNamed(context, ProfileScreen.id);
-                // },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: InkWell(
+                      // onTap: (){
+                      //   Navigator.pushNamed(context , ProfileScreen.id);
+                      // },
                       child: CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.black54,
@@ -118,6 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: snapshot.data!.docs.length,
                               crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
                               itemBuilder: (context, index) {
                                 return ProductModelHomeScreen(products: snapshot.data!.docs[index],);
                               },
@@ -152,29 +153,14 @@ class ProfileHeaderLabel extends StatelessWidget {
       child: SizedBox(
         height: 40,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 40,
-              width: 50,
-              child: Divider(
-                color: Colors.black,
-                thickness: 1,
-              ),
-            ),
-            SizedBox(width: 20,),
-            Text(
-              headerLabel,
-              style: GoogleFonts.abyssinicaSil(
-                  color: Colors.black, fontSize: 24, fontWeight: FontWeight.normal),
-            ),
-            SizedBox(width: 20,),
-            const SizedBox(
-              height: 40,
-              width: 50,
-              child: Divider(
-                color: Colors.black,
-                thickness: 1,
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                headerLabel,
+                style: GoogleFonts.abyssinicaSil(
+                    color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal),
               ),
             ),
           ],

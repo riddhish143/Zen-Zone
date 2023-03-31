@@ -3,12 +3,12 @@ import 'package:final2/ProfileList/Favourites.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// final _firestore = FirebaseFirestore.instance;
+import 'package:table_calendar/table_calendar.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String documentId;
-  static const String id='/Profile_screen';
+  static const String id = '/Profile_screen';
+
   const ProfileScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override
@@ -20,6 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FirebaseFirestore.instance.collection('customer');
   CollectionReference anonymous =
       FirebaseFirestore.instance.collection('anonymous');
+
+  final DateTime today = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +91,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         width: 100,
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left:0),
+                                        padding: const EdgeInsets.only(left: 0),
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width*.40,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .40,
                                           child: Text(
                                             data['name'].toUpperCase(),
                                             overflow: TextOverflow.ellipsis,
@@ -138,7 +142,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> FavouriteScreen()));
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FavouritesScreen()));
                                     },
                                   ),
                                 ),
@@ -190,13 +198,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.grey.shade300,
                               child: Column(
                                 children: [
-                                  const SizedBox(
-                                    height: 150,
-                                    child: Image(
-                                        width: double.infinity,
-                                        image:
-                                            AssetImage('images/Blur/blur.png')),
-                                  ),
+                                  // const SizedBox(
+                                  //   height: 150,
+                                  //   child: Image(
+                                  //       width: double.infinity,
+                                  //       image:
+                                  //           AssetImage('images/Blur/blur.png')),
+                                  // ),
+                                  TableCalendar(
+                                      locale: 'en_us',
+                                      headerStyle: HeaderStyle(
+                                          formatButtonVisible: false,
+                                          titleCentered: true),
+                                      focusedDay: today,
+                                      firstDay: DateTime.utc(2010, 10, 16),
+                                      lastDay: DateTime.utc(2030, 10, 16)),
                                   const ProfileHeaderLabel(
                                     headerLabel: '  Account Info.  ',
                                   ),
@@ -290,29 +306,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               CupertinoDialogAction(
                                                                 child:
                                                                     Text('No'),
-                                                                onPressed: (){
-                                                                  Navigator.pop(context);
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 },
                                                               )
                                                             ],
                                                           ));
-                                              // MyAlertDilaog.showMyDialog(
-                                              //     context: context,
-                                              //     title: 'Log Out',
-                                              //     content:
-                                              //     'Are you sure to log out ?',
-                                              //     tabNo: () {
-                                              //       Navigator.pop(context);
-                                              //     },
-                                              //     tabYes: () async {
-                                              //       await FirebaseAuth.instance
-                                              //           .signOut();
-                                              //       Navigator.pop(context);
-                                              //       Navigator
-                                              //           .pushReplacementNamed(
-                                              //           context,
-                                              //           '/welcome_screen');
-                                              //     });
                                             },
                                           ),
                                         ],
