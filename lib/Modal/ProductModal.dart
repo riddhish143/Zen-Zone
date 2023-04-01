@@ -25,6 +25,7 @@ class ProductModel extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => BottomModel(
+                      products: products,
                       titleName: products['proname'],
                       image: products['proimages'][0],
                       Price: products['price'].toStringAsFixed(2),
@@ -133,7 +134,8 @@ class ProductModel extends StatelessWidget {
                                           products['proname'],
                                           products['price'],
                                           products['proimages'],
-                                          products['sid']);
+                                          products['sid']
+                                  );
                                 },
                                 icon: Icon(
                                   Icons.favorite_border_outlined,

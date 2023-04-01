@@ -25,6 +25,7 @@ class ProductModelAudio extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => BottomModel(
+                  products: products,
                   titleName: products['proname'],
                   image: products['proimages'][0],
                   Price: products['price'].toStringAsFixed(2),

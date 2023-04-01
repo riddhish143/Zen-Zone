@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import '../Minor_screen/ForgetEmail.dart';
+
 // final TextEditingController _namecontroller = TextEditingController();
 // final TextEditingController _emailcontroller = TextEditingController();
 // final TextEditingController _phonecontroller = TextEditingController();
@@ -89,12 +91,22 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
 
+          try {
+            await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+          } catch (e) {
+            print(e);
+          }
+
+
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
               .ref('supp-image/$email.jpg');
           await ref.putFile(File(_imageFile!.path));
           _uid = FirebaseAuth.instance.currentUser!.uid;
           profileImage = await ref.getDownloadURL();
+
+          await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+          await FirebaseAuth.instance.currentUser!.updatePhotoURL(profileImage);
 
           await _firestore.collection('suppliers').doc(_uid).set({
             'name': name,
@@ -104,7 +116,6 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
             'address': '',
             'sid': _uid
           });
-
           _formkey.currentState!.reset();
           setState(() {
             _imageFile = null;
@@ -180,7 +191,6 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
         .collection('customer')
         .where('phone', isEqualTo: phoneNumber)
         .get();
-
     setState(() {
       _phoneExist = snapshot.docs.isNotEmpty;
     });
@@ -292,7 +302,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                                 hintText: 'Full Name',
                                 labelText: 'Full Name',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                   //borderSide: BorderSide(color: Colors.blueGrey)
@@ -300,7 +310,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon: Icon(
                                   Icons.person_2_outlined,
                                   color: Colors.black,
@@ -319,11 +329,11 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Email';
                               } else if (!RegExp(
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return 'Invalid Email';
                               } else if (RegExp(
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return null;
                               }
@@ -333,14 +343,14 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                                 hintText: 'Email Address',
                                 labelText: 'Email',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon: Icon(Icons.email_outlined,
                                     color: Colors.black),
                                 suffixIconColor: Colors.grey),
@@ -367,16 +377,16 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                                 hintText: 'Phone No',
                                 labelText: 'Phone No',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon:
-                                    Icon(Icons.phone, color: Colors.black),
+                                Icon(Icons.phone, color: Colors.black),
                                 suffixIconColor: Colors.black),
                           ),
                         ),
@@ -400,14 +410,14 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                                 hintText: 'Password',
                                 labelText: 'Password',
                                 floatingLabelStyle:
-                                    TextStyle(color: Colors.black),
+                                TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black)),
                                 prefixIcon: Icon(Icons.fingerprint_sharp,
                                     color: Colors.black),
                                 suffixIcon: GestureDetector(
@@ -434,134 +444,142 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                               onPressed: () {
                                 showModalBottomSheet(
                                   context: context,
-                                  builder: (context) => Scaffold(
-                                    backgroundColor: Colors.black,
-                                    body: Container(
-                                      padding: EdgeInsets.all(40),
-                                      child: Column(
-                                        crossAxisAlignment:
+                                  builder: (context) =>
+                                      Scaffold(
+                                        backgroundColor: Colors.black,
+                                        body: Container(
+                                          padding: EdgeInsets.all(40),
+                                          child: Column(
+                                            crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Make Selection!',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 30),
-                                          ),
-                                          Text(
-                                            'Select one of the option given below to reset your password',
-                                            style: TextStyle(
-                                                color: Colors.grey[500],
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 15),
-                                          ),
-                                          SizedBox(
-                                            height: 50,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: Colors.grey[400],
+                                            children: [
+                                              Text(
+                                                'Make Selection!',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30),
                                               ),
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                      Icons
-                                                          .mail_outline_outlined,
-                                                      size: 50),
-                                                  SizedBox(
-                                                    height: 10,
+                                              Text(
+                                                'Select one of the option given below to reset your password',
+                                                style: TextStyle(
+                                                    color: Colors.grey[500],
+                                                    fontWeight: FontWeight
+                                                        .normal,
+                                                    fontSize: 15),
+                                              ),
+                                              SizedBox(
+                                                height: 50,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => forget()));
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.circular(10),
+                                                    color: Colors.grey[400],
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons
+                                                              .mail_outline_outlined,
+                                                          size: 50),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
-                                                    children: [
-                                                      Text(
-                                                        'E-mail',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
+                                                        children: [
+                                                          Text(
+                                                            'E-mail',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 15),
-                                                      ),
-                                                      Text(
-                                                        'Reset via Mail Verification',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
+                                                                fontSize: 15),
+                                                          ),
+                                                          Text(
+                                                            'Reset via Mail Verification',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
                                                                 FontWeight.w400,
-                                                            fontSize: 15),
+                                                                fontSize: 15),
+                                                          )
+                                                        ],
                                                       )
                                                     ],
-                                                  )
-                                                ],
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 30,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {},
+                                                child: Container(
+                                                  padding: EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
                                                     BorderRadius.circular(10),
-                                                color: Colors.grey[400],
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                      Icons
-                                                          .mobile_friendly_sharp,
-                                                      size: 50),
-                                                  SizedBox(
-                                                    height: 10,
+                                                    color: Colors.grey[400],
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                          Icons
+                                                              .mobile_friendly_sharp,
+                                                          size: 50),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
-                                                    children: [
-                                                      Text(
-                                                        'Phone',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
+                                                        children: [
+                                                          Text(
+                                                            'Phone',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 15),
-                                                      ),
-                                                      Text(
-                                                        'Reset via Phone Verification',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
+                                                                fontSize: 15),
+                                                          ),
+                                                          Text(
+                                                            'Reset via Phone Verification',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
                                                                 FontWeight.w400,
-                                                            fontSize: 15),
+                                                                fontSize: 15),
+                                                          )
+                                                        ],
                                                       )
                                                     ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
                                 );
                               },
                               child: Text(
@@ -582,9 +600,9 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
+                              MaterialStateProperty.all(Colors.black),
                               shadowColor:
-                                  MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
                             ),
                             onPressed: () {
                               signUp();
@@ -592,19 +610,22 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                             child: Container(
                               //margin: EdgeInsets.symmetric(horizontal: 20),
                               height: 60,
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               child: Center(
                                 child: processing == true
                                     ? const CircularProgressIndicator(
-                                        color: Colors.white,
-                                      )
+                                  color: Colors.white,
+                                )
                                     : Text(
-                                        'Sign Up',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 24,
-                                            color: Colors.white),
-                                      ),
+                                  'Sign Up',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 24,
+                                      color: Colors.white),
+                                ),
                               ),
                             ),
                           ),
@@ -633,14 +654,17 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         color: Colors.black,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           height: 63,
                           child: OutlinedButton.icon(
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(200)))),
+                                        BorderRadius.circular(200)))),
                             icon: Image(
                               image: AssetImage(
                                   'images/loginandsignup/Google_logo.png'),
@@ -664,14 +688,17 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         color: Colors.black,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           height: 63,
                           child: OutlinedButton.icon(
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(200)))),
+                                        BorderRadius.circular(200)))),
                             icon: Image(
                               image: AssetImage(
                                   'images/loginandsignup/iphone.png'),
@@ -722,7 +749,7 @@ class _SupplierSignUpScreenState extends State<SupplierSignUpScreen> {
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

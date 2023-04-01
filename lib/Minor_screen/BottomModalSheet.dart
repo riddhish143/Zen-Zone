@@ -10,12 +10,14 @@ class BottomModel extends StatefulWidget {
   final String titleName;
   final String image;
   final String Price;
+  final dynamic products;
 
   const BottomModel(
       {Key? key,
       required this.titleName,
       required this.image,
-      required this.Price})
+      required this.Price,
+      required this.products})
       : super(key: key);
   static const String id = '/Bottom_model_sheet';
 
@@ -88,6 +90,7 @@ class _BottomModalState extends State<BottomModel> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => PaymentScreen(
+                              products: widget.products,
                               Price: widget.Price,
                               image: widget.image,
                               titleName: widget.titleName,

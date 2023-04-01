@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import '../Minor_screen/ForgetEmail.dart';
+
 // final TextEditingController _namecontroller = TextEditingController();
 // final TextEditingController _emailcontroller = TextEditingController();
 // final TextEditingController _phonecontroller = TextEditingController();
@@ -87,12 +89,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
 
+          try {
+            await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+          } catch (e) {
+            print(e);
+          }
+
           firebase_storage.Reference ref = firebase_storage
               .FirebaseStorage.instance
               .ref('cust-image/$email.jpg');
           await ref.putFile(File(_imageFile!.path));
           _uid = FirebaseAuth.instance.currentUser!.uid;
           profileImage = await ref.getDownloadURL();
+
+          await FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+          await FirebaseAuth.instance.currentUser!.updatePhotoURL(profileImage);
+
           await _firestore.collection('customer').doc(_uid).set({
             'name': name,
             'email': email,
@@ -446,7 +458,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             height: 50,
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => forget()));
+                                            },
                                             child: Container(
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(

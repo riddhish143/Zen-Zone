@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:final2/Minor_screen/ChangePassword.dart';
 import 'package:final2/Screens/Explore.dart';
 import 'package:final2/Screens/LoginScreen.dart';
 import 'package:final2/Screens/Musicplayer.dart';
@@ -17,6 +18,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'Minor_screen/ForgetEmail.dart';
 import 'Provider/FavouriteProvider.dart';
 import 'Screens/CustomerHomeScreen.dart';
 import 'Screens/OnBoarding1.dart';
@@ -50,20 +52,20 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData.dark(),
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
-        home: UploadProductScreen(),
-        // initialRoute: '/Welcome_screen',
-        // routes: {
-        //   '/Splash_screen': (context) => const SplashScreen(),
-        //   '/OnBoarding_screen': (context) => onBoarding(),
-        //   '/Welcome_screen': (context) => const WelcomeScreen(),
-        //   '/Customer_screen': (context) => const CustomerHomeScreen(),
-        //   '/Supplier_screen': (context) => const SupplierScreen(),
-        //   ProfileScreen.id : (context) =>  ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
-        //   SignUpScreen.id : (context) => const SignUpScreen(),
-        //   loginScreen.id : (context) => const loginScreen(),
-        //   SupplierSignUpScreen.id : (context) => const SupplierSignUpScreen(),
-        //   SupplierloginScreen.id : (context) => const SupplierloginScreen(),
-        // },
+        // home: ChangePasswordScreen(),
+        initialRoute: '/Welcome_screen',
+        routes: {
+          '/Splash_screen': (context) => const SplashScreen(),
+          '/OnBoarding_screen': (context) => onBoarding(),
+          '/Welcome_screen': (context) => const WelcomeScreen(),
+          '/Customer_screen': (context) => const CustomerHomeScreen(),
+          '/Supplier_screen': (context) => const SupplierScreen(),
+          ProfileScreen.id : (context) =>  ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
+          SignUpScreen.id : (context) => const SignUpScreen(),
+          loginScreen.id : (context) => const loginScreen(),
+          SupplierSignUpScreen.id : (context) => const SupplierSignUpScreen(),
+          SupplierloginScreen.id : (context) => const SupplierloginScreen(),
+        },
       ),
     );
   }

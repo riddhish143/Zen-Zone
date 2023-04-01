@@ -68,6 +68,8 @@ dependencies:
   badges: ^3.0.3
   table_calendar: ^3.0.8
   slide_to_act: ^2.0.1
+  flutter_pw_validator: ^1.5.0
+  google_sign_in: ^6.0.2
 
 dev_dependencies:
   flutter_test:

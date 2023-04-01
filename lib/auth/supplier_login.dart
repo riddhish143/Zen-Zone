@@ -1,4 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:final2/Minor_screen/ForgetEmail.dart';
 import 'package:final2/auth/supplier_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
   bool processing = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscureText = true;
+  bool sendEmailVerification = false;
 
   void logIn() async {
     setState(() {
@@ -27,8 +29,28 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        _formkey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/Supplier_screen');
+        await FirebaseAuth.instance.currentUser!.reload();
+        if (FirebaseAuth.instance.currentUser!.emailVerified) {
+          _formkey.currentState!.reset();
+          Navigator.pushReplacementNamed(context, '/Supplier_screen');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'On Snap!',
+                message: 'Please Check Your Email Inbox',
+                contentType: ContentType.failure,
+              ),
+            ),
+          );
+          setState(() {
+            processing = false;
+            sendEmailVerification = true;
+          });
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -239,8 +261,10 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                           SizedBox(
                                             height: 50,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {},
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => forget()));
+                                            },
                                             child: Container(
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(
@@ -291,10 +315,7 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                             height: 30,
                                           ),
                                           GestureDetector(
-                                            onTap: () {
-
-
-                                            },
+                                            onTap: () {},
                                             child: Container(
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(
@@ -473,11 +494,11 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                       ),
                     ],
                   ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: 40,
+                        height: 10,
                       ),
                       InkWell(
                         onTap: () {
@@ -490,6 +511,36 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                          height: 50,
+                          child: sendEmailVerification == true
+                              ? InkWell(
+                                  onTap: () async {
+                                    try {
+                                      await FirebaseAuth.instance.currentUser!
+                                          .sendEmailVerification();
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                    Future.delayed(Duration(seconds: 3)).whenComplete((){
+                                      setState(() {
+                                        sendEmailVerification = false;
+                                      });
+                                    });
+
+                                  },
+                                  child: Text(
+                                    'Send the Verification Code Again',
+                                    style: GoogleFonts.abyssinicaSil(
+                                        color: Colors.blueAccent,
+                                        decoration: TextDecoration.underline,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              : SizedBox()),
                     ],
                   ),
                 ],

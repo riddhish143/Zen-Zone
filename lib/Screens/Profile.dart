@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Minor_screen/ChangePassword.dart';
 import 'package:final2/ProfileList/Favourites.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -270,7 +271,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           RepeatedListTile(
                                             title: 'Change Password',
                                             icon: Icons.lock,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChangePasswordScreen()));
+                                            },
                                           ),
                                           const YellowDivider(),
                                           RepeatedListTile(

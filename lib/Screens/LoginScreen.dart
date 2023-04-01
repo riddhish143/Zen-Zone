@@ -4,9 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../Minor_screen/ForgetEmail.dart';
+
 class loginScreen extends StatefulWidget {
   const loginScreen({Key? key}) : super(key: key);
-  static const String id='/Customer_login_screen';
+  static const String id = '/Customer_login_screen';
+
   @override
   State<loginScreen> createState() => _loginScreenState();
 }
@@ -17,6 +20,7 @@ class _loginScreenState extends State<loginScreen> {
   bool processing = false;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _obscureText = true;
+  bool sendEmailVerification = false;
 
   void logIn() async {
     setState(() {
@@ -26,8 +30,28 @@ class _loginScreenState extends State<loginScreen> {
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        _formkey.currentState!.reset();
-        Navigator.pushReplacementNamed(context, '/Customer_screen');
+        await FirebaseAuth.instance.currentUser!.reload();
+        if (FirebaseAuth.instance.currentUser!.emailVerified) {
+          _formkey.currentState!.reset();
+          Navigator.pushReplacementNamed(context, '/Customer_screen');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'On Snap!',
+                message: 'Please Check Your Email Inbox',
+                contentType: ContentType.failure,
+              ),
+            ),
+          );
+          setState(() {
+            processing = false;
+            sendEmailVerification = true;
+          });
+        }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           setState(() {
@@ -162,11 +186,11 @@ class _loginScreenState extends State<loginScreen> {
                               if (value!.isEmpty) {
                                 return 'Please Enter Your Email';
                               } else if (!RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return 'Invalid Email';
                               } else if (RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                   .hasMatch(value)) {
                                 return null;
                               }
@@ -270,7 +294,9 @@ class _loginScreenState extends State<loginScreen> {
                                             height: 50,
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => forget()));
+                                            },
                                             child: Container(
                                               padding: EdgeInsets.all(20),
                                               decoration: BoxDecoration(
@@ -516,6 +542,37 @@ class _loginScreenState extends State<loginScreen> {
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.w500),
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: sendEmailVerification == true
+                            ? InkWell(
+                                onTap: () async {
+                                  try {
+                                    await FirebaseAuth.instance.currentUser!
+                                        .sendEmailVerification();
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                  Future.delayed(Duration(seconds: 3))
+                                      .whenComplete(() {
+                                    setState(() {
+                                      sendEmailVerification = false;
+                                    });
+                                  });
+                                },
+                                child: Text(
+                                  'Send the Verification Code Again',
+                                  style: GoogleFonts.abyssinicaSil(
+                                      color: Colors.blueAccent,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            : SizedBox(),
                       ),
                     ],
                   ),
