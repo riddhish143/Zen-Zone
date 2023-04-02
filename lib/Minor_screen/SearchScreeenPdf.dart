@@ -39,41 +39,41 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: searchInput == ""
           ? Center(
-              child: AnimatedTextKit(
-                isRepeatingAnimation: true,
-                animatedTexts: [
-                  TypewriterAnimatedText(
-                    'Search For Meditation ...',
-                    textStyle: GoogleFonts.abyssinicaSil(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    speed: const Duration(milliseconds: 200),
-                  ),
-                ],
+        child: AnimatedTextKit(
+          isRepeatingAnimation: true,
+          animatedTexts: [
+            TypewriterAnimatedText(
+              'Search For Meditation ...',
+              textStyle: GoogleFonts.abyssinicaSil(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
               ),
-            )
-          : StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('products').snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Material(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
-                      ),
-                    ),
-                  );
-                }
-                final result = snapshot.data!.docs.where(
-                    (e) => e['proname'.toLowerCase()].contains(searchInput.toLowerCase()));
-                return ListView(
-                  children: result.map((e) => SearchModel(e: e)).toList(),
-                );
-              },
+              speed: const Duration(milliseconds: 200),
             ),
+          ],
+        ),
+      )
+          : StreamBuilder<QuerySnapshot>(
+        stream:
+        FirebaseFirestore.instance.collection('products').snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Material(
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              ),
+            );
+          }
+          final result = snapshot.data!.docs.where(
+                  (e) => e['proname'.toLowerCase()].contains(searchInput.toLowerCase()));
+          return ListView(
+            children: result.map((e) => SearchModel(e: e)).toList(),
+          );
+        },
+      ),
     );
   }
 }

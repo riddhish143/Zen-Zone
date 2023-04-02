@@ -8,3 +8,10 @@ List<String> mainCateg = [
   'Ambient Sound',
   'Free'
 ];
+
+List<String> BookCategory = [
+  'Self Help',
+  'Yoga',
+  'Health',
+  'Great Personality'
+];

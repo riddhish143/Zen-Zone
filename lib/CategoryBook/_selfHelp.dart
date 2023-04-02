@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Modal/ProductModal/ProductModalBook1.dart';
+import 'package:final2/Modal/ProductModal/ProductModelBook.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import '../Modal/ProductModal/ProductModal.dart';
 
-class FreeGallery extends StatefulWidget {
-  const FreeGallery({Key? key}) : super(key: key);
+class SelfHelpGallery extends StatefulWidget {
+  const SelfHelpGallery({Key? key}) : super(key: key);
 
   @override
-  State<FreeGallery> createState() => _FreeGalleryState();
+  State<SelfHelpGallery> createState() => _SelpHelpGalleryState();
 }
 
-class _FreeGalleryState extends State<FreeGallery> {
+class _SelpHelpGalleryState extends State<SelfHelpGallery> {
   final Stream<QuerySnapshot> _productStream =
-  FirebaseFirestore.instance.collection('products').where('maincateg',isEqualTo: 'Free').snapshots();
+  FirebaseFirestore.instance.collection('Book_detail').where('BookCategory',isEqualTo: 'Self Help').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _FreeGalleryState extends State<FreeGallery> {
         if (snapshot.data!.docs.isEmpty) {
           return  Center(
               child: Text(
-                'This category \n has no items yet !',
+                'This category \n has no Self Help Book items yet !',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.abyssinicaSil(
                   color: Colors.black,
@@ -51,7 +53,7 @@ class _FreeGalleryState extends State<FreeGallery> {
               itemCount: snapshot.data!.docs.length,
               crossAxisCount: 2,
               itemBuilder: (context, index) {
-                return ProductModel(products: snapshot.data!.docs[index],);
+                return ProductModelBook1(products: snapshot.data!.docs[index],);
               },
               staggeredTileBuilder: (context) => const StaggeredTile.fit(1)),
         );

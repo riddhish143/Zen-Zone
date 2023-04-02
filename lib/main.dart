@@ -6,9 +6,9 @@ import 'package:final2/Screens/Musicplayer.dart';
 import 'package:final2/Screens/Profile.dart';
 import 'package:final2/Screens/Splash.dart';
 import 'package:final2/Screens/Supplier.dart';
-import 'package:final2/Screens/Upload.dart';
-import 'package:final2/Screens/Upload_pdf.dart';
-import 'package:final2/Screens/Upload_product.dart';
+import 'package:final2/Screens/Upload/Upload.dart';
+import 'package:final2/Screens/Upload/Upload_pdf.dart';
+import 'package:final2/Screens/Upload/Upload_product.dart';
 import 'package:final2/Screens/Welcome.dart';
 import 'package:final2/Screens/onBoarding.dart';
 import 'package:final2/Screens/sign_up_page.dart';
@@ -23,6 +23,8 @@ import 'Provider/FavouriteProvider.dart';
 import 'Screens/CustomerHomeScreen.dart';
 import 'Screens/OnBoarding1.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'Screens/Upload/UploadPdf1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +54,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData.dark(),
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
-        // home: ChangePasswordScreen(),
+          // home: ChangePasswordScreen(),
         initialRoute: '/Welcome_screen',
         routes: {
           '/Splash_screen': (context) => const SplashScreen(),

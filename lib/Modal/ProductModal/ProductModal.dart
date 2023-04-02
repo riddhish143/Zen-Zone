@@ -7,7 +7,7 @@ import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Provider/FavouriteProvider.dart';
+import '../../Provider/FavouriteProvider.dart';
 
 class ProductModel extends StatelessWidget {
   final dynamic products;

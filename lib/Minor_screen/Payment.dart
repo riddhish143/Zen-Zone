@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 import 'package:uuid/uuid.dart';
-
 import '../Provider/FavouriteProvider.dart';
 
 class PaymentScreen extends StatefulWidget {

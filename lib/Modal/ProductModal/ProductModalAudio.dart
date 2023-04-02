@@ -3,12 +3,8 @@ import 'package:final2/Minor_screen/BottomModalSheet.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../Provider/FavouriteProvider.dart';
-
 class ProductModelAudio extends StatelessWidget {
   final dynamic products;
 

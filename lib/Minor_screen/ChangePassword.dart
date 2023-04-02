@@ -18,6 +18,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
   late String password;
   bool _obscureText = true;
   bool checkPassword = true;
+  bool processing = false;
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _NewPasswordController = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -27,6 +28,7 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
     return Scaffold(
       backgroundColor: Color(0xff36CD21),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -204,52 +206,114 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
               onFail: () {},
             ),
             SizedBox(
-              height: 105,
+              height: MediaQuery.of(context).size.height*.09
             ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.black),
-                shadowColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black),
+                  shadowColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: () async {
+                  setState(() {
+                    processing = true;
+                  });
+                  if (_formkey.currentState!.validate()) {
+                    checkPassword = await Auth.checkOldPassword(
+                        FirebaseAuth.instance.currentUser!.email,
+                        _oldPasswordController.text);
+                    setState(() {});
+                    checkPassword == true
+                        ? FirebaseAuth.instance.currentUser!
+                            .updatePassword(_NewPasswordController.text)
+                            .whenComplete(() {
+                            _formkey.currentState!.reset();
+                            _NewPasswordController.clear();
+                            _oldPasswordController.clear();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: new Text("Password is matched")));
+                            Future.delayed(const Duration(seconds: 1))
+                                .whenComplete(() {
+                              setState(() {
+                                processing = false;
+                              });
+                              Navigator.pop(context);
+                            });
+                          })
+                        : print("Not valid Old password");
+                    print('Valid');
+                  } else {
+                    print("invalid");
+                    setState(() {
+                      processing = false;
+                    });
+                  }
+                },
+                child: Container(
+                  //margin: EdgeInsets.symmetric(horizontal: 20),
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: processing == true
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            'Save Changes',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 24,
+                                color: Colors.white),
+                          ),
                   ),
                 ),
               ),
-              onPressed: () async {
-                if (_formkey.currentState!.validate()) {
-                  checkPassword = await Auth.checkOldPassword(
-                      FirebaseAuth.instance.currentUser!.email,
-                      _oldPasswordController.text);
-                  setState(() {});
-                  checkPassword == true
-                      ? FirebaseAuth.instance.currentUser!
-                          .updatePassword(_NewPasswordController.text)
-                          .whenComplete(() {
-                          _formkey.currentState!.reset();
-                          _NewPasswordController.clear();
-                          _oldPasswordController.clear();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: new Text("Password is matched")));
-                          Future.delayed(const Duration(seconds: 1))
-                              .whenComplete(() {
-                            Navigator.pop(context);
-                          });
-                        })
-                      : print("Not valid Old password");
-                  print('Valid');
-                } else {
-                  print("invalid");
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 110, vertical: 15),
-                child: Text(
-                  'Save Changes',
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                ),
-              ),
-            )
+            ),
+            // ElevatedButton(
+            //   style: ButtonStyle(
+            //     backgroundColor: MaterialStateProperty.all(Colors.black),
+            //     shadowColor: MaterialStateProperty.all(Colors.white),
+            //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //       RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(5),
+            //       ),
+            //     ),
+            //   ),
+            //   onPressed: () async {
+            //     if (_formkey.currentState!.validate()) {
+            //       checkPassword = await Auth.checkOldPassword(
+            //           FirebaseAuth.instance.currentUser!.email,
+            //           _oldPasswordController.text);
+            //       setState(() {});
+            //       checkPassword == true
+            //           ? FirebaseAuth.instance.currentUser!
+            //               .updatePassword(_NewPasswordController.text)
+            //               .whenComplete(() {
+            //               _formkey.currentState!.reset();
+            //               _NewPasswordController.clear();
+            //               _oldPasswordController.clear();
+            //               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //                   content: new Text("Password is matched")));
+            //               Future.delayed(const Duration(seconds: 1))
+            //                   .whenComplete(() {
+            //                 Navigator.pop(context);
+            //               });
+            //             })
+            //           : print("Not valid Old password");
+            //       print('Valid');
+            //     } else {
+            //       print("invalid");
+            //     }
+            //   },
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 110, vertical: 15),
+            //     child: Text(
+            //       'Save Changes',
+            //       style: TextStyle(fontSize: 24, color: Colors.white),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

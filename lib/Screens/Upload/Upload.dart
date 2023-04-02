@@ -129,8 +129,9 @@
 // }
 //
 
-import 'package:final2/Screens/Upload_pdf.dart';
-import 'package:final2/Screens/Upload_product.dart';
+import 'package:final2/Screens/Upload/UploadPdf1.dart';
+import 'package:final2/Screens/Upload/Upload_pdf.dart';
+import 'package:final2/Screens/Upload/Upload_product.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -208,7 +209,7 @@ class _UploadState extends State<Upload> {
               text: 'Upload E-Book Details',
               icon: Icons.book,
               onClicked: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadBook()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadBook1()));
               },
             ),
             SizedBox(height: 20,),

@@ -1,25 +1,14 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Minor_screen/SearchScreen.dart';
 
-class fakesearch extends StatelessWidget {
-  const fakesearch({
+class fakesearchpdf extends StatelessWidget {
+  const fakesearchpdf({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    List<String> category = [
-      'Focus',
-      'Podcast',
-      'Sleep',
-      'Deep Focus',
-      'Kids',
-      'Productivity',
-      'Ambient Sound',
-      'Free'
-    ];
     return InkWell(
       onTap: () {
         Navigator.push(context,
@@ -56,10 +45,10 @@ class fakesearch extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Center(
                     child: Text(
-                  'Search',
-                  style: GoogleFonts.abyssinicaSil(
-                      fontWeight: FontWeight.w500, color: Colors.white),
-                )),
+                      'Search',
+                      style: GoogleFonts.abyssinicaSil(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )),
               ),
             )
           ],

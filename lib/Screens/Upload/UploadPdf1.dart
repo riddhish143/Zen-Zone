@@ -10,27 +10,29 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import '../../Utilities/Category.dart';
 import 'Upload.dart';
 import 'Upload_product.dart';
 import 'package:file_picker/file_picker.dart';
 
 File? file;
 
-class UploadBook extends StatefulWidget {
-  const UploadBook({Key? key}) : super(key: key);
+class UploadBook1 extends StatefulWidget {
+  const UploadBook1({Key? key}) : super(key: key);
   static const String id = '/Upload_pdf_screen';
-
   @override
-  State<UploadBook> createState() => _UploadBookState();
+  State<UploadBook1> createState() => _UploadBookState();
 }
 
-class _UploadBookState extends State<UploadBook> {
+class _UploadBookState extends State<UploadBook1> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late double BookPrice;
   late String BookName;
   late String BookDesc;
   late String BookId;
   late String url;
+  late String BookAuthor;
+  String mainCategValue = 'Self Help';
   bool processing = false;
   List<XFile>? _imageFileList = [];
   List<String> _imageUrlList = [];
@@ -86,10 +88,7 @@ class _UploadBookState extends State<UploadBook> {
   }
 
   Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        allowedExtensions: ['pdf'],
-        type: FileType.custom);
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result == null) return;
     final path = result.files.single.path!;
     setState(() => file = File(path));
@@ -105,7 +104,7 @@ class _UploadBookState extends State<UploadBook> {
     String Url = await snapshot.ref.getDownloadURL();
   }
 
-  Future uploadPdf() async {
+  Future uploadPdf() async{
     if (file == null) return;
     final fileName = path.basename(file!.path);
     final destination = 'Book-Pdf/$fileName';
@@ -116,22 +115,22 @@ class _UploadBookState extends State<UploadBook> {
   }
 
   Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-        stream: task.snapshotEvents,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final snap = snapshot.data!;
-            final progress = snap.bytesTransferred / snap.totalBytes;
-            final percentage = (progress * 100).toStringAsFixed(2);
+    stream: task.snapshotEvents,
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final snap = snapshot.data!;
+        final progress = snap.bytesTransferred / snap.totalBytes;
+        final percentage = (progress * 100).toStringAsFixed(2);
 
-            return Text(
-              '$percentage %',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            );
-          } else {
-            return Container();
-          }
-        },
-      );
+        return Text(
+          '$percentage %',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        );
+      } else {
+        return Container();
+      }
+    },
+  );
 
   Future<void> uploadImages() async {
     if (_formKey.currentState!.validate()) {
@@ -187,7 +186,7 @@ class _UploadBookState extends State<UploadBook> {
   void uploadData() async {
     if (_imageUrlList.isNotEmpty) {
       CollectionReference productRef =
-          FirebaseFirestore.instance.collection('Book_detail');
+      FirebaseFirestore.instance.collection('Book_detail');
       BookId = const Uuid().v4();
       await productRef.doc(BookId).set({
         'Bookid': BookId,
@@ -197,7 +196,9 @@ class _UploadBookState extends State<UploadBook> {
         'sid': FirebaseAuth.instance.currentUser!.uid,
         'Bookimages': _imageUrlList,
         'discount': 0,
+        'BookAuthor' : BookAuthor,
         'BookUrl': url,
+        'BookCategory' : mainCategValue
       }).whenComplete(() {
         setState(() {
           processing = false;
@@ -243,6 +244,75 @@ class _UploadBookState extends State<UploadBook> {
                 SizedBox(
                   height: 2,
                 ),
+                Row(children: [
+                  Container(
+                    height: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.5-7,
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.20),
+                    child: Column(
+                      children: [
+                        const Text("Select Category"),
+                        DropdownButton(
+                            iconSize: 40,
+                            borderRadius: BorderRadius.circular(5),
+                            enableFeedback: true,
+                            elevation: 0,
+                            focusColor: Colors.black,
+                            dropdownColor: Colors.grey,
+                            menuMaxHeight: 500,
+                            icon: Icon(
+                              Icons.arrow_drop_down_circle_outlined,
+                              size: 30,
+                            ),
+                            disabledHint: const Text('select category'),
+                            value: mainCategValue,
+                            items: BookCategory
+                                .map<DropdownMenuItem<String>>((value) {
+                              return DropdownMenuItem(
+                                child: Text(value),
+                                value: value,
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                mainCategValue = value!;
+                              });
+                            })
+                      ],
+                    ),
+                  ),
+                  Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.grey)),
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: _imageFileList != null
+                          ? previewImages()
+                          : const Center(
+                        child: Text(
+                            'You have not \n \n picked any Book Image yet!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey)),
+                      ),
+                    ),
+                    _imageFileList!.isEmpty
+                        ? const SizedBox()
+                        : IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _imageFileList = [];
+                          });
+                        },
+                        icon: Icon(
+                          Icons.delete_forever_outlined,
+                          color: Colors.black,
+                        )),
+                  ]),
+                ],),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: TextFormField(
@@ -258,7 +328,7 @@ class _UploadBookState extends State<UploadBook> {
                       BookPrice = double.parse(value!);
                     },
                     keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    const TextInputType.numberWithOptions(decimal: true),
                     decoration: textFormDecoration.copyWith(
                         hintText: 'Enter a price for a Book',
                         labelText: 'Book Price',
@@ -278,7 +348,7 @@ class _UploadBookState extends State<UploadBook> {
                       return null;
                     },
                     maxLength: 100,
-                    maxLines: 3,
+                    maxLines: 2,
                     onSaved: (value) {
                       BookName = value!;
                     },
@@ -287,6 +357,29 @@ class _UploadBookState extends State<UploadBook> {
                         labelText: 'Book Name',
                         prefixIcon: Icon(
                           Icons.drive_file_rename_outline_sharp,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Author Name";
+                      }
+                      return null;
+                    },
+                    maxLength: 100,
+                    maxLines: 2,
+                    onSaved: (value) {
+                      BookAuthor = value!;
+                    },
+                    decoration: textFormDecoration.copyWith(
+                        hintText: 'Enter Author Name',
+                        labelText: 'Author Name',
+                        prefixIcon: Icon(
+                          Icons.account_circle_outlined,
                           color: Colors.black,
                         )),
                   ),
@@ -314,36 +407,36 @@ class _UploadBookState extends State<UploadBook> {
                         )),
                   ),
                 ),
-                Stack(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.grey)),
-                    height: MediaQuery.of(context).size.width * 0.5,
-                    width: MediaQuery.of(context).size.width * 0.90,
-                    child: _imageFileList != null
-                        ? previewImages()
-                        : const Center(
-                            child: Text(
-                                'You have not \n \n picked any Book Image yet!',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.grey)),
-                          ),
-                  ),
-                  _imageFileList!.isEmpty
-                      ? const SizedBox()
-                      : IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _imageFileList = [];
-                            });
-                          },
-                          icon: Icon(
-                            Icons.delete_forever_outlined,
-                            color: Colors.black,
-                          )),
-                ]),
+                // Stack(children: [
+                //   Container(
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(5),
+                //         border: Border.all(color: Colors.grey)),
+                //     height: MediaQuery.of(context).size.width * 0.5,
+                //     width: MediaQuery.of(context).size.width * 0.90,
+                //     child: _imageFileList != null
+                //         ? previewImages()
+                //         : const Center(
+                //       child: Text(
+                //           'You have not \n \n picked any Book Image yet!',
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(
+                //               fontSize: 16, color: Colors.grey)),
+                //     ),
+                //   ),
+                //   _imageFileList!.isEmpty
+                //       ? const SizedBox()
+                //       : IconButton(
+                //       onPressed: () {
+                //         setState(() {
+                //           _imageFileList = [];
+                //         });
+                //       },
+                //       icon: Icon(
+                //         Icons.delete_forever_outlined,
+                //         color: Colors.black,
+                //       )),
+                // ]),
                 // SizedBox(
                 //   height: 20,
                 // ),
@@ -361,8 +454,7 @@ class _UploadBookState extends State<UploadBook> {
                         SizedBox(height: 8),
                         Text(
                           filename,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(height: 15),
                         // ButtonWidget(
@@ -387,19 +479,19 @@ class _UploadBookState extends State<UploadBook> {
           _imageFileList!.isEmpty
               ? SizedBox()
               : Padding(
-                  padding: EdgeInsets.only(right: 10),
-                  child: FloatingActionButton(
-                    mouseCursor: MaterialStateMouseCursor.clickable,
-                    onPressed: () {
-                      _pickProductImages();
-                    },
-                    backgroundColor: Colors.black,
-                    child: const Icon(
-                      Icons.delete_forever,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+            padding: EdgeInsets.only(right: 10),
+            child: FloatingActionButton(
+              mouseCursor: MaterialStateMouseCursor.clickable,
+              onPressed: () {
+                _pickProductImages();
+              },
+              backgroundColor: Colors.black,
+              child: const Icon(
+                Icons.delete_forever,
+                color: Colors.white,
+              ),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: FloatingActionButton(
@@ -417,21 +509,21 @@ class _UploadBookState extends State<UploadBook> {
           FloatingActionButton(
             onPressed: processing == true
                 ? null
-                : () {
-                    uploadProduct();
-                    setState(() {
-                      isdelete = true;
-                    });
-                  },
+                : ()  {
+              uploadProduct();
+              setState(() {
+                isdelete = true;
+              });
+            },
             backgroundColor: Colors.black,
             child: processing == true
                 ? CircularProgressIndicator(
-                    color: Colors.white,
-                  )
+              color: Colors.white,
+            )
                 : const Icon(
-                    Icons.upload,
-                    color: Colors.white,
-                  ),
+              Icons.upload,
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -453,25 +545,25 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Color.fromRGBO(29, 194, 95, 1),
-          minimumSize: Size.fromHeight(50),
-        ),
-        child: buildContent(),
-        onPressed: onClicked,
-      );
+    style: ElevatedButton.styleFrom(
+      primary: Color.fromRGBO(29, 194, 95, 1),
+      minimumSize: Size.fromHeight(50),
+    ),
+    child: buildContent(),
+    onPressed: onClicked,
+  );
 
   Widget buildContent() => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 28),
-          SizedBox(width: 16),
-          Text(
-            text,
-            style: TextStyle(fontSize: 22, color: Colors.white),
-          ),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Icon(icon, size: 28),
+      SizedBox(width: 16),
+      Text(
+        text,
+        style: TextStyle(fontSize: 22, color: Colors.white),
+      ),
+    ],
+  );
 }
 
 class FirebaseApi {

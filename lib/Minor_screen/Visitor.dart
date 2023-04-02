@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-import '../Modal/ProductModal.dart';
+import '../Modal/ProductModal/ProductModal.dart';
 
 class VisitorScreen extends StatefulWidget {
   final String suppId;

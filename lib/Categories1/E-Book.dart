@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import '../Minor_screen/SubCategoryScreen.dart';
-import '../Modal/ProductModal.dart';
-import '../Modal/ProductModelBook.dart';
+import '../Modal/ProductModal/ProductModal.dart';
+import '../Modal/ProductModal/ProductModelBook.dart';
 
 class EbookScreen extends StatefulWidget {
   const EbookScreen({Key? key}) : super(key: key);

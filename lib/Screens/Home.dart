@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final2/Modal/ProductModal.dart';
-import 'package:final2/Modal/ProductModelHomeScreen.dart';
+import 'package:final2/Modal/ProductModal/ProductModal.dart';
+import 'package:final2/Modal/ProductModal/ProductModelHomeScreen.dart';
 import 'package:final2/Widgets/Carousal.dart';
 import 'package:final2/Widgets/Drawer.dart';
 import 'package:flutter/material.dart';

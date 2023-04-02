@@ -32,6 +32,7 @@ class _BottomModalState extends State<BottomModel> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         title: Text(
           "Unlock the Beat",
           style: GoogleFonts.abyssinicaSil(
@@ -76,9 +77,6 @@ class _BottomModalState extends State<BottomModel> {
                     fontSize: 24,
                     color: Colors.black),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .16,
             ),
             SlideAction(
               borderRadius: 5,

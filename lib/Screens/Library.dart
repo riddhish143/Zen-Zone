@@ -4,6 +4,7 @@ import 'package:final2/Categories1/Video.dart';
 import 'package:final2/Widgets/Fakesearch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../Categories1/Books/Books.dart';
 import '../Categories1/Download.dart';
 import 'Explore.dart';
 
@@ -48,7 +49,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
           body: TabBarView(children: [
             AudioScreen(),
             VideoScreen(),
-            EbookScreen(),
+            // EbookScreen(),
+            Books(),
             DownloadScreen(),
           ]),
         ));
