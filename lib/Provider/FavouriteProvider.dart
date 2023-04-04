@@ -16,12 +16,14 @@ class Wish extends ChangeNotifier {
       double price,
       List imagesUrl,
       String documentId,
+      String suppId
       ) async {
     final product = Product(
         name: name,
         price: price,
         imagesUrl: imagesUrl,
         documentId: documentId,
+      suppId : suppId
         );
     _list.add(product);
     notifyListeners();

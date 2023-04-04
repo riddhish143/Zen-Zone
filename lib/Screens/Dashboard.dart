@@ -3,9 +3,10 @@ import 'package:final2/Dashboard/EditProfile.dart';
 import 'package:final2/Dashboard/ManageProfile.dart';
 import 'package:final2/Dashboard/Order.dart';
 import 'package:final2/Dashboard/Statistic.dart';
-import 'package:final2/Dashboard/Store.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../Dashboard/StorePage.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   List<Widget> pages = [
-    StoreScreen(),
+    StorePageScreen(),
     OrderScreen(),
     EditProfileScreen(),
     ManageProfileScreen(),

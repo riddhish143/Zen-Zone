@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../Provider/FavouriteProvider.dart';
 import '../Provider/Product Provider.dart';
@@ -8,69 +9,78 @@ class WishlistModel extends StatelessWidget {
     Key? key,
     required this.product,
   }) : super(key: key);
-
   final Product product;
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(
-    //   padding: const EdgeInsets.all(5.0),
-    //   child: Card(
-    //       child: Row(
-    //         children: [
-    //           ClipRRect(
-    //             borderRadius: BorderRadius.circular(5),
-    //             child: Container(
-    //               constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
-    //               child: Image(fit: BoxFit.cover,
-    //                 image: NetworkImage(product.imagesUrl.first),
-    //               ),
-    //             ),
-    //           ),
-    // Flexible(
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(6.0),
-    //     child: Column(
-    //       children: [
-    //         Text(
-    //           product.name,
-    //           maxLines: 1,
-    //           overflow: TextOverflow.ellipsis,
-    //           style: TextStyle(
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.w600,
-    //               color: Colors.grey.shade700),
-    //         ),
-    //         Text(
-    //           product.price.toStringAsFixed(2),
-    //           style: const TextStyle(
-    //               fontSize: 16,
-    //               fontWeight: FontWeight.bold,
-    //               color: Colors.red),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // )
-    //         ],
-    //       )),
-    // );
+
     return Padding(
       padding: EdgeInsets.all(6),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(5)),
-        child: Column(children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Container(
-              constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
-              child: Image(
-                image: NetworkImage(product.imagesUrl.first),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: Colors.black, width: 2)),
+          child: Column(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Container(
+                      constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.black, width: 2)),
+                      child: Image(
+                        image: NetworkImage(product.imagesUrl.first),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.width / 3.5,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 2, color: Colors.black),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Align(
+                                  child: Center(
+                                    child: Text(
+                                      product.name,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.abyssinicaSil(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  alignment: Alignment.topLeft,
+                                ),
+                                IconButton(onPressed: (){
+                                  context.read<Wish>().removeItem(product);
+                                }, icon: Icon(Icons.delete))
+                              ]),
+                        ),
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

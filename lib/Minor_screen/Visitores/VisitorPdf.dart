@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Modal/ProductModal/ProductModalBook1.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,24 +7,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-import '../Modal/ProductModal/ProductModal.dart';
-
-class VisitorScreen extends StatefulWidget {
+class VisitorPdfScreen extends StatefulWidget {
   final String suppId;
-
-  const VisitorScreen({Key? key, required this.suppId}) : super(key: key);
+  const VisitorPdfScreen({Key? key, required this.suppId}) : super(key: key);
 
   @override
-  State<VisitorScreen> createState() => _VisitorScreenState();
+  State<VisitorPdfScreen> createState() => _VisitorPdfScreenState();
 }
 
-class _VisitorScreenState extends State<VisitorScreen> {
+class _VisitorPdfScreenState extends State<VisitorPdfScreen> {
   bool following = false;
-
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _productStream = FirebaseFirestore.instance
-        .collection('products')
+        .collection('Book_detail')
         .where('sid', isEqualTo: widget.suppId)
         .snapshots();
     CollectionReference user =
@@ -80,7 +77,10 @@ class _VisitorScreenState extends State<VisitorScreen> {
                   ),
                   Column(
                     children: [
-                      Text(data['name'].toUpperCase()),
+                      Text(
+                        data['name'].toUpperCase(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -163,7 +163,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
                       itemCount: snapshot.data!.docs.length,
                       crossAxisCount: 2,
                       itemBuilder: (context, index) {
-                        return ProductModel(
+                        return ProductModelBook1(
                           products: snapshot.data!.docs[index],
                         );
                       },

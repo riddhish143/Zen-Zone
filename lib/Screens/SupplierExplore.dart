@@ -35,6 +35,7 @@ class _SupplierExploreState extends State<SupplierExplore> {
               indicatorColor: Colors.black,
               indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
+                border: Border.all(color: Colors.black , width: 1.5),
                 color: Colors.grey.shade300,
               ),
               indicatorSize: TabBarIndicatorSize.tab,

@@ -39,38 +39,42 @@ class _FavouriteScreenState extends State<FavouritesScreen> {
             title: Text(
               'Favourites',
               style: GoogleFonts.abyssinicaSil(
-                  fontWeight: FontWeight.bold, fontSize: 24 , color: Colors.black),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.black),
             ),
             actions: [
-              context.watch<Wish>().getWishItems.isEmpty
-                  ? const SizedBox()
-                  : IconButton(
-                      onPressed: () {
-                        CupertinoAlertDialog(
-                          title: new Text("Clear Favourites"),
-                          content: new Text(
-                              "Are you sure you want to clear Favourites?"),
-                          actions: [
-                            CupertinoDialogAction(
-                                isDefaultAction: true,
-                                child: Text('Yes'),
-                                onPressed: () {
-                                  context.read<Wish>().clearWishlist();
-                                  Navigator.pop(context);
-                                }),
-                            CupertinoDialogAction(
-                              child: Text('No'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            )
-                          ],
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.delete_forever,
-                        color: Colors.black,
-                      ))
+              if (context.watch<Wish>().getWishItems.isEmpty)
+                const SizedBox()
+              else
+                IconButton(
+                  onPressed: () {
+                    CupertinoAlertDialog(
+                      title: new Text("Clear Favourites"),
+                      content: new Text(
+                          "Are you sure you want to clear Favourites?"),
+                      actions: [
+                        CupertinoDialogAction(
+                            isDefaultAction: true,
+                            child: Text('Yes'),
+                            onPressed: () {
+                              context.read<Wish>().clearWishlist();
+                              Navigator.pop(context);
+                            }),
+                        CupertinoDialogAction(
+                          child: Text('No'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  ),
+                )
             ],
           ),
           body: context.watch<Wish>().getWishItems.isNotEmpty
@@ -89,16 +93,44 @@ class EmptyWishlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            'No Favourites',
-            style: TextStyle(fontSize: 24),
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+          child: Container(
+            height: MediaQuery.of(context).size.height * .37,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('images/Blur/NoResult.jpg')),
+                border: Border.all(color: Colors.black, width: 2)),
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.white,
+              border: Border.all(color: Colors.black, width: 2),
+            ),
+            child: Center(
+              child: Text(
+                'No Favourites',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.abyssinicaSil(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -110,24 +142,12 @@ class WishItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Wish>(
       builder: (context, wish, child) {
-        // return ListView.builder(
-        //     itemCount: wish.count,
-        //     itemBuilder: (context, index) {
-        //       final product = wish.getWishItems[index];
-        //       return WishlistModel(
-        //         product: product,
-        //       );
-        //     });
-        return StaggeredGridView.countBuilder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
+        return ListView.builder(
             itemCount: wish.count,
-            crossAxisCount: 2,
             itemBuilder: (context, index) {
               final product = wish.getWishItems[index];
               return WishlistModel(product: product);
-            },
-            staggeredTileBuilder: (context) => const StaggeredTile.fit(1));
+            });
       },
     );
   }

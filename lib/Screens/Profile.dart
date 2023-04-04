@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Minor_screen/ChangePassword.dart';
 import 'package:final2/ProfileList/Favourites.dart';
+import 'package:final2/ProfileList/coursedetail.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../Provider/FavouriteProvider.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String documentId;
@@ -47,8 +51,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Container(
                     height: 236,
-                    decoration: const BoxDecoration(
-                      color: Color(0xfff39171),
+                    decoration: BoxDecoration(
+                      color: Color(0xfff3d171),
                     ),
                   ),
                   CustomScrollView(
@@ -72,21 +76,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               background: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xfff39171),
+                                decoration: BoxDecoration(
+                                  color: Color(0xfff3d171),
                                 ),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.only(top: 25, left: 30),
                                   child: Row(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 50,
-                                        backgroundColor: Colors.white,
-                                        backgroundImage:
-                                            NetworkImage(data['profileimage']),
-                                        // backgroundImage: AssetImage(
-                                        //     'images/Profile_images/Profile_image.jpeg'),
+                                      Container(
+                                        height: MediaQuery.of(context).size.height*0.09,
+                                        width:  MediaQuery.of(context).size.height*0.1 ,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.black, width: 1.5),
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: NetworkImage(data['profileimage'])
+                                            )
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 100,
@@ -94,19 +101,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 0),
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .40,
-                                          child: Text(
-                                            data['name'].toUpperCase(),
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600),
-                                            softWrap: false,
-                                            maxLines: 1,
+                                          height: MediaQuery.of(context).size.height*.03,
+                                          width: MediaQuery.of(context).size.width*.4,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1.5,
+                                            ),
+                                            borderRadius: BorderRadius.circular(5)
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              data['name'].toUpperCase(),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600),
+                                              softWrap: false,
+                                              maxLines: 1,
+                                            ),
                                           ),
                                         ),
                                       )
@@ -124,36 +138,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: TextButton(
-                                    child: SizedBox(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.23,
-                                      child: Center(
-                                        child: Text(
-                                          'Favorites',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20),
+                                Badge(
+                                  label: Text(context.watch<Wish>().getWishItems.length.toString()),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(color: Colors.white , width: 4),
+                                        borderRadius: BorderRadius.circular(50)),
+                                    child: TextButton(
+                                      child: SizedBox(
+                                        height: 40,
+                                        width: MediaQuery.of(context).size.width *
+                                            0.23,
+                                        child: Center(
+                                          child: Text(
+                                            'Favorites',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 17),
+                                          ),
                                         ),
                                       ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FavouritesScreen()));
+                                      },
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  FavouritesScreen()));
-                                    },
                                   ),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
                                       color: Colors.black,
+                                      border: Border.all(color: Colors.white , width: 4),
                                       borderRadius: BorderRadius.circular(50)),
                                   child: TextButton(
                                     child: SizedBox(
@@ -165,16 +184,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           'Courses',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 20),
+                                              fontSize: 17),
                                         ),
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomerCourses()));
+                                    },
                                   ),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
                                       color: Colors.black,
+                                      border: Border.all(color: Colors.white , width: 4),
                                       borderRadius: BorderRadius.circular(50)),
                                   child: TextButton(
                                     child: SizedBox(
@@ -183,10 +209,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           0.23,
                                       child: Center(
                                         child: Text(
-                                          'Collection',
+                                          'Statistic',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 20),
+                                              fontSize: 17),
                                         ),
                                       ),
                                     ),
@@ -199,21 +225,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.grey.shade300,
                               child: Column(
                                 children: [
-                                  // const SizedBox(
-                                  //   height: 150,
-                                  //   child: Image(
-                                  //       width: double.infinity,
-                                  //       image:
-                                  //           AssetImage('images/Blur/blur.png')),
-                                  // ),
-                                  TableCalendar(
-                                      locale: 'en_us',
-                                      headerStyle: HeaderStyle(
-                                          formatButtonVisible: false,
-                                          titleCentered: true),
-                                      focusedDay: today,
-                                      firstDay: DateTime.utc(2010, 10, 16),
-                                      lastDay: DateTime.utc(2030, 10, 16)),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.black , width: 2),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: TableCalendar(
+                                        locale: 'en_us',
+                                        headerStyle: HeaderStyle(
+                                            formatButtonVisible: false,
+                                            titleCentered: true),
+                                        focusedDay: today,
+                                        firstDay: DateTime.utc(2010, 10, 16),
+                                        lastDay: DateTime.utc(2030, 10, 16)),
+                                    margin: EdgeInsets.all(10),
+                                  ),
                                   const ProfileHeaderLabel(
                                     headerLabel: '  Account Info.  ',
                                   ),
@@ -223,10 +249,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 260,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 1),
+                                              color: Colors.black, width: 2),
                                           color: Colors.white,
                                           borderRadius:
-                                              BorderRadius.circular(16)),
+                                              BorderRadius.circular(5)),
                                       child: Column(
                                         children: [
                                           RepeatedListTile(
@@ -255,10 +281,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 260,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 1),
+                                              color: Colors.black, width: 2),
                                           color: Colors.white,
                                           borderRadius:
-                                              BorderRadius.circular(16)),
+                                              BorderRadius.circular(5)),
                                       child: Column(
                                         children: [
                                           RepeatedListTile(
@@ -357,10 +383,10 @@ class YellowDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Divider(
         color: Colors.black,
-        thickness: 1,
+        thickness: 2,
       ),
     );
   }
@@ -410,20 +436,20 @@ class ProfileHeaderLabel extends StatelessWidget {
             height: 40,
             width: 50,
             child: Divider(
-              color: Colors.grey,
+              color: Colors.black,
               thickness: 1,
             ),
           ),
           Text(
             headerLabel,
             style: const TextStyle(
-                color: Colors.grey, fontSize: 24, fontWeight: FontWeight.w600),
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.w500),
           ),
           const SizedBox(
-            height: 40,
-            width: 50,
+            height: 30,
+            width: 40,
             child: Divider(
-              color: Colors.grey,
+              color: Colors.black,
               thickness: 1,
             ),
           ),

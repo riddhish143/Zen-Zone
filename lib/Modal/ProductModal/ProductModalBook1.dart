@@ -40,7 +40,7 @@ class ProductModelBook1 extends StatelessWidget {
     return Material(
       color: Colors.white,
       child: Padding(
-        padding: EdgeInsets.all(6),
+        padding: EdgeInsets.all(0),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -53,7 +53,7 @@ class ProductModelBook1 extends StatelessWidget {
                 },
                 child: Stack(children: [
                   Container(
-                    constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
+                    constraints: BoxConstraints(minHeight: 90, maxHeight: 200),
                     child: Image(
                       image: NetworkImage(products['Bookimages'][0]),
                     ),

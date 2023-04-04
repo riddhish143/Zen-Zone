@@ -32,18 +32,46 @@ class _AudioScreenState extends State<AudioScreen> {
             child: CircularProgressIndicator(),
           );
         }
-
         if (snapshot.data!.docs.isEmpty) {
-          return  Center(
-              child: Text(
-                'No Audio Found',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.abyssinicaSil(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .37,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('images/Blur/NoResult.jpg')),
+                      border: Border.all(color: Colors.black, width: 2)),
                 ),
-              ));
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'No Audio Found',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.abyssinicaSil(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
         }
 
         return SingleChildScrollView(
@@ -51,7 +79,7 @@ class _AudioScreenState extends State<AudioScreen> {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data!.docs.length,
-              crossAxisCount: 3,
+              crossAxisCount: 2,
               itemBuilder: (context, index) {
                 return ProductModelAudio(products: snapshot.data!.docs[index],);
               },

@@ -29,7 +29,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: GNav(
-          curve: Curves.easeInToLinear,
+          haptic: false,
+          curve: Curves.slowMiddle,
           backgroundColor: Colors.white,
           color: Colors.black,
           activeColor: Colors.white,

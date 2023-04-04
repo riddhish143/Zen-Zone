@@ -34,6 +34,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 indicatorColor: Colors.black,
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
+                  border: Border.all(color: Colors.black),
                   color: Colors.grey.shade300,
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,

@@ -200,13 +200,13 @@ class _ChangePasswordState extends State<ChangePasswordScreen> {
               uppercaseCharCount: 1,
               numericCharCount: 2,
               specialCharCount: 1,
-              width: 380,
+              width: MediaQuery.of(context).size.width*.90,
               height: 150,
               onSuccess: () {},
               onFail: () {},
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height*.09
+              height: MediaQuery.of(context).size.height*.02
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),

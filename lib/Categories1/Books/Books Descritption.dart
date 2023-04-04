@@ -39,10 +39,18 @@ class _BookDecriptionState extends State<BookDecription> {
                       fontFamily: "Ubuntu"),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*.03,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .02,
+              ),
               Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black , width: 1.5),
+                  borderRadius: BorderRadius.circular(5)
+                ),
                 height: MediaQuery.of(context).size.height * 0.15,
+                width: MediaQuery.of(context).size.width * 0.80,
                 child: SingleChildScrollView(
+                  padding: EdgeInsets.all(10),
                   physics: BouncingScrollPhysics(
                       decelerationRate: ScrollDecelerationRate.fast),
                   child: Text(
@@ -55,13 +63,16 @@ class _BookDecriptionState extends State<BookDecription> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*.004,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .004,
+              ),
               Container(
                   padding: EdgeInsets.all(13),
                   height: MediaQuery.of(context).size.height * 0.2,
                   margin: EdgeInsets.all(25),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(13),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.black , width: 1.5),
                     color: Colors.white,
                   ),
                   child: LayoutBuilder(
@@ -73,15 +84,20 @@ class _BookDecriptionState extends State<BookDecription> {
                             height: constraints.maxHeight * 0.450,
                             child: ListTile(
                               leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(widget.products['Bookimages'][0] , fit: BoxFit.cover,)
-                              ),
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(
+                                    widget.products['Bookimages'][0],
+                                    fit: BoxFit.cover,
+                                  )),
                               title: Text(
                                 widget.products['Bookname'],
                                 style: TextStyle(fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              subtitle:
-                                  Text("By " + widget.products['BookAuthor']),
+                              subtitle: Text(
+                                "By " + widget.products['BookAuthor'],
+                                overflow: TextOverflow.ellipsis,
+                              ),
                               trailing: Container(
                                 padding: EdgeInsets.all(5),
                                 // color: Colors.redAccent.shade100,
@@ -102,27 +118,13 @@ class _BookDecriptionState extends State<BookDecription> {
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width * 0.7,
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    stops: [
-                                      0.1,
-                                      0.5,
-                                      0.7,
-                                      0.9
-                                    ],
-                                    colors: [
-                                      Colors.deepPurple.shade900,
-                                      Colors.deepPurple.shade600,
-                                      Colors.deepPurple.shade500,
-                                      Colors.deepPurple.shade400,
-                                    ]),
-                                color: Colors.deepPurple[700],
-                                borderRadius: BorderRadius.circular(35)),
+                                border: Border.all(color: Colors.black , width: 2),
+                                color: Color(0xffaccfb5),
+                                borderRadius: BorderRadius.circular(5)),
                             child: Text(
                               "Buy Now",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontFamily: "Ubuntu",
                                   fontSize: 16),
                             ),

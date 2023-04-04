@@ -5,19 +5,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import '../../Modal/ProductModal/ProductModal.dart';
 
-import '../Modal/ProductModal/ProductModal.dart';
-
-class VisitorScreen extends StatefulWidget {
+class VisitorAudioScreen extends StatefulWidget {
   final String suppId;
-
-  const VisitorScreen({Key? key, required this.suppId}) : super(key: key);
+  const VisitorAudioScreen({Key? key, required this.suppId}) : super(key: key);
 
   @override
-  State<VisitorScreen> createState() => _VisitorScreenState();
+  State<VisitorAudioScreen> createState() => _VisitorAudioScreenState();
 }
 
-class _VisitorScreenState extends State<VisitorScreen> {
+class _VisitorAudioScreenState extends State<VisitorAudioScreen> {
   bool following = false;
 
   @override
@@ -27,7 +25,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
         .where('sid', isEqualTo: widget.suppId)
         .snapshots();
     CollectionReference user =
-        FirebaseFirestore.instance.collection('suppliers');
+    FirebaseFirestore.instance.collection('suppliers');
     return FutureBuilder<DocumentSnapshot>(
       future: user.doc(widget.suppId).get(),
       builder:
@@ -35,6 +33,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
         if (snapshot.hasError) {
           return const Text('Something went wrong');
         }
+
         if (snapshot.hasData && !snapshot.data!.exists) {
           return const Text('Something went wrong');
         }
@@ -50,7 +49,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
+          snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 100,
@@ -86,40 +85,40 @@ class _VisitorScreenState extends State<VisitorScreen> {
                       ),
                       data['sid'] == FirebaseAuth.instance.currentUser!.uid
                           ? Container(
-                              height: 35,
-                              width: MediaQuery.of(context).size.width * .30,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.pink),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: MaterialButton(
-                                  onPressed: () {},
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [Text('Edit'), Icon(Icons.edit)],
-                                  )),
-                            )
+                        height: 35,
+                        width: MediaQuery.of(context).size.width * .30,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.pink),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: MaterialButton(
+                            onPressed: () {},
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: [Text('Edit'), Icon(Icons.edit)],
+                            )),
+                      )
                           : Container(
-                              height: 35,
-                              width: MediaQuery.of(context).size.width * .30,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.pink),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: MaterialButton(
-                                onPressed: () {
-                                  setState(() {
-                                    following = !following;
-                                  });
-                                },
-                                child: following == true
-                                    ? Text('Following')
-                                    : Text('Follow'),
-                              ),
-                            )
+                        height: 35,
+                        width: MediaQuery.of(context).size.width * .30,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.pink),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              following = !following;
+                            });
+                          },
+                          child: following == true
+                              ? Text('Following')
+                              : Text('Follow'),
+                        ),
+                      )
                     ],
                   )
                 ],
@@ -146,14 +145,14 @@ class _VisitorScreenState extends State<VisitorScreen> {
                 if (snapshot.data!.docs.isEmpty) {
                   return Center(
                       child: Text(
-                    'This has no Products!',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.abyssinicaSil(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ));
+                        'This has no Products!',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.abyssinicaSil(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ));
                 }
 
                 return SingleChildScrollView(
@@ -168,7 +167,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
                         );
                       },
                       staggeredTileBuilder: (context) =>
-                          const StaggeredTile.fit(1)),
+                      const StaggeredTile.fit(1)),
                 );
               },
             ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:final2/Minor_screen/ChangePassword.dart';
 import 'package:final2/Screens/Explore.dart';
+import 'package:final2/Screens/Home.dart';
 import 'package:final2/Screens/LoginScreen.dart';
 import 'package:final2/Screens/Musicplayer.dart';
 import 'package:final2/Screens/Profile.dart';
@@ -54,8 +55,18 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeData.dark(),
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
-          // home: ChangePasswordScreen(),
-        initialRoute: '/Welcome_screen',
+        // home:  StreamBuilder(stream : FirebaseAuth.instance.authStateChanges()  , builder: (ctx ,snapshot) {
+        //       if(snapshot.connectionState == ConnectionState.waiting){
+        //         return CircularProgressIndicator();
+        //       }
+        //       else if(snapshot.hasData){
+        //         return CustomerHomeScreen();
+        //       }
+        //       else{
+        //          return WelcomeScreen();
+        //       }
+        // },),
+        initialRoute: "/Welcome_screen",
         routes: {
           '/Splash_screen': (context) => const SplashScreen(),
           '/OnBoarding_screen': (context) => onBoarding(),

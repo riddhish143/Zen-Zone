@@ -20,7 +20,7 @@ import '../Widgets/Fakesearch.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
-
+  static const String id = "/Explore_screen";
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
 }
@@ -60,14 +60,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
         body: const TabBarView(
           children: [
-            // Focus1Screen(),
-            // PodcastScreen(),
-            // SleepScreen(),
-            // DeepScreen(),
-            // KidScreen(),
-            // ProductivityScreen(),
-            // AmbientScreen(),
-            // FreeScreen()
             FocusGallery(),
             PodcastScreen(),
             SleepGallery(),

@@ -4,8 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
-import 'Payment.dart';
-
 class BottomModel extends StatefulWidget {
   final String titleName;
   final String image;
@@ -84,15 +82,15 @@ class _BottomModalState extends State<BottomModel> {
               outerColor: Colors.black,
               textStyle: TextStyle(fontSize: 18, color: Colors.white),
               onSubmit: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PaymentScreen(
-                              products: widget.products,
-                              Price: widget.Price,
-                              image: widget.image,
-                              titleName: widget.titleName,
-                            )));
+                // Navigator.pushReplacement(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => Payment_Screen(
+                //               products: widget.products,
+                //               Price: widget.Price,
+                //               image: widget.image,
+                //               titleName: widget.titleName,
+                //             )));
               },
               text: "       Slide to Pay " + ('₹') + widget.Price,
             )

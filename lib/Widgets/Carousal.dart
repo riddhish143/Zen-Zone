@@ -41,9 +41,9 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
     }
 
     final List<String> image = [
-          'images/Blur/behance4.jpg',
-          'images/Blur/behance2.jpg',
-          'images/Blur/behance3.jpeg',
+      'images/Blur/behance4.jpg',
+      'images/Blur/behance2.jpg',
+      'images/Blur/behance3.jpeg',
     ];
     return Container(
       color: Colors.white,
@@ -54,9 +54,17 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
               items: image
                   .map((e) => Container(
                         decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black,
+                                  blurRadius: 0,
+                                  spreadRadius: 1),
+                            ],
                             borderRadius: BorderRadius.circular(5),
                             color: colorArray[1],
-                            image: DecorationImage(image: AssetImage(e) , fit: BoxFit.cover)),
+                            border: Border.all(color: Colors.black, width: 1.5),
+                            image: DecorationImage(
+                                image: AssetImage(e), fit: BoxFit.cover)),
                       ))
                   .toList(),
               options: CarouselOptions(

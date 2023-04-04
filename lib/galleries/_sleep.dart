@@ -32,16 +32,45 @@ class _SleepGalleryState extends State<SleepGallery> {
         }
 
         if (snapshot.data!.docs.isEmpty) {
-          return  Center(
-              child: Text(
-                'This category \n has no Sleep Meditation items yet !',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.abyssinicaSil(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+          return  Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .37,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage('images/Blur/NoResult.jpg')),
+                      border: Border.all(color: Colors.black, width: 2)),
                 ),
-              ));
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'This category \n has no Sleep Meditation items yet !',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.abyssinicaSil(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
         }
 
         return SingleChildScrollView(

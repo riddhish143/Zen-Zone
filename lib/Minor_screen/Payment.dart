@@ -48,144 +48,147 @@ class _PaymentScreenState extends State<PaymentScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Material(
                 child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
             ));
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
-            return Scaffold(
-              appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.black,
-                centerTitle: true,
-                title: Text(
-                  'Payment',
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.abyssinicaSil(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25,
-                      color: Colors.white),
+            return Material(
+              child: Scaffold(
+                appBar: AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.black,
+                  centerTitle: true,
+                  title: Text(
+                    'Payment',
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.abyssinicaSil(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                        color: Colors.white),
+                  ),
                 ),
-              ),
-              backgroundColor: Colors.black,
-              body: SafeArea(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * .25,
-                        width: MediaQuery.of(context).size.width * .98 + 2,
+                backgroundColor: Colors.black,
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * .25,
+                          width: MediaQuery.of(context).size.width * .98 + 2,
+                          decoration: BoxDecoration(
+                            color: Colors.white54,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width * .98 / 2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(0),
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(widget.image)),
+                                ),
+                              ),
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width * .98 / 2,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(0),
+                                  color: Color(0xff9a79f5),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Total ',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.abyssinicaSil(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 22,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          widget.Price + ('₹'),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.abyssinicaSil(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 22,
+                                              color: Colors.black),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * .39,
+                        width: MediaQuery.of(context).size.width * .98,
                         decoration: BoxDecoration(
-                          color: Colors.white54,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Row(
+                        child: Column(
                           children: [
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * .98 / 2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(0),
-                                color: Colors.white,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(widget.image)),
+                            RadioListTile(
+                              activeColor: Colors.black,
+                              value: 1,
+                              groupValue: SelectedValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  SelectedValue = value!;
+                                });
+                              },
+                              title: Text(
+                                'Pay via Debit/Credit Card',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.abyssinicaSil(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.black),
                               ),
-                            ),
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * .98 / 2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(0),
-                                color: Color(0xff9a79f5),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              subtitle: Row(
                                 children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Total ',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.abyssinicaSil(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 22,
-                                            color: Colors.black),
-                                      ),
-                                      Text(
-                                        widget.Price + ('₹'),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.abyssinicaSil(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 22,
-                                            color: Colors.black),
-                                      )
-                                    ],
+                                  Icon(
+                                    Icons.payment,
+                                    color: Colors.black,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.ccMastercard,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  Icon(
+                                    FontAwesomeIcons.ccVisa,
+                                    color: Colors.black,
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * .39,
-                      width: MediaQuery.of(context).size.width * .98,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Column(
-                        children: [
-                          RadioListTile(
-                            activeColor: Colors.black,
-                            value: 1,
-                            groupValue: SelectedValue,
-                            onChanged: (value) {
-                              setState(() {
-                                SelectedValue = value!;
-                              });
-                            },
-                            title: Text(
-                              'Pay via Debit/Credit Card',
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.abyssinicaSil(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: Colors.black),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Icon(
-                                  Icons.payment,
-                                  color: Colors.black,
-                                ),
-                                Icon(
-                                  FontAwesomeIcons.ccMastercard,
-                                  color: Colors.black,
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Icon(
-                                  FontAwesomeIcons.ccVisa,
-                                  color: Colors.black,
-                                ),
-                              ],
-                            ),
-                          ),
-                          RadioListTile(
+                            RadioListTile(
                               activeColor: Colors.black,
                               value: 2,
                               groupValue: SelectedValue,
@@ -209,197 +212,209 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     color: Colors.black,
                                   ),
                                 ],
-                              )),
-                        ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: SlideAction(
-                        borderRadius: 5,
-                        innerColor: Colors.black,
-                        outerColor: Colors.white,
-                        textStyle: TextStyle(fontSize: 18, color: Colors.black),
-                        onSubmit: () {
-                          if (SelectedValue == 1) {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) => SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              1 /
-                                              4.5,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                'Pay via Debit/Credit Card',
-                                                overflow: TextOverflow.ellipsis,
-                                                style:
-                                                    GoogleFonts.abyssinicaSil(
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: SlideAction(
+                          borderRadius: 5,
+                          innerColor: Colors.black,
+                          outerColor: Colors.white,
+                          textStyle:
+                              TextStyle(fontSize: 18, color: Colors.black),
+                          onSubmit: () {
+                            if (SelectedValue == 1) {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                1 /
+                                                4.5,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Pay via Debit/Credit Card',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      GoogleFonts.abyssinicaSil(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Colors.black),
+                                                ),
+                                                Text(
+                                                  widget.Price + ('₹'),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      GoogleFonts.abyssinicaSil(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Colors.black),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                print("Tap");
+                                                for (var item in context
+                                                    .read<Wish>()
+                                                    .getWishItems) {
+                                                  CollectionReference
+                                                      ItemPayment =
+                                                      FirebaseFirestore.instance
+                                                          .collection('Orders');
+                                                  orderId = const Uuid().v4();
+                                                  await ItemPayment.doc(orderId)
+                                                      .set({
+                                                    'cid': data['cid'],
+                                                    'custname': data['name'],
+                                                    'email': data['email'],
+                                                    'address': data['address'],
+                                                    'phone': data['phone'],
+                                                    'profileimage':
+                                                        data['profileimage'],
+                                                    'sid': item.documentId,
+                                                    'orderid': orderId,
+                                                    'ordername': item.name,
+                                                    'orderimage':
+                                                        item.imagesUrl.first,
+                                                    'status': 'Confirmed',
+                                                    'orderdate': DateTime.now(),
+                                                    'paymentstatus':
+                                                        'Via credit card',
+                                                    'orderreview': false,
+                                                  });
+                                                }
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 20),
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Confirm ' +
+                                                        ('₹') +
+                                                        widget.Price,
+                                                    style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        color: Colors.black),
-                                              ),
-                                              Text(
-                                                widget.Price + ('₹'),
-                                                overflow: TextOverflow.ellipsis,
-                                                style:
-                                                    GoogleFonts.abyssinicaSil(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        color: Colors.black),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          InkWell(
-                                            onTap: () async {
-                                              for (var item in context
-                                                  .read<Wish>()
-                                                  .getWishItems) {
-                                                CollectionReference
-                                                    ItemPayment =
-                                                    FirebaseFirestore.instance
-                                                        .collection('Orders');
-                                                orderId = const Uuid().v4();
-                                                await ItemPayment.doc(orderId)
-                                                    .set({
-                                                  'cid': data['cid'],
-                                                  'custname': data['name'],
-                                                  'email': data['email'],
-                                                  'address': data['address'],
-                                                  'phone': data['phone'],
-                                                  'profileimage':
-                                                      data['profileimage'],
-                                                  'sid': item.documentId,
-                                                  'orderid': orderId,
-                                                  'ordername': item.name,
-                                                  'orderimage': item.imagesUrl.first,
-                                                  'status': 'Confirmed',
-                                                  'orderdate': DateTime.now(),
-                                                  'paymentstatus':  'Via credit card',
-                                                  'orderreview': false,
-                                                });
-                                              }
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 20),
-                                              height: 60,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: Center(
-                                                child: Text(
-                                                  'Confirm ' +
-                                                      ('₹') +
-                                                      widget.Price,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 24,
-                                                      color: Colors.white),
+                                                            FontWeight.w400,
+                                                        fontSize: 24,
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ));
-                          } else if (SelectedValue == 2) {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) => SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              1 /
-                                              4.5,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                'Pay via GooglePay/Phone Pe',
-                                                overflow: TextOverflow.ellipsis,
-                                                style:
-                                                    GoogleFonts.abyssinicaSil(
+                                          ],
+                                        ),
+                                      ));
+                            } else if (SelectedValue == 2) {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                1 /
+                                                4.5,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Pay via GooglePay/Phone Pe',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      GoogleFonts.abyssinicaSil(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Colors.black),
+                                                ),
+                                                Text(
+                                                  widget.Price + ('₹'),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style:
+                                                      GoogleFonts.abyssinicaSil(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 18,
+                                                          color: Colors.black),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 20),
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Confirm ' +
+                                                        ('₹') +
+                                                        widget.Price,
+                                                    style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        color: Colors.black),
-                                              ),
-                                              Text(
-                                                widget.Price + ('₹'),
-                                                overflow: TextOverflow.ellipsis,
-                                                style:
-                                                    GoogleFonts.abyssinicaSil(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 22,
-                                                        color: Colors.black),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 20),
-                                              height: 60,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: Center(
-                                                child: Text(
-                                                  'Confirm ' +
-                                                      ('₹') +
-                                                      widget.Price,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 24,
-                                                      color: Colors.white),
+                                                            FontWeight.w400,
+                                                        fontSize: 24,
+                                                        color: Colors.white),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ));
-                          }
-                        },
-                        text: "  Confirm to Pay " + ('₹') + widget.Price,
-                      ),
-                    )
-                  ],
+                                          ],
+                                        ),
+                                      ));
+                            }
+                          },
+                          text: "  Confirm to Pay " + ('₹') + widget.Price,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
