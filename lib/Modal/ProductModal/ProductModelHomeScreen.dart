@@ -1,7 +1,7 @@
 import 'package:final2/ProfileList/Favourites.dart';
 
 // import 'package:final2/Provider/ProductProvider.dart';
-import 'package:final2/Screens/Musicplayer.dart';
+import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +19,14 @@ class ProductModelHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MusicPlayer(
-                      AuthorName: 'XYZ',
-                      titleName: products['proname'],
-                      image: products['proimages'][0],
-                    )));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => MusicPlayer(
+        //               AuthorName: 'XYZ',
+        //               titleName: products['proname'],
+        //               image: products['proimages'][0],
+        //             )));
       },
       child: Padding(
         padding: EdgeInsets.all(0),

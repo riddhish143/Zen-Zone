@@ -7,11 +7,11 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ProductModelBook1 extends StatelessWidget {
   final dynamic products;
+
   const ProductModelBook1({
     super.key,
     required this.products,
   });
-
 
   void bookDes(BuildContext ctx, dynamic product) {
     showModalBottomSheet(
@@ -20,15 +20,14 @@ class ProductModelBook1 extends StatelessWidget {
       builder: (context) {
         return Stack(
           children: [
-            Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.orange[50],
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20))),
-                )),
-             BookDecription(products: product)
+            Container(
+              decoration: BoxDecoration(
+              color: Colors.orange[50],
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(20))),
+            ),
+            BookDecription(products: product)
           ],
         );
       },
@@ -39,30 +38,41 @@ class ProductModelBook1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(0),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Column(children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: GestureDetector(
-                onTap: () {
-                   bookDes(context,products);
-                },
-                child: Stack(children: [
-                  Container(
-                    constraints: BoxConstraints(minHeight: 90, maxHeight: 200),
-                    child: Image(
-                      image: NetworkImage(products['Bookimages'][0]),
-                    ),
+      child: Container(
+        margin: EdgeInsets.all(14),
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.3 , color: Colors.black)],
+          border: Border.all(color: Colors.black, width: 1),
+        ),
+        child: Column(children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: GestureDetector(
+              onTap: () {
+                bookDes(context, products);
+              },
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 1),
                   ),
-                ]),
-              ),
+                  constraints: BoxConstraints(minHeight: 90, maxHeight: 200),
+                  child: Image(
+                    image: NetworkImage(products['Bookimages'][0]),
+                  ),
+                ),
+              ]),
             ),
-            Padding(
-              padding: EdgeInsets.all(8),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 2, top: 10, bottom: 2, right: 2),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  border: Border.all(color: Colors.black, width: 1)),
               child: Column(children: [
                 Align(
                   child: Text(
@@ -92,8 +102,8 @@ class ProductModelBook1 extends StatelessWidget {
                 ),
               ]),
             ),
-          ]),
-        ),
+          ),
+        ]),
       ),
     );
   }

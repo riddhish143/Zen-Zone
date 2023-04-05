@@ -42,6 +42,7 @@ class _PodcastGalleryState extends State<PodcastGallery> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
+                      boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage('images/Blur/NoResult.jpg')),
@@ -54,6 +55,7 @@ class _PodcastGalleryState extends State<PodcastGallery> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,
+                    boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                     border: Border.all(color: Colors.black, width: 2),
                   ),
                   child: Center(

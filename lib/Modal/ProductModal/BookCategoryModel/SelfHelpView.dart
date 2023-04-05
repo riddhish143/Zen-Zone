@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookViewScreen extends StatefulWidget {
-  const BookViewScreen({Key? key}) : super(key: key);
+  const BookViewScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<BookViewScreen> createState() => _SelfHelpViewScreenState();
@@ -19,7 +21,7 @@ class _SelfHelpViewScreenState extends State<BookViewScreen> {
         centerTitle: true,
         backgroundColor: Colors.white,
         leading: InkWell(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           child: Icon(

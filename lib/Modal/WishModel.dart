@@ -17,7 +17,7 @@ class WishlistModel extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(6),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
@@ -26,57 +26,61 @@ class WishlistModel extends StatelessWidget {
           child: Column(children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(5),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: Container(
-                      constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.black, width: 2)),
-                      child: Image(
-                        image: NetworkImage(product.imagesUrl.first),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width/2.5,
+                        constraints: BoxConstraints(minHeight: 100, maxHeight: 200 , maxWidth: 200 , minWidth: 200),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.black, width: 2)),
+                        child: Image(
+                          image: NetworkImage(product.imagesUrl.first),
+                        ),
                       ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 6,
-                          width: MediaQuery.of(context).size.width / 3.5,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 2, color: Colors.black),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Align(
-                                  child: Center(
-                                    child: Text(
-                                      product.name,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.abyssinicaSil(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 6,
+                            width: MediaQuery.of(context).size.width / 3.5,
+                            decoration: BoxDecoration(
+                                border: Border.all(width: 2, color: Colors.black),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Align(
+                                    child: Center(
+                                      child: Text(
+                                        product.name,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.abyssinicaSil(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
+                                    alignment: Alignment.topLeft,
                                   ),
-                                  alignment: Alignment.topLeft,
-                                ),
-                                IconButton(onPressed: (){
-                                  context.read<Wish>().removeItem(product);
-                                }, icon: Icon(Icons.delete))
-                              ]),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                                  IconButton(onPressed: (){
+                                    context.read<Wish>().removeItem(product);
+                                  }, icon: Icon(Icons.delete))
+                                ]),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ]),

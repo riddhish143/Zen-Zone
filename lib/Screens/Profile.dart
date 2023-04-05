@@ -13,7 +13,6 @@ import '../Provider/FavouriteProvider.dart';
 class ProfileScreen extends StatefulWidget {
   final String documentId;
   static const String id = '/Profile_screen';
-
   const ProfileScreen({Key? key, required this.documentId}) : super(key: key);
 
   @override

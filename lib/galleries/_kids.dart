@@ -42,6 +42,7 @@ class _KidsGalleryState extends State<KidsGallery> {
                   height: MediaQuery.of(context).size.height * .37,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
+                      boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
                       image: DecorationImage(
@@ -56,6 +57,7 @@ class _KidsGalleryState extends State<KidsGallery> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,
+                    boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                     border: Border.all(color: Colors.black, width: 2),
                   ),
                   child: Center(

@@ -42,6 +42,7 @@ class _DeepGalleryState extends State<DeepGallery> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
+                      boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage('images/Blur/NoResult.jpg')),
@@ -52,6 +53,7 @@ class _DeepGalleryState extends State<DeepGallery> {
                 padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
                 child: Container(
                   decoration: BoxDecoration(
+                    boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 2),

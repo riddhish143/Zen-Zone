@@ -83,7 +83,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2)),
+                        boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.2 , color: Colors.black)],
+                        border: Border.all(color: Colors.black, width: 1)),
                     child: Column(
                       children: [
                         Padding(
@@ -108,7 +109,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.black, width: 2),
+                              border: Border.all(color: Colors.black, width: 1),
                             ),
                             child: Center(
                               child: Text(
@@ -125,19 +126,19 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 6.5,
-                    child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Container(
-                          height: MediaQuery.of(context).size.height / 20,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.black, width: 2),
-                          ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Container(
+                        height: MediaQuery.of(context).size.height / 11,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.black, width: 1),
+                        ),
+                        child: SingleChildScrollView(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Center(
                                 child: Text(
@@ -145,7 +146,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.abyssinicaSil(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 24,
+                                      fontSize: 18,
                                       color: Colors.black),
                                 ),
                               ),
@@ -155,7 +156,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.abyssinicaSil(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 24,
+                                      fontSize: 18,
                                       color: Colors.black),
                                 ),
                               ),
@@ -165,13 +166,13 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.abyssinicaSil(
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 24,
+                                      fontSize: 18,
                                       color: Colors.black),
                                 ),
                               ),
                             ],
-                          )),
-                    ),
+                          ),
+                        )),
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 10,
@@ -200,15 +201,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                             Color(0xffafc2f9),
                           ]),
                           borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.black, width: 2),
+                          border: Border.all(color: Colors.black, width: 1),
+                          boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.2 , color: Colors.black)],
                         ),
                         child: Center(
                           child: Text(
-                            "Confirm Payment " + ('₹') + widget.Price,
+                            "Unlock Zen-Zone with just " + ('₹') + widget.Price,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.abyssinicaSil(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 24,
+                                fontSize: 20,
                                 color: Colors.black),
                           ),
                         ),

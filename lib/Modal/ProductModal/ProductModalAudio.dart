@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -5,32 +8,72 @@ import '../../PaymentScreens/Payment_1_screen.dart';
 
 class ProductModelAudio extends StatelessWidget {
   final dynamic products;
+  dynamic orderId;
 
-  const ProductModelAudio({
-    super.key,
-    required this.products,
-  });
+  ProductModelAudio({super.key, required this.products, this.orderId});
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PlaceOrder(
-                      products: products,
-                      titleName: products['proname'],
-                      image: products['proimages'][0],
-                      Price: products['price'].toStringAsFixed(2),
-                    )));
+                builder: (ctx) => StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('orders')
+                        .where('cid', isEqualTo: user!.uid)
+                        .where('proid', isEqualTo: products['proid'])
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.black,
+                          ),
+                        );
+                      } else if (snapshot.data!.docs.isEmpty) {
+                        return PlaceOrder(
+                          products: products,
+                          titleName: products['proname'],
+                          image: products['proimages'][0],
+                          Price: products['price'].toStringAsFixed(2),
+
+                        );
+                      } else {
+                          return MusicPlayer(
+                              titleName: products['proname'],
+                              image: products['proimages'][0],
+                              AuthorName: 'riddhish',
+                              product: products,
+                               price: products['price'].toStringAsFixed(2),
+
+                          );
+                      }
+                    })));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => PlaceOrder(
+        //             products: products,
+        //             titleName: products['proname'],
+        //             image: products['proimages'][0],
+        //             Price: products['price'].toStringAsFixed(2))));
       },
+
+      //--------------------------------------------
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Container(
           decoration: BoxDecoration(
-              boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.3 , color: Color(0xffcceac8))],
-              border: Border.all(color: Colors.black, width: 2),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(2, 2),
+                    spreadRadius: 0.3,
+                    color: Colors.black)
+              ],
+              border: Border.all(color: Colors.black, width: 1),
               color: Colors.white,
               borderRadius: BorderRadius.circular(7)),
           child: Column(children: [
@@ -52,7 +95,7 @@ class ProductModelAudio extends StatelessWidget {
                 Container(
                   height: MediaQuery.of(context).size.height / 28,
                   decoration: BoxDecoration(
-                      border: Border.all(width: 2, color: Colors.black),
+                      border: Border.all(width: 1, color: Colors.black),
                       borderRadius: BorderRadius.circular(5)),
                   child: Center(
                     child: Text(

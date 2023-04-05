@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'Explore.dart';
 import 'Home.dart';
+import 'Profile1.dart';
+import 'Upload/Test.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({Key? key}) : super(key: key);
@@ -19,8 +21,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     HomeScreen(documentId: FirebaseAuth.instance.currentUser!.uid,),
     SupplierExplore(),
     LibraryScreen(),
-    ProfileScreen(documentId: FirebaseAuth.instance.currentUser!.uid),
+    // Profile1Screen(documentId: FirebaseAuth.instance.currentUser!.uid),
+    Test(documentId: FirebaseAuth.instance.currentUser!.uid),
   ];
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

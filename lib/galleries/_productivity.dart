@@ -41,6 +41,7 @@ class _ProductivityGalleryState extends State<ProductivityGallery> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
+                      boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                       color: Colors.white,
                       image: DecorationImage(
                           fit: BoxFit.cover,
@@ -53,6 +54,7 @@ class _ProductivityGalleryState extends State<ProductivityGallery> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
+                    boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 2),
                   ),

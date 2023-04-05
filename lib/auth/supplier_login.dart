@@ -3,6 +3,7 @@ import 'package:final2/Minor_screen/ForgetEmail.dart';
 import 'package:final2/auth/supplier_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SupplierloginScreen extends StatefulWidget {
@@ -116,25 +117,17 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
               Column(
                 children: [
                   Column(children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Center(
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 010),
                       child: Container(
-                        child: Text('Login ',
-                            style: GoogleFonts.abyssinicaSil(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 28,
-                                color: Colors.black)),
+                        height: MediaQuery.of(context).size.height / 3,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.black, width: 2),
+                            image: DecorationImage(
+                                image: AssetImage('images/Blur/Login.jpg'))),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Icon(
-                      Icons.account_circle_sharp,
-                      size: 200,
-                    ),
+                    )
                   ]),
                   Form(
                     key: _formkey,
@@ -171,17 +164,17 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                     TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(color: Colors.grey)),
+                                    borderSide:
+                                    BorderSide(color: Colors.black , width: 2)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black , width: 2)),
                                 prefixIcon: Icon(Icons.email_outlined,
                                     color: Colors.black),
                                 suffixIconColor: Colors.grey),
                           ),
                         ),
-                        SizedBox(height: 10),
                         SizedBox(height: 10),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -205,11 +198,12 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                     TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(color: Colors.grey)),
+                                    borderSide:
+                                    BorderSide(color: Colors.black , width: 2)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide:
-                                        BorderSide(color: Colors.black)),
+                                    BorderSide(color: Colors.black , width: 2)),
                                 prefixIcon: Icon(Icons.fingerprint_sharp,
                                     color: Colors.black),
                                 suffixIcon: GestureDetector(
@@ -330,9 +324,6 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                                                           .mobile_friendly_sharp,
                                                       size: 50),
                                                   SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  SizedBox(
                                                     width: 10,
                                                   ),
                                                   Column(
@@ -381,34 +372,73 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                             )
                           ],
                         ),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(horizontal: 20),
+                        //   child: ElevatedButton(
+                        //     style: ButtonStyle(
+                        //       backgroundColor:
+                        //           MaterialStateProperty.all(Colors.black),
+                        //       shadowColor:
+                        //           MaterialStateProperty.all(Colors.white),
+                        //     ),
+                        //     onPressed: () {
+                        //       logIn();
+                        //     },
+                        //     child: Container(
+                        //       //margin: EdgeInsets.symmetric(horizontal: 20),
+                        //       height: 60,
+                        //       width: MediaQuery.of(context).size.width,
+                        //       child: Center(
+                        //         child: processing == true
+                        //             ? const CircularProgressIndicator(
+                        //                 color: Colors.white,
+                        //               )
+                        //             : Text(
+                        //                 'Login',
+                        //                 style: TextStyle(
+                        //                     fontWeight: FontWeight.w400,
+                        //                     fontSize: 24,
+                        //                     color: Colors.white),
+                        //               ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                              shadowColor:
-                                  MaterialStateProperty.all(Colors.white),
+                              MaterialStateProperty.all(Colors.white),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  side:
+                                  BorderSide(color: Colors.black, width: 2),
+                                ),
+                              ),
                             ),
                             onPressed: () {
                               logIn();
                             },
                             child: Container(
                               //margin: EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(),
                               height: 60,
                               width: MediaQuery.of(context).size.width,
                               child: Center(
                                 child: processing == true
                                     ? const CircularProgressIndicator(
-                                        color: Colors.white,
-                                      )
+                                  color: Colors.black,
+                                )
                                     : Text(
-                                        'Login',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 24,
-                                            color: Colors.white),
-                                      ),
+                                  'Login',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 24,
+                                      color: Colors.black),
+                                ),
                               ),
                             ),
                           ),
@@ -433,73 +463,79 @@ class _SupplierloginScreenState extends State<SupplierloginScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        color: Colors.black,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 63,
-                          child: OutlinedButton.icon(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(200)))),
-                            icon: Image(
-                              image: AssetImage(
-                                  'images/loginandsignup/Google_logo.png'),
-                              width: 30,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 15,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xffb2d5dd),
+                                Color(0xffb7dfce),
+                                Color(0xffafc2f9),
+                              ]),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.black, width: 2),
                             ),
-                            onPressed: () {},
-                            label: Text(
-                              'Sign-In with Google',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(FontAwesomeIcons.google),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Sign-In With Google",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.abyssinicaSil(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            )),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        color: Colors.black,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 63,
-                          child: OutlinedButton.icon(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(200)))),
-                            icon: Image(
-                              image: AssetImage(
-                                  'images/loginandsignup/iphone.png'),
-                              width: 30,
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: Container(
+                            height: MediaQuery.of(context).size.height / 15,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xffb2d5dd),
+                                Color(0xffb7dfce),
+                                Color(0xffafc2f9),
+                              ]),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.black, width: 2),
                             ),
-                            onPressed: () {},
-                            label: Text(
-                              'Sign-In with Apple-Id',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(FontAwesomeIcons.apple, size: 30),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Center(
+                                  child: Text(
+                                    "Sign-In With Apple-Id",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.abyssinicaSil(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            )),
                       ),
                     ],
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 10,
-                      ),
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(

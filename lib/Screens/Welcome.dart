@@ -1,5 +1,5 @@
-import 'package:final2/Screens/LoginScreen.dart';
-import 'package:final2/Screens/sign_up_page.dart';
+import 'package:final2/auth/LoginScreen.dart';
+import 'package:final2/auth/sign_up_page.dart';
 import 'package:final2/auth/supplier_login.dart';
 import 'package:final2/auth/supplier_signup.dart';
 import 'package:flutter/material.dart';

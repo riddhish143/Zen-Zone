@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final2/Modal/ProductModal/BookCategoryModel/ProductModalBook1HomeView.dart';
-import 'package:final2/Modal/ProductModal/ProductModelHomeScreen.dart';
+import 'package:final2/Modal/ProductModal/ProductModalAudio.dart';
 import 'package:final2/Widgets/Carousal.dart';
 import 'package:final2/Widgets/Drawer.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import '../Modal/ProductModal/ProductModalBook1.dart';
 
 class HomeScreen extends StatefulWidget {
   final String documentId;
@@ -24,10 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
       FirebaseFirestore.instance.collection('customer');
   CollectionReference anonymous =
       FirebaseFirestore.instance.collection('anonymous');
-
   final Stream<QuerySnapshot> _productStream =
       FirebaseFirestore.instance.collection('products').snapshots();
-
   Widget build(BuildContext context) {
     Future<void> _handleRefresh () async{
       await Future.delayed(Duration(milliseconds: 500));
@@ -48,14 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
             Map<String, dynamic> data =
                 snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
+              backgroundColor: Colors.white,
               drawer: NavDrawer(
                   email: data['email'],
                   Name: data['name'],
                   Image: data['profileimage']),
-              backgroundColor: Colors.white,
               appBar: AppBar(
                 iconTheme: IconThemeData(color: Colors.black),
                 elevation: 0,
+                backgroundColor: Colors.white,
                 title: Text(
                   'FeelBetter',
                   style: GoogleFonts.abyssinicaSil(
@@ -63,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                       fontSize: 24),
                 ),
-                backgroundColor: Colors.white,
                 actions: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15),
@@ -75,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: MediaQuery.of(context).size.height*0.1,
                         width:  MediaQuery.of(context).size.height*0.1 ,
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 1.5),
+                            border: Border.all(color: Colors.black, width: 1),
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: NetworkImage(data['profileimage'])
@@ -140,10 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
                                 itemBuilder: (context, index) {
-                                  return ProductModelHomeScreen(
+                                  return ProductModelAudio(
                                     products: snapshot.data!.docs[index],
                                   );
                                 },
@@ -178,6 +174,7 @@ class ProfileHeaderLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * .95,
+      height: MediaQuery.of(context).size.height /28,
       child: SizedBox(
         height: 40,
         child: Row(
@@ -212,9 +209,7 @@ class _BooksHomeViewState extends State<BooksHomeView> {
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _productStream =
         FirebaseFirestore.instance.collection('Book_detail').snapshots();
-
     return SingleChildScrollView(
-        padding: EdgeInsets.all(10),
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
@@ -255,11 +250,9 @@ class _BooksHomeViewState extends State<BooksHomeView> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisCount: 2,
                       itemBuilder: (context, index) {
-                        return ProductModelBook1HomeView(
+                        return ProductModelBook1(
                           products: snapshot.data!.docs[index],
                         );
                       },

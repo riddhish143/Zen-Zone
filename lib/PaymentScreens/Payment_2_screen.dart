@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final2/Screens/Musicplayer.dart';
+import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:uuid/uuid.dart';
+
+import '../Modal/ProductModal/ProductModalAudio.dart';
 
 class PaymentViewScreen extends StatefulWidget {
   final String titleName;
@@ -37,6 +39,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
 
   int SelectedValue = 1;
   late String orderId;
+  late String SubscribeId;
   CollectionReference customers =
       FirebaseFirestore.instance.collection('customer');
   bool processing = false;
@@ -273,7 +276,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                           borderRadius:
                                               BorderRadius.circular(5),
                                           border: Border.all(
-                                              color: Colors.black, width: 2),
+                                              color: Colors.black, width: 1),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -320,7 +323,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               //supplier Information
                                               'sid': widget.products['sid'],
                                               //product Information
-                                              orderId: orderId,
+                                              "orderId": orderId,
                                               'orderImage': widget
                                                   .products['proimages'][0],
                                               'orderPrice':
@@ -329,28 +332,26 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                                   "Pay via Debit/Credit Card",
                                               'date': DateTime.now(),
                                               'OrderReview': false,
-                                              'OrderName' : widget.products['proname']
+                                              'proid': widget.products['proid'],
+                                              'OrderName':
+                                                  widget.products['proname'],
+                                              'orderStatus': true
                                             }).whenComplete(() {
                                               setState(() {
                                                 processing = false;
+                                                MusicPlayer(
+                                                  titleName: widget.products['proname'],
+                                                  image:  widget.products['proimages'][0],
+                                                  AuthorName: 'riddhish',
+                                                  product:  widget.products,
+                                                  price:  widget.products['price'].toStringAsFixed(2),
+
+                                                );
                                               });
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MusicPlayer(
-                                                          titleName:
-                                                              widget.titleName,
-                                                          image: widget.image,
-                                                          AuthorName:
-                                                              "Riddhish"),
-                                                ),
-                                              );
                                             });
                                           } catch (e) {
                                             print(e);
-                                          }
-                                          ;
+                                          };
                                         },
                                         child: Container(
                                           height: MediaQuery.of(context)

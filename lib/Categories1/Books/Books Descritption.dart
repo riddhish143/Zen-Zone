@@ -119,7 +119,11 @@ class _BookDecriptionState extends State<BookDecription> {
                             width: MediaQuery.of(context).size.width * 0.7,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black , width: 2),
-                                color: Color(0xffaccfb5),
+                                gradient: LinearGradient(colors: [
+                                  Color(0xffb2d5dd),
+                                  Color(0xffb7dfce),
+                                  Color(0xffafc2f9),
+                                ]),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
                               "Buy Now",

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -42,6 +43,7 @@ class _FocusGalleryState extends State<FocusGallery> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white,
+                      boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage('images/Blur/NoResult.jpg')),
@@ -53,6 +55,7 @@ class _FocusGalleryState extends State<FocusGallery> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
+                    boxShadow: [BoxShadow(offset: Offset(1,1), spreadRadius: 0.3 , color: Colors.black)],
                     color: Colors.white,
                     border: Border.all(color: Colors.black, width: 2),
                   ),
@@ -80,6 +83,7 @@ class _FocusGalleryState extends State<FocusGallery> {
               itemCount: snapshot.data!.docs.length,
               crossAxisCount: 2,
               itemBuilder: (context, index) {
+                var data  = snapshot.data!.docs[index];
                 return ProductModel(products: snapshot.data!.docs[index],);
               },
               staggeredTileBuilder: (context) => const StaggeredTile.fit(1)),
@@ -88,4 +92,3 @@ class _FocusGalleryState extends State<FocusGallery> {
     );
   }
 }
-
