@@ -139,7 +139,7 @@ class _PaymentViewScreenPdfState extends State<PaymentViewScreenPdf> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.abyssinicaSil(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 24,
+                                              fontSize: 15,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -155,7 +155,7 @@ class _PaymentViewScreenPdfState extends State<PaymentViewScreenPdf> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.abyssinicaSil(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 24,
+                                              fontSize: 15,
                                               color: Colors.black),
                                         ),
                                       ),

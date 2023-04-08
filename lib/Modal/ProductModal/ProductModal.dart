@@ -247,10 +247,26 @@ class _ProductModelState extends State<ProductModel> {
                                                   color: Colors.black,
                                                 ),
                                         ),
-                                        Icon(
-                                          Icons.lock,
-                                          color: Colors.grey.shade800,
-                                        )
+                                        StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('orders')
+                                                .where('cid',
+                                                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                                                .where('proid', isEqualTo: widget.products['proid'])
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return SizedBox();
+                                              } else if (snapshot.data!.docs.isEmpty) {
+                                                return Icon(
+                                                  Icons.lock,
+                                                  color: Colors.grey.shade800,
+                                                );
+                                              } else {
+                                                return SizedBox();
+                                              }
+                                            }),
+
                                       ],
                                     )
                             ],

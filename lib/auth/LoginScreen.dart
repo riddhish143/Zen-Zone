@@ -164,6 +164,7 @@ class _loginScreenState extends State<loginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        reverse: true,
         child: SafeArea(
           child: Center(
             child: Stack(children: [
@@ -507,7 +508,7 @@ class _loginScreenState extends State<loginScreen> {
                         height: 10,
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
                         child: InkWell(
                           onTap: () {
                             signInWithGoogle();
@@ -585,9 +586,6 @@ class _loginScreenState extends State<loginScreen> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacementNamed(

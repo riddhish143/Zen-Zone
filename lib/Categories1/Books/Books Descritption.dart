@@ -130,62 +130,98 @@ class _BookDecriptionState extends State<BookDecription> {
                                   Color(0xffafc2f9),
                                 ]),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Text(
-                              "Buy Now",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Ubuntu",
-                                  fontSize: 16),
-                            ),
+                            // child: Text(
+                            //   "Open Now",
+                            //   style: TextStyle(
+                            //       color: Colors.black,
+                            //       fontFamily: "Ubuntu",
+                            //       fontSize: 16),
+                            // ),
+                            child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('orders')
+                                    .where('cid',
+                                    isEqualTo: FirebaseAuth
+                                        .instance.currentUser!.uid)
+                                    .where('proid',
+                                    isEqualTo:
+                                    widget.products['Bookid'])
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.black,
+                                      ),
+                                    );
+                                  } else if (snapshot
+                                      .data!.docs.isEmpty || !snapshot.hasData) {
+                                    return Text(
+                                          "Buy Now",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: "Ubuntu",
+                                              fontSize: 16));
+                                  } else {
+                                    return Text(
+                                        "Open Now",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: "Ubuntu",
+                                            fontSize: 16));
+                                  }
+                                })
                           ),
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (ctx) => StreamBuilder(
-                            //             stream: FirebaseFirestore.instance
-                            //                 .collection('ordersbook')
-                            //                 .where('cid',
-                            //                     isEqualTo: FirebaseAuth
-                            //                         .instance.currentUser!.uid)
-                            //                 .where('proid',
-                            //                     isEqualTo:
-                            //                         widget.products['proid'])
-                            //                 .snapshots(),
-                            //             builder: (context, snapshot) {
-                            //               if (snapshot.connectionState ==
-                            //                   ConnectionState.waiting) {
-                            //                 return Center(
-                            //                   child: CircularProgressIndicator(
-                            //                     color: Colors.black,
-                            //                   ),
-                            //                 );
-                            //               } else if (snapshot
-                            //                   .data!.docs.isEmpty) {
-                            //                 return PaymentViewScreenPdf(
-                            //                   titleName:
-                            //                       widget.products['Bookname'],
-                            //                   image: widget
-                            //                       .products['Bookimages'][0],
-                            //                   Price: widget
-                            //                       .products['Bookprice']
-                            //                       .toString(),
-                            //                   products: widget.products,
-                            //                 );
-                            //               } else {
-                            //                 return View(
-                            //                     url: widget.products['BookUrl']);
-                            //               }
-                            //             })));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PaymentViewScreenPdf(
-                                        titleName: widget.products['Bookname'],
-                                        image: widget.products['Bookimages'][0],
-                                        Price: widget.products['Bookprice'].toString(),
-                                        products: widget.products,
-                                    )));
+                                    builder: (ctx) => StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .where('cid',
+                                                isEqualTo: FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                            .where('proid',
+                                                isEqualTo:
+                                                    widget.products['Bookid'])
+                                            .snapshots(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: Colors.black,
+                                              ),
+                                            );
+                                          } else if (snapshot
+                                              .data!.docs.isEmpty || !snapshot.hasData) {
+                                            return PaymentViewScreenPdf(
+                                              titleName:
+                                                  widget.products['Bookname'],
+                                              image: widget
+                                                  .products['Bookimages'][0],
+                                              Price: widget
+                                                  .products['Bookprice']
+                                                  .toString(),
+                                              products: widget.products,
+                                            );
+                                          } else {
+                                            return View(
+                                              products: widget.products,
+                                                url: widget.products['BookUrl']);
+                                          }
+                                        })));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => PaymentViewScreenPdf(
+                            //             titleName: widget.products['Bookname'],
+                            //             image: widget.products['Bookimages'][0],
+                            //             Price: widget.products['Bookprice'].toString(),
+                            //             products: widget.products,
+                            //         )));
                           },
                         )
                       ],

@@ -383,7 +383,7 @@ class _BooksState extends State<Books> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  bookDes(context, books[index]);
+                                  bookDes(context, snapshot.data!.docs[index]);
                                 },
                                 child: Card(
                                   elevation: 0,
