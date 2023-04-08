@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:final2/Minor_screen/searchtest.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../Minor_screen/SearchScreen.dart';
@@ -23,7 +24,7 @@ class fakesearch extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const SearchScreen()));
+            MaterialPageRoute(builder: (context) => SearchPage()));
       },
       child: Container(
         height: 45,

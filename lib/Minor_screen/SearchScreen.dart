@@ -39,18 +39,24 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: searchInput == ""
           ? Center(
-              child: AnimatedTextKit(
-                isRepeatingAnimation: true,
-                animatedTexts: [
-                  TypewriterAnimatedText(
-                    'Search For Meditation ...',
-                    textStyle: GoogleFonts.abyssinicaSil(
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black)
+                ),
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: true,
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Search For Meditation ...',
+                      textStyle: GoogleFonts.abyssinicaSil(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      speed: const Duration(milliseconds: 200),
                     ),
-                    speed: const Duration(milliseconds: 200),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           : StreamBuilder<QuerySnapshot>(

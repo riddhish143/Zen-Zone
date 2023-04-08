@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NavDrawer extends StatefulWidget {
   final String Name;
@@ -71,13 +72,10 @@ class _NavDrawerState extends State<NavDrawer> {
           Divider(),
           ListTile(
             leading: Icon(Icons.share_rounded),
-            title: Text('Share'),
-            onTap: () => null,
-          ),
-          ListTile(
-            leading: Icon(Icons.people_alt_outlined),
-            title: Text('Friends'),
-            onTap: () => null,
+            title: Text('Share With Friends'),
+            onTap: () {
+              Share.share('com.example.final2');
+            },
           ),
           Divider(),
           ListTile(

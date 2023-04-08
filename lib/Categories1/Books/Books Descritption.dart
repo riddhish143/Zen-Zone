@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Modal/ProductModal/BookCategoryModel/ProductModalBook1HomeView.dart';
+import 'package:final2/PaymentScreens/Payment_Screen_pdf.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BookDecription extends StatefulWidget {
@@ -44,9 +48,8 @@ class _BookDecriptionState extends State<BookDecription> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black , width: 1.5),
-                  borderRadius: BorderRadius.circular(5)
-                ),
+                    border: Border.all(color: Colors.black, width: 1.5),
+                    borderRadius: BorderRadius.circular(5)),
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width * 0.80,
                 child: SingleChildScrollView(
@@ -67,58 +70,60 @@ class _BookDecriptionState extends State<BookDecription> {
                 height: MediaQuery.of(context).size.height * .004,
               ),
               Container(
-                  padding: EdgeInsets.all(13),
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  margin: EdgeInsets.all(25),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.black , width: 1.5),
-                    color: Colors.white,
-                  ),
-                  child: LayoutBuilder(
-                    builder: (ctx, constraints) {
-                      return Column(
-                        children: [
-                          SizedBox(height: 18),
-                          Container(
-                            height: constraints.maxHeight * 0.450,
-                            child: ListTile(
-                              leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.network(
-                                    widget.products['Bookimages'][0],
-                                    fit: BoxFit.cover,
-                                  )),
-                              title: Text(
-                                widget.products['Bookname'],
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                "By " + widget.products['BookAuthor'],
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              trailing: Container(
-                                padding: EdgeInsets.all(5),
-                                // color: Colors.redAccent.shade100,
-                                child: Text(
-                                  "₹ ${widget.products['Bookprice']}/-",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.deepPurple),
-                                ),
+                padding: EdgeInsets.all(13),
+                height: MediaQuery.of(context).size.height * 0.2,
+                margin: EdgeInsets.all(25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Colors.black, width: 1.5),
+                  color: Colors.white,
+                ),
+                child: LayoutBuilder(
+                  builder: (ctx, constraints) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 18),
+                        Container(
+                          height: constraints.maxHeight * 0.450,
+                          child: ListTile(
+                            leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.network(
+                                  widget.products['Bookimages'][0],
+                                  fit: BoxFit.cover,
+                                )),
+                            title: Text(
+                              widget.products['Bookname'],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              "By " + widget.products['BookAuthor'],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Container(
+                              padding: EdgeInsets.all(5),
+                              // color: Colors.redAccent.shade100,
+                              child: Text(
+                                "₹ ${widget.products['Bookprice']}/-",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepPurple),
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.05,
-                          ),
-                          Container(
+                        ),
+                        SizedBox(
+                          height: constraints.maxHeight * 0.05,
+                        ),
+                        GestureDetector(
+                          child: Container(
                             height: constraints.maxHeight * 0.3,
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width * 0.7,
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black , width: 2),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
                                 gradient: LinearGradient(colors: [
                                   Color(0xffb2d5dd),
                                   Color(0xffb7dfce),
@@ -132,11 +137,62 @@ class _BookDecriptionState extends State<BookDecription> {
                                   fontFamily: "Ubuntu",
                                   fontSize: 16),
                             ),
-                          )
-                        ],
-                      );
-                    },
-                  ))
+                          ),
+                          onTap: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (ctx) => StreamBuilder(
+                            //             stream: FirebaseFirestore.instance
+                            //                 .collection('ordersbook')
+                            //                 .where('cid',
+                            //                     isEqualTo: FirebaseAuth
+                            //                         .instance.currentUser!.uid)
+                            //                 .where('proid',
+                            //                     isEqualTo:
+                            //                         widget.products['proid'])
+                            //                 .snapshots(),
+                            //             builder: (context, snapshot) {
+                            //               if (snapshot.connectionState ==
+                            //                   ConnectionState.waiting) {
+                            //                 return Center(
+                            //                   child: CircularProgressIndicator(
+                            //                     color: Colors.black,
+                            //                   ),
+                            //                 );
+                            //               } else if (snapshot
+                            //                   .data!.docs.isEmpty) {
+                            //                 return PaymentViewScreenPdf(
+                            //                   titleName:
+                            //                       widget.products['Bookname'],
+                            //                   image: widget
+                            //                       .products['Bookimages'][0],
+                            //                   Price: widget
+                            //                       .products['Bookprice']
+                            //                       .toString(),
+                            //                   products: widget.products,
+                            //                 );
+                            //               } else {
+                            //                 return View(
+                            //                     url: widget.products['BookUrl']);
+                            //               }
+                            //             })));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentViewScreenPdf(
+                                        titleName: widget.products['Bookname'],
+                                        image: widget.products['Bookimages'][0],
+                                        Price: widget.products['Bookprice'].toString(),
+                                        products: widget.products,
+                                    )));
+                          },
+                        )
+                      ],
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),

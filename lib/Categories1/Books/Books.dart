@@ -129,10 +129,10 @@ class _BooksState extends State<Books> {
                       margin: EdgeInsets.all(20),
                       height: (avlHeight) * 0.25,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 2),
+                          border: Border.all(color: Colors.black, width: 1),
                           boxShadow: [
                             BoxShadow(
-                                offset: Offset(2, 2),
+                                offset: Offset(1.5, 1.5),
                                 spreadRadius: 0.3,
                                 color: Colors.black)
                           ],
@@ -145,7 +145,8 @@ class _BooksState extends State<Books> {
                             children: [
                               SizedBox(),
                               Text(
-                                " Find a best\nbook for you",
+                                textAlign: TextAlign.center,
+                                "Find a best\nbook to Meditate",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -157,13 +158,7 @@ class _BooksState extends State<Books> {
                                 margin: EdgeInsets.fromLTRB(15, 15, 15, 5),
                                 decoration: BoxDecoration(
                                   border:
-                                      Border.all(color: Colors.black, width: 2),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        offset: Offset(1, 1),
-                                        spreadRadius: 0.3,
-                                        color: Colors.black)
-                                  ],
+                                      Border.all(color: Colors.black, width: 1),
                                   borderRadius: BorderRadius.circular(5),
                                   color: Colors.deepOrange[200],
                                 ),
@@ -199,10 +194,10 @@ class _BooksState extends State<Books> {
                     child: Container(
                       height: avlHeight * 0.2,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 2),
+                          border: Border.all(color: Colors.black, width: 1),
                           boxShadow: [
                             BoxShadow(
-                                offset: Offset(2, 2),
+                                offset: Offset(1.5, 1.5),
                                 spreadRadius: 0.3,
                                 color: Colors.black)
                           ],
@@ -232,7 +227,7 @@ class _BooksState extends State<Books> {
                                               0.08,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 2),
+                                              color: Colors.black, width: 1),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
@@ -268,7 +263,7 @@ class _BooksState extends State<Books> {
                                               0.08,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 2),
+                                              color: Colors.black, width: 1),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
@@ -287,7 +282,7 @@ class _BooksState extends State<Books> {
                                   ),
                                   Text(
                                     "Yoga",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: Colors.black , fontSize: 17),
                                   )
                                 ],
                               ),
@@ -303,7 +298,7 @@ class _BooksState extends State<Books> {
                                               0.08,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 2),
+                                              color: Colors.black, width: 1),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
@@ -322,7 +317,7 @@ class _BooksState extends State<Books> {
                                   ),
                                   Text(
                                     "Health",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: Colors.black , fontSize: 17),
                                   )
                                 ],
                               ),
@@ -338,7 +333,7 @@ class _BooksState extends State<Books> {
                                               0.08,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Colors.black, width: 2),
+                                              color: Colors.black, width: 1),
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: NetworkImage(
@@ -357,7 +352,7 @@ class _BooksState extends State<Books> {
                                   ),
                                   Text(
                                     "Great\nPersonalities",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: Colors.black,  fontSize: 14),
                                   )
                                 ],
                               ),

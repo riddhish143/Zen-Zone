@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import '../../Modal/ProductModal/ProductModal.dart';
+import '../Edit/EditSupplierInfoAudio.dart';
 
 class VisitorAudioScreen extends StatefulWidget {
   final String suppId;
@@ -48,8 +49,7 @@ class _VisitorAudioScreenState extends State<VisitorAudioScreen> {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-          snapshot.data!.data() as Map<String, dynamic>;
+          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             appBar: AppBar(
               toolbarHeight: 100,
@@ -93,7 +93,9 @@ class _VisitorAudioScreenState extends State<VisitorAudioScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditAudio(data: data,)));
+                            },
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceAround,

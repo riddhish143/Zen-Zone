@@ -36,75 +36,77 @@ class ProductModelBook1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: Container(
-        margin: EdgeInsets.all(14),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: Colors.white,
+    return Container(
+      margin: EdgeInsets.all(12),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(5),
+        boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.3 , color: Colors.black)],
+        border: Border.all(color: Colors.black, width: 1),
+      ),
+      child: Column(children: [
+        ClipRRect(
           borderRadius: BorderRadius.circular(5),
-          boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.3 , color: Colors.black)],
-          border: Border.all(color: Colors.black, width: 1),
-        ),
-        child: Column(children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: GestureDetector(
-              onTap: () {
-                bookDes(context, products);
-              },
-              child: Stack(children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1),
-                  ),
-                  constraints: BoxConstraints(minHeight: 90, maxHeight: 200),
-                  child: Image(
-                    image: NetworkImage(products['Bookimages'][0]),
-                  ),
+          child: GestureDetector(
+            onTap: () {
+              bookDes(context, products);
+            },
+            child: Stack(children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 1),
                 ),
-              ]),
-            ),
+                constraints: BoxConstraints(minHeight: 90, maxHeight: 200),
+                child: Image(
+                  image: NetworkImage(products['Bookimages'][0]),
+                ),
+              ),
+            ]),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 2, top: 10, bottom: 2, right: 2),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 2, top: 10, bottom: 2, right: 2),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width/2.2,
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(2),
                   border: Border.all(color: Colors.black, width: 1)),
-              child: Column(children: [
-                Align(
-                  child: Text(
-                    products['Bookname'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.abyssinicaSil(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Align(
+                    child: Text(
+                      products['Bookname'],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.abyssinicaSil(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+                    alignment: Alignment.topLeft,
                   ),
-                  alignment: Alignment.topLeft,
-                ),
-                Align(
-                  child: Text(
-                    'Author: ' + products['BookAuthor'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.abyssinicaSil(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+                  Align(
+                    child: Text(
+                      'Author: ' + products['BookAuthor'],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.abyssinicaSil(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
+                    alignment: Alignment.topLeft,
                   ),
-                  alignment: Alignment.topLeft,
-                ),
-              ]),
+                ]),
+              ),
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }

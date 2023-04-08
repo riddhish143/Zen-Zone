@@ -7,27 +7,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 import 'package:uuid/uuid.dart';
 
-import '../Modal/ProductModal/ProductModalAudio.dart';
-
-class PaymentViewScreen extends StatefulWidget {
+class PaymentViewScreenPdf extends StatefulWidget {
   final String titleName;
   final String image;
   final String Price;
   final dynamic products;
 
-  const PaymentViewScreen(
+  const PaymentViewScreenPdf(
       {Key? key,
-      required this.titleName,
-      required this.image,
-      required this.Price,
-      this.products})
+        required this.titleName,
+        required this.image,
+        required this.Price,
+        this.products})
       : super(key: key);
 
   @override
-  State<PaymentViewScreen> createState() => _PaymentViewScreenState();
+  State<PaymentViewScreenPdf> createState() => _PaymentViewScreenPdfState();
 }
 
-class _PaymentViewScreenState extends State<PaymentViewScreen> {
+class _PaymentViewScreenPdfState extends State<PaymentViewScreenPdf> {
   void showProgress() {
     ProgressDialog progress = ProgressDialog(context: context);
     progress.show(
@@ -41,7 +39,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
   late String orderId;
   late String SubscribeId;
   CollectionReference customers =
-      FirebaseFirestore.instance.collection('customer');
+  FirebaseFirestore.instance.collection('customer');
   bool processing = false;
 
   @override
@@ -69,7 +67,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+            snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
@@ -128,11 +126,11 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   border:
-                                      Border.all(color: Colors.black, width: 2),
+                                  Border.all(color: Colors.black, width: 2),
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       child: Center(
@@ -146,11 +144,11 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                         ),
                                       ),
                                       width:
-                                          MediaQuery.of(context).size.width / 3,
+                                      MediaQuery.of(context).size.width / 3,
                                     ),
                                     Container(
                                       width:
-                                          MediaQuery.of(context).size.width / 3,
+                                      MediaQuery.of(context).size.width / 3,
                                       child: Center(
                                         child: Text(
                                           'Total:' + (' ₹') + widget.Price,
@@ -259,28 +257,28 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                               context: context,
                               builder: (context) => SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height / 5.5,
+                                MediaQuery.of(context).size.height / 5.5,
                                 child: Padding(
                                   padding: EdgeInsets.all(20),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       Container(
                                         height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
+                                        MediaQuery.of(context).size.height /
+                                            20,
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(5),
+                                          BorderRadius.circular(5),
                                           border: Border.all(
                                               color: Colors.black, width: 1),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'Pay via Debit/Credit Card',
@@ -307,8 +305,8 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                             processing = true;
                                           });
                                           CollectionReference orderRef =
-                                              FirebaseFirestore.instance
-                                                  .collection('orders');
+                                          FirebaseFirestore.instance
+                                              .collection('orders');
                                           orderId = Uuid().v4();
 
                                           try {
@@ -325,31 +323,20 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               //product Information
                                               "orderId": orderId,
                                               'orderImage': widget
-                                                  .products['proimages'][0],
+                                                  .products['Bookimages'][0],
                                               'orderPrice':
-                                                  widget.products['price'],
+                                              widget.products['Bookprice'],
                                               'delivery':
-                                                  "Pay via Debit/Credit Card",
+                                              "Pay via Debit/Credit Card",
                                               'date': DateTime.now(),
                                               'OrderReview': false,
-                                              'proid': widget.products['proid'],
+                                              'proid': widget.products['Bookid'],
                                               'OrderName':
-                                                  widget.products['proname'],
+                                              widget.products['Bookname'],
                                               'orderStatus': true
                                             }).whenComplete(() {
                                               setState(() {
                                                 processing = false;
-                                                MusicPlayer(
-                                                  titleName: widget
-                                                      .products['proname'],
-                                                  image: widget
-                                                      .products['proimages'][0],
-                                                  AuthorName: 'riddhish',
-                                                  product: widget.products,
-                                                  price: widget
-                                                      .products['price']
-                                                      .toStringAsFixed(2),
-                                                );
                                               });
                                             });
                                           } catch (e) {
@@ -359,11 +346,11 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                         },
                                         child: Container(
                                           height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
+                                              .size
+                                              .height /
                                               20,
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
                                               Color(0xffb2d5dd),
@@ -371,30 +358,30 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               Color(0xffafc2f9),
                                             ]),
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                            BorderRadius.circular(5),
                                             border: Border.all(
                                                 color: Colors.black, width: 2),
                                           ),
                                           child: processing == true
                                               ? CircularProgressIndicator(
-                                                  color: Colors.black,
-                                                )
+                                            color: Colors.black,
+                                          )
                                               : Center(
-                                                  child: Text(
-                                                    "To Pay  " +
-                                                        ('₹') +
-                                                        widget.Price,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: GoogleFonts
-                                                        .abyssinicaSil(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 24,
-                                                            color:
-                                                                Colors.black),
-                                                  ),
-                                                ),
+                                            child: Text(
+                                              "To Pay  " +
+                                                  ('₹') +
+                                                  widget.Price,
+                                              overflow:
+                                              TextOverflow.ellipsis,
+                                              style: GoogleFonts
+                                                  .abyssinicaSil(
+                                                  fontWeight:
+                                                  FontWeight.w500,
+                                                  fontSize: 24,
+                                                  color:
+                                                  Colors.black),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -407,28 +394,28 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                               context: context,
                               builder: (context) => SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height / 5.5,
+                                MediaQuery.of(context).size.height / 5.5,
                                 child: Padding(
                                   padding: EdgeInsets.all(20),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       Container(
                                         height:
-                                            MediaQuery.of(context).size.height /
-                                                20,
+                                        MediaQuery.of(context).size.height /
+                                            20,
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(5),
+                                          BorderRadius.circular(5),
                                           border: Border.all(
                                               color: Colors.black, width: 2),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'Pay via GooglePay/PhonePe',
@@ -455,8 +442,8 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                             processing = true;
                                           });
                                           CollectionReference orderRef =
-                                              FirebaseFirestore.instance
-                                                  .collection('orders');
+                                          FirebaseFirestore.instance
+                                              .collection('orders');
                                           orderId = Uuid().v4();
 
                                           try {
@@ -475,29 +462,18 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               'orderImage': widget
                                                   .products['proimages'][0],
                                               'orderPrice':
-                                                  widget.products['price'],
+                                              widget.products['price'],
                                               'delivery':
-                                                  "Pay via GooglePay/PhonePe Card",
+                                              "Pay via GooglePay/PhonePe Card",
                                               'date': DateTime.now(),
                                               'OrderReview': false,
                                               'proid': widget.products['proid'],
                                               'OrderName':
-                                                  widget.products['proname'],
+                                              widget.products['proname'],
                                               'orderStatus': true
                                             }).whenComplete(() {
                                               setState(() {
                                                 processing = false;
-                                                MusicPlayer(
-                                                  titleName: widget
-                                                      .products['proname'],
-                                                  image: widget
-                                                      .products['proimages'][0],
-                                                  AuthorName: 'riddhish',
-                                                  product: widget.products,
-                                                  price: widget
-                                                      .products['price']
-                                                      .toStringAsFixed(2),
-                                                );
                                               });
                                             });
                                           } catch (e) {
@@ -507,11 +483,11 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                         },
                                         child: Container(
                                           height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
+                                              .size
+                                              .height /
                                               20,
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery.of(context).size.width,
                                           decoration: BoxDecoration(
                                             gradient: LinearGradient(colors: [
                                               Color(0xffb2d5dd),
@@ -519,30 +495,30 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               Color(0xffafc2f9),
                                             ]),
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                            BorderRadius.circular(5),
                                             border: Border.all(
                                                 color: Colors.black, width: 2),
                                           ),
                                           child: processing == true
                                               ? CircularProgressIndicator(
-                                                  color: Colors.black,
-                                                )
+                                            color: Colors.black,
+                                          )
                                               : Center(
-                                                  child: Text(
-                                                    "To Pay  " +
-                                                        ('₹') +
-                                                        widget.Price,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: GoogleFonts
-                                                        .abyssinicaSil(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 24,
-                                                            color:
-                                                                Colors.black),
-                                                  ),
-                                                ),
+                                            child: Text(
+                                              "To Pay  " +
+                                                  ('₹') +
+                                                  widget.Price,
+                                              overflow:
+                                              TextOverflow.ellipsis,
+                                              style: GoogleFonts
+                                                  .abyssinicaSil(
+                                                  fontWeight:
+                                                  FontWeight.w500,
+                                                  fontSize: 24,
+                                                  color:
+                                                  Colors.black),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],

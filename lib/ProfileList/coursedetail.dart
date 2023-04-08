@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -12,6 +14,9 @@ class CustomerCourses extends StatefulWidget {
 }
 
 class _CustomerCoursesState extends State<CustomerCourses> {
+  late double rate;
+  late String comment;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +111,7 @@ class _CustomerCoursesState extends State<CustomerCourses> {
                         borderRadius: BorderRadius.circular(5),
                         boxShadow: [
                           BoxShadow(
-                              offset: Offset(3, 3),
+                              offset: Offset(1.5, 1.5),
                               spreadRadius: 0.2,
                               color: Colors.black)
                         ],
@@ -180,7 +185,7 @@ class _CustomerCoursesState extends State<CustomerCourses> {
                       ),
                       children: [
                         Container(
-                          height: 140,
+                          height: 175,
                           child: SingleChildScrollView(
                             physics: BouncingScrollPhysics(),
                             child: Column(
@@ -193,7 +198,232 @@ class _CustomerCoursesState extends State<CustomerCourses> {
                                         .format(order['date'].toDate())
                                         .toString()),
                                 NewWidget(
-                                    title: 'Payment Method', content: order['delivery'])
+                                    title: 'Payment Method',
+                                    content: order['delivery']),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .88,
+                                  height:
+                                      MediaQuery.of(context).size.height * .04,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xffaec2fa),
+                                      Color(0xffb6e6c5),
+                                    ]),
+                                    border: Border.all(
+                                        color: Colors.black, width: 1),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                      child: order['orderStatus'] == true &&
+                                              order['OrderReview'] == false
+                                          ? InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (context) => Material(
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        .88,
+                                                                    height: MediaQuery.of(context)
+                                                                            .size
+                                                                            .height *
+                                                                        .06,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      gradient:
+                                                                          LinearGradient(
+                                                                              colors: [
+                                                                            Color(0xffaec2fa),
+                                                                            Color(0xffb6e6c5),
+                                                                          ]),
+                                                                      border: Border.all(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          width:
+                                                                              1),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              5),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child: RatingBar.builder(
+                                                                          itemBuilder: (context, _) {
+                                                                            return Icon(
+                                                                              Icons.star,
+                                                                              color: Colors.green,
+                                                                            );
+                                                                          },
+                                                                          initialRating: 1,
+                                                                          minRating: 1,
+                                                                          allowHalfRating: true,
+                                                                          onRatingUpdate: (value) {
+                                                                            rate =
+                                                                                value;
+                                                                          }),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        left:
+                                                                            23,
+                                                                        right:
+                                                                            23,
+                                                                        top:
+                                                                            10),
+                                                                    child:
+                                                                        TextFormField(
+                                                                      onChanged:
+                                                                          (value) {
+                                                                        comment =
+                                                                            value;
+                                                                      },
+                                                                      decoration: InputDecoration(
+                                                                          hintText:
+                                                                              'Enter Feedback',
+                                                                          labelText:
+                                                                              'Feedback',
+                                                                          focusColor: Colors
+                                                                              .black,
+                                                                          enabled:
+                                                                              true,
+                                                                          floatingLabelStyle: TextStyle(
+                                                                              color: Colors
+                                                                                  .black),
+                                                                          border: OutlineInputBorder(
+                                                                              borderRadius: BorderRadius.circular(5),
+                                                                              borderSide: BorderSide(color: Colors.black, width: 2)),
+                                                                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(5), borderSide: BorderSide(color: Colors.black, width: 2)),
+                                                                          prefixIcon: Icon(Icons.feedback, color: Colors.black),
+                                                                          suffixIconColor: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            24,
+                                                                            10,
+                                                                            14,
+                                                                            10),
+                                                                        child: Container(
+                                                                            height: MediaQuery.of(context).size.height / 17,
+                                                                            width: MediaQuery.of(context).size.width / 2.5,
+                                                                            decoration: BoxDecoration(
+                                                                              gradient: LinearGradient(colors: [
+                                                                                Color(0xffb2d5dd),
+                                                                                Color(0xffb7dfce),
+                                                                                Color(0xffafc2f9),
+                                                                              ]),
+                                                                              borderRadius: BorderRadius.circular(5),
+                                                                              border: Border.all(color: Colors.black, width: 2),
+                                                                            ),
+                                                                            child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Center(
+                                                                                  child: Text(
+                                                                                    "Cancel",
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    style: GoogleFonts.abyssinicaSil(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            )),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsets.fromLTRB(
+                                                                            24,
+                                                                            10,
+                                                                            24,
+                                                                            10),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          child: Container(
+                                                                              height: MediaQuery.of(context).size.height / 17,
+                                                                              width: MediaQuery.of(context).size.width / 2.5,
+                                                                              decoration: BoxDecoration(
+                                                                                gradient: LinearGradient(colors: [
+                                                                                  Color(0xffb2d5dd),
+                                                                                  Color(0xffb7dfce),
+                                                                                  Color(0xffafc2f9),
+                                                                                ]),
+                                                                                borderRadius: BorderRadius.circular(5),
+                                                                                border: Border.all(color: Colors.black, width: 2),
+                                                                              ),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Center(
+                                                                                    child: Text(
+                                                                                      "Submit",
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: GoogleFonts.abyssinicaSil(fontWeight: FontWeight.w500, fontSize: 24, color: Colors.black),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              )),
+                                                                          onTap:
+                                                                              () async {
+                                                                            CollectionReference
+                                                                                collRef =
+                                                                                FirebaseFirestore.instance.collection('products').doc(order['proid']).collection('reviews');
+                                                                            await collRef.doc(FirebaseAuth.instance.currentUser!.uid).set({
+                                                                              'name': order['custname'],
+                                                                              'email': order['email'],
+                                                                              'rate': rate,
+                                                                              'comment': comment,
+                                                                              'profileimage': order['profile']
+                                                                            }).whenComplete(() async {
+                                                                              await FirebaseFirestore.instance.runTransaction((transaction) async {
+                                                                                DocumentReference documentReference = FirebaseFirestore.instance.collection('orders').doc(order['orderId']);
+                                                                                await transaction.update(documentReference, {
+                                                                                  'OrderReview': true
+                                                                                });
+                                                                              });
+                                                                            });
+                                                                            await Future.delayed(const Duration(microseconds: 100)).whenComplete(() =>
+                                                                                Navigator.pop(context));
+                                                                          },
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              color:
+                                                                  Colors.white,
+                                                            ));
+                                              },
+                                              child: Text(
+                                                "Write Feedback",
+                                                overflow: TextOverflow.fade,
+                                                style:
+                                                    GoogleFonts.abyssinicaSil(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 15,
+                                                        color: Colors.black),
+                                              ),
+                                            )
+                                          : Text(
+                                              'Feedback Successfully submitted')),
+                                ),
                               ],
                             ),
                           ),

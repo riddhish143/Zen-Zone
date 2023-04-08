@@ -132,6 +132,7 @@
 import 'package:final2/Screens/Upload/UploadPdf1.dart';
 import 'package:final2/Screens/Upload/Upload_pdf.dart';
 import 'package:final2/Screens/Upload/Upload_product.dart';
+import 'package:final2/Screens/Upload/Upload_video.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -216,7 +217,9 @@ class _UploadState extends State<Upload> {
             ButtonWidget(
               text: 'Upload Video detail',
               icon: Icons.video_library_outlined,
-              onClicked: () {},
+              onClicked: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> UploadVideoScreen()));
+              },
             ),
           ],
         ),

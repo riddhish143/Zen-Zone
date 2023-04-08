@@ -4,16 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+
+class Search extends StatefulWidget {
+  const Search({Key? key}) : super(key: key);
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<Search> createState() => _SearchState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchState extends State<Search> {
   String searchInput = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,11 +54,14 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       )
           : StreamBuilder<QuerySnapshot>(
-        stream:
-        FirebaseFirestore.instance.collection('products').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collectionGroup('products')
+            .where('proname', isGreaterThanOrEqualTo: searchInput.toLowerCase())
+            .where('proname', isLessThan: searchInput.toLowerCase() + 'z')
+            .snapshots(),
         builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+            AsyncSnapshot<QuerySnapshot> productSnapshot) {
+          if (productSnapshot.connectionState == ConnectionState.waiting) {
             return Material(
               child: Center(
                 child: CircularProgressIndicator(
@@ -67,10 +70,41 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             );
           }
-          final result = snapshot.data!.docs.where(
-                  (e) => e['proname'.toLowerCase()].contains(searchInput.toLowerCase()));
-          return ListView(
-            children: result.map((e) => SearchModel(e: e)).toList(),
+
+          return StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collectionGroup('Book_detail')
+                .where('Bookname', isGreaterThanOrEqualTo: searchInput.toLowerCase())
+                .where('Bookname', isLessThan: searchInput.toLowerCase() + 'z')
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> bookSnapshot) {
+              if (bookSnapshot.connectionState == ConnectionState.waiting) {
+                return Material(
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  ),
+                );
+              }
+
+              final productResult =
+              productSnapshot.data!.docs.where((e) => e['proname']
+                  .toLowerCase()
+                  .contains(searchInput.toLowerCase()));
+              final bookResult =
+              bookSnapshot.data!.docs.where((e) => e['title']
+                  .toLowerCase()
+                  .contains(searchInput.toLowerCase()));
+
+              final combinedResult = [productResult, bookResult];
+
+              return ListView(
+                children:
+                productResult.map<Widget>((e) => SearchModel(e: e)).toList(),
+              );
+            },
           );
         },
       ),

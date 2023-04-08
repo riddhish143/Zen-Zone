@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../Provider/FavouriteProvider.dart';
 import 'musicmodel.dart';
 
@@ -33,6 +35,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  late String tap;
 
   List<Mp3> audio = [
     Mp3(
@@ -161,7 +164,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
             color: Colors.red,
           ) : Icon(
             Icons.favorite_outline_outlined,
-            color: Colors.red,
+            color: Colors.black,
           ),
         ),
       ],
@@ -284,7 +287,15 @@ class _MusicPlayerState extends State<MusicPlayer> {
                                   Icons.play_arrow,
                                   size: 30,
                                 ),
-                          onPressed: () {
+                          onPressed: () async {
+                            CollectionReference orderRef =
+                            FirebaseFirestore.instance
+                                .collection('Heatmaps');
+                            tap = Uuid().v4();
+                            await orderRef.doc(tap).set({
+                              'tap' : true,
+                              'time' : DateTime.now()
+                            });
                             isPlaying
                                 ? audioPlayer.pause()
                                 : audioPlayer.play(widget.product['AudioUrl']);

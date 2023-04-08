@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/ProfileList/Favourites.dart';
 import 'package:final2/ProfileList/coursedetail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -136,7 +138,7 @@ class _TestState extends State<Test> {
                             left: 10, right: 10, bottom: 10, top: 10),
                         child: Container(
                           width: MediaQuery.of(context).size.width * .9,
-                          height: MediaQuery.of(context).size.width * .61,
+                          height: MediaQuery.of(context).size.height * .30,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(color: Colors.black, width: 1),
@@ -186,11 +188,13 @@ class _TestState extends State<Test> {
                                           ),
                                         ),
                                         Container(
+                                          height:
+                                          MediaQuery.of(context).size.height * .05,
                                           child: Text(
                                             'Make Your Meditation Skill Grow Fast 20% off on each Card',
                                             style: GoogleFonts.abyssinicaSil(
                                                 fontWeight: FontWeight.normal,
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 color: Colors.grey.shade700),
                                           ),
                                         ),
@@ -302,10 +306,85 @@ class _TestState extends State<Test> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 11, bottom: 0, top: 15),
+                  child: GestureDetector(
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder:
+                              (BuildContext context) =>
+                              CupertinoAlertDialog(
+                                title: new Text(
+                                    "Logging Out"),
+                                content: new Text(
+                                    "Are you sure you want to log out?"),
+                                actions: <Widget>[
+                                  CupertinoDialogAction(
+                                      isDefaultAction:
+                                      true,
+                                      child: Text(
+                                          'Yes'),
+                                      onPressed:
+                                          () async {
+                                        await FirebaseAuth
+                                            .instance
+                                            .signOut();
+                                        Navigator.pop(
+                                            context);
+                                        Navigator.pushReplacementNamed(
+                                            context,
+                                            '/Welcome_screen');
+                                      }),
+                                  CupertinoDialogAction(
+                                    child:
+                                    Text('No'),
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context);
+                                    },
+                                  )
+                                ],
+                              ));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .9,
+                      height: MediaQuery.of(context).size.height * .0659,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        gradient: LinearGradient(colors: [
+                          Color(0xffaec2fa),
+                          Color(0xffb6e6c5),
+                        ]),
+                        border: Border.all(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 10 , right: 10),
+                              child: Icon(Icons.logout, color: Colors.black, size: 20,)),
+                          VerticalDivider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                          Text(
+                            'Log Out',
+                            overflow: TextOverflow.fade,
+                            style: GoogleFonts.abyssinicaSil(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
                     ]),
               ),
             );

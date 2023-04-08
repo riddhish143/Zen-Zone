@@ -1,12 +1,13 @@
 import 'dart:ui';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Screens/CustomerHomeScreen.dart';
 import 'package:final2/auth/sign_up_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import '../Minor_screen/ForgetEmail.dart';
 
 class loginScreen extends StatefulWidget {
@@ -18,6 +19,55 @@ class loginScreen extends StatefulWidget {
 }
 
 class _loginScreenState extends State<loginScreen> {
+  CollectionReference customer =
+      FirebaseFirestore.instance.collection('customer');
+
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var doc = await customer.doc(docId).get();
+      return doc.exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool docExists = false;
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .whenComplete(() async {
+      User user = FirebaseAuth.instance.currentUser!;
+      print(googleUser!.id);
+      print(FirebaseAuth.instance.currentUser!.uid);
+      print(googleUser);
+      print(user);
+
+      docExists = await checkIfDocExists(user.uid);
+
+      docExists == false
+          ? await customer.doc(user.uid).set({
+              'name': user.displayName,
+              'email': user.email,
+              'profileimage': user.photoURL,
+              'phone': '',
+              'address': '',
+              'cid': user.uid
+            }).then((value) => Navigator.pushNamed(context, '/Customer_screen'))
+          : Navigator.pushNamed(context, '/Customer_screen');
+    });
+  }
+
   late String email;
   late String password;
   bool processing = false;
@@ -182,11 +232,12 @@ class _loginScreenState extends State<loginScreen> {
                                     TextStyle(color: Colors.black),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide: BorderSide(color: Colors.black , width: 2)),
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 2)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide:
-                                        BorderSide(color: Colors.black , width: 2)),
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 2)),
                                 prefixIcon: Icon(Icons.email_outlined,
                                     color: Colors.black),
                                 suffixIconColor: Colors.black),
@@ -219,8 +270,8 @@ class _loginScreenState extends State<loginScreen> {
                                         color: Colors.black, width: 2)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide:
-                                        BorderSide(color: Colors.black , width: 2)),
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 2)),
                                 prefixIcon: Icon(Icons.fingerprint_sharp,
                                     color: Colors.black),
                                 suffixIcon: GestureDetector(
@@ -457,37 +508,43 @@ class _loginScreenState extends State<loginScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                            height: MediaQuery.of(context).size.height / 15,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Color(0xffb2d5dd),
-                                Color(0xffb7dfce),
-                                Color(0xffafc2f9),
-                              ]),
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.black, width: 2),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(FontAwesomeIcons.google),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Center(
-                                  child: Text(
-                                    "Sign-In With Google",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.abyssinicaSil(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 24,
-                                        color: Colors.black),
+                        child: InkWell(
+                          onTap: () {
+                            signInWithGoogle();
+                          },
+                          child: Container(
+                              height: MediaQuery.of(context).size.height / 15,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: [
+                                  Color(0xffb2d5dd),
+                                  Color(0xffb7dfce),
+                                  Color(0xffafc2f9),
+                                ]),
+                                borderRadius: BorderRadius.circular(5),
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(FontAwesomeIcons.google),
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                              ],
-                            )),
+                                  Center(
+                                    child: Text(
+                                      "Sign-In With Google",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.abyssinicaSil(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),

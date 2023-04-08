@@ -76,43 +76,46 @@ class ProductModelAudio extends StatelessWidget {
               border: Border.all(color: Colors.black, width: 1),
               color: Colors.white,
               borderRadius: BorderRadius.circular(7)),
-          child: Column(children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                  constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
-                  child: Image(
-                    image: NetworkImage(products['proimages'][0]),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: Column(children: [
-                Container(
-                  height: MediaQuery.of(context).size.height / 28,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Center(
-                    child: Text(
-                      products['proname'],
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.abyssinicaSil(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
+                    child: Image(
+                      image: NetworkImage(products['proimages'][0]),
                     ),
                   ),
                 ),
-              ]),
-            ),
-          ]),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
+                child: Column(children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 28,
+                    width: MediaQuery.of(context).size.width/2.2,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.black),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: Text(
+                        products['proname'],
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.abyssinicaSil(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            ]),
+          ),
         ),
       ),
     );
