@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
@@ -102,7 +103,8 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
-                          border: Border.all(color: Colors.black, width: 2)),
+                          boxShadow: [BoxShadow(offset: Offset(2,2), spreadRadius: 0.2 , color: Colors.black)],
+                          border: Border.all(color: Colors.black, width: 1)),
                       child: Column(
                         children: [
                           Padding(
@@ -117,7 +119,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                       fit: BoxFit.cover,
                                       image: NetworkImage(widget.image)),
                                   border: Border.all(
-                                      color: Colors.black, width: 2)),
+                                      color: Colors.black, width: 1)),
                             ),
                           ),
                           Padding(
@@ -128,7 +130,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   border:
-                                      Border.all(color: Colors.black, width: 2),
+                                      Border.all(color: Colors.black, width: 1),
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
@@ -141,7 +143,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.abyssinicaSil(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 24,
+                                              fontSize: 20,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -157,7 +159,7 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                           overflow: TextOverflow.ellipsis,
                                           style: GoogleFonts.abyssinicaSil(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 24,
+                                              fontSize: 20,
                                               color: Colors.black),
                                         ),
                                       ),
@@ -310,7 +312,6 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                               FirebaseFirestore.instance
                                                   .collection('orders');
                                           orderId = Uuid().v4();
-
                                           try {
                                             await orderRef.doc(orderId).set({
                                               //customer Information
@@ -590,3 +591,4 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
         });
   }
 }
+

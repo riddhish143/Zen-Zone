@@ -1,5 +1,7 @@
 // import 'package:final2/Provider/ProductProvider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Categories1/Books/Books%20Descritption.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +64,33 @@ class ProductModelBook1 extends StatelessWidget {
                   image: NetworkImage(products['Bookimages'][0]),
                 ),
               ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('orders')
+                      .where('cid',
+                      isEqualTo: FirebaseAuth
+                          .instance.currentUser!.uid)
+                      .where('proid',
+                      isEqualTo:
+                      products['Bookid'])
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      );
+                    } else if (snapshot
+                        .data!.docs.isEmpty || !snapshot.hasData) {
+                      return Padding(
+                        padding: EdgeInsets.all(5),
+                          child: Icon(Icons.lock , color: Colors.black,));
+                    } else {
+                      return SizedBox();
+                    }
+                  })
             ]),
           ),
         ),

@@ -49,6 +49,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   dynamic _pickImageError;
   UploadTask? task;
   late String url;
+  late String Yurl;
 
   void _pickProductImages() async {
     try {
@@ -71,7 +72,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
-        allowedExtensions: ['mp3'],
+        allowedExtensions: ['mp4'],
         type: FileType.custom);
     if (result == null) return;
     final path = result.files.single.path!;
@@ -81,17 +82,17 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   Future uploadFile() async {
     if (file == null) return;
     final fileName = path.basename(file!.path);
-    final destination = 'Audio/$fileName';
+    final destination = 'video/$fileName';
     task = FirebaseApi.uploadFile(destination, file!);
     if (task == null) return;
     final snapshot = await task!.whenComplete(() {});
     String Url = await snapshot.ref.getDownloadURL();
   }
 
-  Future uploadAudio() async {
+  Future uploadVideo() async {
     if (file == null) return;
     final fileName = path.basename(file!.path);
-    final destination = 'Audio/$fileName';
+    final destination = 'video/$fileName';
     var pdfFile = FirebaseStorage.instance.ref(destination);
     firebase_storage.UploadTask task = pdfFile.putFile(file!);
     TaskSnapshot snapshot = await task;
@@ -114,22 +115,22 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   }
 
   Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-    stream: task.snapshotEvents,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        final snap = snapshot.data!;
-        final progress = snap.bytesTransferred / snap.totalBytes;
-        final percentage = (progress * 100).toStringAsFixed(2);
+        stream: task.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final snap = snapshot.data!;
+            final progress = snap.bytesTransferred / snap.totalBytes;
+            final percentage = (progress * 100).toStringAsFixed(2);
 
-        return Text(
-          '$percentage %',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        );
-      } else {
-        return Container();
-      }
-    },
-  );
+            return Text(
+              '$percentage %',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
 
   Future<void> uploadImages() async {
     if (_formKey.currentState!.validate()) {
@@ -142,7 +143,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
           for (var image in _imageFileList!) {
             firebase_storage.Reference ref = firebase_storage
                 .FirebaseStorage.instance
-                .ref('product/${path.basename(image.path)}');
+                .ref('Video_details/${path.basename(image.path)}');
             await ref.putFile(File(image.path)).whenComplete(() async {
               await ref.getDownloadURL().then((value) {
                 _imageUrlList.add(value);
@@ -185,7 +186,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   void uploadData() async {
     if (_imageUrlList.isNotEmpty) {
       CollectionReference productRef =
-      FirebaseFirestore.instance.collection('products');
+          FirebaseFirestore.instance.collection('Video_detail');
       prodId = const Uuid().v4();
       await productRef.doc(prodId).set({
         'Vid': prodId,
@@ -195,7 +196,8 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
         'sid': FirebaseAuth.instance.currentUser!.uid,
         'Thumbnail': _imageUrlList,
         'discount': 0,
-        'VdieoUrl': url,
+        // 'VdieoUrl': url,
+        'Yurl': Yurl,
       }).whenComplete(() {
         setState(() {
           processing = false;
@@ -209,8 +211,14 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
     }
   }
 
+  // void uploadProduct() async {
+  //   await uploadVideo().then((value) => uploadImages()).whenComplete(() {
+  //     uploadData();
+  //   });
+  // }
+
   void uploadProduct() async {
-    await uploadAudio().then((value) => uploadImages()).whenComplete(() {
+    await uploadImages().whenComplete(() {
       uploadData();
     });
   }
@@ -218,7 +226,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
   @override
   Widget build(BuildContext context) {
     var filename =
-    file != null ? path.basename(file!.path) : 'No Audio Selected';
+        file != null ? path.basename(file!.path) : 'No Audio Selected';
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -241,73 +249,74 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                 SizedBox(
                   height: 2,
                 ),
-                  Stack(children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 20 , right: 20 , top: 20 , bottom: 10),
-                      child: Container(
-                        color: Colors.grey,
-                        height: MediaQuery.of(context).size.width * 0.5,
-                        width: MediaQuery.of(context).size.width,
-                        child: _imageFileList != null
-                            ? previewImages()
-                            : const Center(
-                          child: Text(
-                              'you have not \n\n picked images yet !',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16)),
-                        ),
-                      ),
+                Stack(children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 20, right: 20, top: 20, bottom: 10),
+                    child: Container(
+                      color: Colors.grey,
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      width: MediaQuery.of(context).size.width,
+                      child: _imageFileList != null
+                          ? previewImages()
+                          : const Center(
+                              child: Text(
+                                  'you have not \n\n picked images yet !',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 16)),
+                            ),
                     ),
-                    _imageFileList!.isEmpty
-                        ? const SizedBox()
-                        : IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _imageFileList = [];
-                          });
-                        },
-                        icon: Icon(
-                          Icons.delete_forever_outlined,
-                          color: Colors.black,
-                        )),
-                  ]),
-                  // Container(
-                  //   height: MediaQuery.of(context).size.width * 0.5,
-                  //   width: MediaQuery.of(context).size.width * 0.5,
-                  //   padding: EdgeInsets.only(
-                  //       top: MediaQuery.of(context).size.width * 0.20),
-                  //   child: Column(
-                  //     children: [
-                  //       const Text("Select Category"),
-                  //       DropdownButton(
-                  //           iconSize: 40,
-                  //           borderRadius: BorderRadius.circular(5),
-                  //           enableFeedback: true,
-                  //           elevation: 0,
-                  //           focusColor: Colors.black,
-                  //           dropdownColor: Colors.grey,
-                  //           menuMaxHeight: 500,
-                  //           icon: Icon(
-                  //             Icons.arrow_drop_down_circle_outlined,
-                  //             size: 30,
-                  //           ),
-                  //           disabledHint: const Text('select category'),
-                  //           value: mainCategValue,
-                  //           items: mainCateg
-                  //               .map<DropdownMenuItem<String>>((value) {
-                  //             return DropdownMenuItem(
-                  //               child: Text(value),
-                  //               value: value,
-                  //             );
-                  //           }).toList(),
-                  //           onChanged: (value) {
-                  //             setState(() {
-                  //               mainCategValue = value!;
-                  //             });
-                  //           })
-                  //     ],
-                  //   ),
-                  // )
+                  ),
+                  _imageFileList!.isEmpty
+                      ? const SizedBox()
+                      : IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _imageFileList = [];
+                            });
+                          },
+                          icon: Icon(
+                            Icons.delete_forever_outlined,
+                            color: Colors.black,
+                          )),
+                ]),
+                // Container(
+                //   height: MediaQuery.of(context).size.width * 0.5,
+                //   width: MediaQuery.of(context).size.width * 0.5,
+                //   padding: EdgeInsets.only(
+                //       top: MediaQuery.of(context).size.width * 0.20),
+                //   child: Column(
+                //     children: [
+                //       const Text("Select Category"),
+                //       DropdownButton(
+                //           iconSize: 40,
+                //           borderRadius: BorderRadius.circular(5),
+                //           enableFeedback: true,
+                //           elevation: 0,
+                //           focusColor: Colors.black,
+                //           dropdownColor: Colors.grey,
+                //           menuMaxHeight: 500,
+                //           icon: Icon(
+                //             Icons.arrow_drop_down_circle_outlined,
+                //             size: 30,
+                //           ),
+                //           disabledHint: const Text('select category'),
+                //           value: mainCategValue,
+                //           items: mainCateg
+                //               .map<DropdownMenuItem<String>>((value) {
+                //             return DropdownMenuItem(
+                //               child: Text(value),
+                //               value: value,
+                //             );
+                //           }).toList(),
+                //           onChanged: (value) {
+                //             setState(() {
+                //               mainCategValue = value!;
+                //             });
+                //           })
+                //     ],
+                //   ),
+                // )
                 SizedBox(
                   height: 20,
                   child: Divider(
@@ -316,7 +325,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20 , vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -330,7 +339,7 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                       price = double.parse(value!);
                     },
                     keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                        const TextInputType.numberWithOptions(decimal: true),
                     decoration: textFormDecoration.copyWith(
                         hintText: 'Enter a price for a video product',
                         labelText: 'Price',
@@ -368,11 +377,34 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
+                        return "Please Enter Product Yurl";
+                      }
+                      return null;
+                    },
+                    maxLength: 500,
+                    maxLines: 2,
+                    onSaved: (value) {
+                      Yurl = value!;
+                    },
+                    decoration: textFormDecoration.copyWith(
+                        hintText: 'Product Url',
+                        labelText: 'Product Url',
+                        prefixIcon: Icon(
+                          Icons.add_box,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
                         return "Please Enter Product Description";
                       }
                       return null;
                     },
-                    maxLength: 800,
+                    maxLength: 2000,
                     maxLines: 5,
                     onSaved: (value) {
                       proDesc = value!;
@@ -386,29 +418,29 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
                         )),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ButtonWidget(
-                          text: 'Select Audio',
-                          icon: Icons.attach_file,
-                          onClicked: selectFile,
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          filename,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(height: 15),
-                        task != null ? buildUploadStatus(task!) : Container(),
-                      ],
-                    ),
-                  ),
-                ),
+                // Container(
+                //   padding: EdgeInsets.all(20),
+                //   child: Center(
+                //     child: Column(
+                //       mainAxisAlignment: MainAxisAlignment.start,
+                //       children: [
+                //         ButtonWidget(
+                //           text: 'Select Video',
+                //           icon: Icons.attach_file,
+                //           onClicked: selectFile,
+                //         ),
+                //         SizedBox(height: 8),
+                //         Text(
+                //           filename,
+                //           style: TextStyle(
+                //               fontSize: 16, fontWeight: FontWeight.w500),
+                //         ),
+                //         SizedBox(height: 15),
+                //         task != null ? buildUploadStatus(task!) : Container(),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -420,19 +452,19 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
           _imageFileList!.isEmpty
               ? SizedBox()
               : Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: FloatingActionButton(
-              mouseCursor: MaterialStateMouseCursor.clickable,
-              onPressed: () {
-                _pickProductImages();
-              },
-              backgroundColor: Colors.black,
-              child: const Icon(
-                Icons.delete_forever,
-                color: Colors.white,
-              ),
-            ),
-          ),
+                  padding: EdgeInsets.only(right: 10),
+                  child: FloatingActionButton(
+                    mouseCursor: MaterialStateMouseCursor.clickable,
+                    onPressed: () {
+                      _pickProductImages();
+                    },
+                    backgroundColor: Colors.black,
+                    child: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: FloatingActionButton(
@@ -451,17 +483,17 @@ class _UploadVideoScreenState extends State<UploadVideoScreen> {
             onPressed: processing == true
                 ? null
                 : () {
-              uploadProduct();
-            },
+                    uploadProduct();
+                  },
             backgroundColor: Colors.black,
             child: processing == true
                 ? CircularProgressIndicator(
-              color: Colors.white,
-            )
+                    color: Colors.white,
+                  )
                 : const Icon(
-              Icons.upload,
-              color: Colors.white,
-            ),
+                    Icons.upload,
+                    color: Colors.white,
+                  ),
           ),
         ],
       ),

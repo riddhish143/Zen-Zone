@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:final2/Minor_screen/ChangePassword.dart';
 import 'package:final2/Screens/Explore.dart';
 import 'package:final2/Screens/Home.dart';
+import 'package:final2/Stripe/Stripe_id.dart';
 import 'package:final2/auth/LoginScreen.dart';
 import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:final2/Screens/Profile.dart';
@@ -18,6 +19,7 @@ import 'package:final2/auth/supplier_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'Minor_screen/ForgetEmail.dart';
 import 'Provider/FavouriteProvider.dart';
@@ -30,6 +32,12 @@ import 'Screens/Upload/Test.dart';
 import 'Screens/Upload/UploadPdf1.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Stripe.publishableKey = stripePublishKey;
+  // Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  // Stripe.urlScheme = 'flutterstripe';
+  // await Stripe.instance.applySettings();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations(

@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Modal/ProductModal/ProductModalAudio.dart';
 import 'package:final2/Widgets/Carousal.dart';
@@ -19,6 +22,64 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<String> dailyMeditationTips = [
+    "Start your day with 5 minutes of deep breathing.",
+    "Find a quiet place to meditate.",
+    "Sit comfortably with your back straight.",
+    "Focus on your breath and observe your thoughts.",
+    "Let go of any distractions and bring your attention back to your breath.",
+    "Use a guided meditation app or recording.",
+    "Experiment with different types of meditation techniques.",
+    "Try to meditate at the same time every day.",
+    "Set an intention for your meditation practice.",
+    "Begin with shorter meditation sessions and gradually increase the time.",
+    "Use a mantra or phrase to repeat to yourself during meditation.",
+    "Don't judge yourself or your thoughts during meditation.",
+    "Allow yourself to be present in the moment.",
+    "Take a break during the day to meditate.",
+    "Focus on your breath while walking or exercising.",
+    "Try to find stillness in your mind.",
+    "Remember that meditation is a practice, not a performance.",
+    "Be patient with yourself and your progress.",
+    "Take time to reflect on your meditation practice.",
+    "Celebrate small victories in your meditation journey.",
+    "Let go of expectations and just be.",
+    "Focus on gratitude and positivity during meditation.",
+    "Use meditation to manage stress and anxiety.",
+    "Connect with a community of meditators.",
+    "Visualize a peaceful and calming place during meditation.",
+    "Incorporate mindfulness into your daily routine.",
+    "Practice self-compassion and self-love.",
+    "Take a few deep breaths before responding to stressful situations.",
+    "Focus on your breath while waiting in line or in traffic.",
+    "Use a meditation cushion or bench for support.",
+    "Listen to calming music or sounds during meditation.",
+    "Pay attention to your body and any physical sensations.",
+    "Don't force yourself to meditate if you're not in the right mindset.",
+    "Incorporate meditation into your bedtime routine.",
+    "Focus on your breath while eating or drinking.",
+    "Journal about your meditation experience.",
+    "Find a meditation buddy or accountability partner.",
+    "Create a comfortable and inviting meditation space.",
+    "Use essential oils or aromatherapy to enhance your meditation practice.",
+    "Take a break from technology and distractions during meditation.",
+    "Acknowledge and release any negative thoughts or emotions during meditation.",
+    "Focus on the present moment, not the past or future.",
+    "Use a guided body scan meditation to relax and release tension.",
+    "Practice compassion and forgiveness towards yourself and others.",
+    "Remember that meditation is a gift to yourself.",
+    "Use meditation to cultivate inner peace and happiness.",
+    "Take time to express gratitude for the present moment.",
+    "Incorporate yoga or other gentle movements into your meditation practice.",
+    "Remember that consistency is key in meditation.",
+  ];
+
+  String getRandomQuote() {
+    final random = Random();
+    final index = random.nextInt(dailyMeditationTips.length);
+    return dailyMeditationTips[index];
+  }
+
   @override
   CollectionReference customer =
       FirebaseFirestore.instance.collection('customer');
@@ -57,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 iconTheme: IconThemeData(color: Colors.black),
                 elevation: 0,
                 backgroundColor: Colors.white,
+                centerTitle: true,
                 title: Text(
                   'FeelBetter',
                   style: GoogleFonts.abyssinicaSil(
@@ -94,9 +156,69 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       DestinationCarousal(),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
-                      ProfileHeaderLabel(headerLabel: 'Recommended Meditation'),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .86,
+                        height: MediaQuery.of(context).size.height * .13,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0.3,
+                                  color: Colors.black)
+                            ],
+                            border: Border.all(color: Colors.black, width: 1)),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * .9,
+                              height:
+                                  MediaQuery.of(context).size.height * .13 / 3,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: [
+                                    Color(0xffaec2fa),
+                                    Color(0xffb6e6c5),
+                                  ]),
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Colors.black, width: 1))),
+                              child: Center(
+                                child: Text(
+                                  'Zen - Zone Tips',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.abyssinicaSil(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * .9,
+                              height: MediaQuery.of(context).size.height *
+                                  .13 /
+                                  1.54,
+                              child: Center(
+                                child: Text(
+                                  getRandomQuote(),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.abyssinicaSil(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ProfileHeaderLabel(headerLabel: 'Zen-Zone Meditation'),
                       StreamBuilder<QuerySnapshot>(
                         stream: _productStream,
                         builder: (BuildContext context,
@@ -113,18 +235,60 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
 
                           if (snapshot.data!.docs.isEmpty) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height * .4,
-                              child: Center(
-                                  child: Text(
-                                'This category \n has no Recommended Meditation items yet !',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.abyssinicaSil(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        .37,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(1, 1),
+                                              spreadRadius: 0.3,
+                                              color: Colors.black)
+                                        ],
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'images/Blur/NoResult.jpg')),
+                                        border: Border.all(
+                                            color: Colors.black, width: 2)),
+                                  ),
                                 ),
-                              )),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(1, 1),
+                                            spreadRadius: 0.3,
+                                            color: Colors.black)
+                                      ],
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.black, width: 2),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'This category \n has no Meditation items yet !',
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.abyssinicaSil(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             );
                           }
 
@@ -194,15 +358,29 @@ class ProfileHeaderLabel extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 14),
-              child: Text(
-                headerLabel,
-                style: GoogleFonts.abyssinicaSil(
-                    color: Colors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal),
-              ),
-            ),
+                padding: EdgeInsets.only(left: 20),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * .4,
+                  height: MediaQuery.of(context).size.height * .13 / 3,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Color(0xffaec2fa),
+                        Color(0xffb6e6c5),
+                      ]),
+                      border: Border.all(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Text(
+                      headerLabel,
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.abyssinicaSil(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),
@@ -224,7 +402,7 @@ class _BooksHomeViewState extends State<BooksHomeView> {
         FirebaseFirestore.instance.collection('Book_detail').snapshots();
     return Column(
       children: [
-        ProfileHeaderLabel(headerLabel: 'Recommended Books'),
+        ProfileHeaderLabel(headerLabel: 'Medito Books'),
         StreamBuilder<QuerySnapshot>(
           stream: _productStream,
           builder:
@@ -240,22 +418,60 @@ class _BooksHomeViewState extends State<BooksHomeView> {
             }
 
             if (snapshot.data!.docs.isEmpty) {
-              return Container(
-                height: MediaQuery.of(context).size.height * .4,
-                child: Center(
-                    child: Text(
-                  'This category \n has no Recommended Meditation items yet !',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.abyssinicaSil(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .37,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(1, 1),
+                                spreadRadius: 0.3,
+                                color: Colors.black)
+                          ],
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('images/Blur/NoResult.jpg')),
+                          border: Border.all(color: Colors.black, width: 2)),
+                    ),
                   ),
-                )),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 1),
+                              spreadRadius: 0.3,
+                              color: Colors.black)
+                        ],
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black, width: 2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'This category \n has no Meditation Books items yet !',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.abyssinicaSil(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               );
             }
             return SizedBox(
-              height: MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height / 3,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

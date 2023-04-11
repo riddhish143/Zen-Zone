@@ -83,7 +83,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.white,
-                        boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.2 , color: Colors.black)],
+                        boxShadow: [BoxShadow(offset: Offset(2,2), spreadRadius: 0.2 , color: Colors.black)],
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Column(
                       children: [
@@ -117,7 +117,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                 overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.abyssinicaSil(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 24,
+                                    fontSize: 20,
                                     color: Colors.black),
                               ),
                             ),
