@@ -196,19 +196,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * .9,
-                              height: MediaQuery.of(context).size.height *
-                                  .13 /
-                                  1.54,
-                              child: Center(
-                                child: Text(
-                                  getRandomQuote(),
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.abyssinicaSil(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15),
+                            Flexible(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .9,
+                                height: MediaQuery.of(context).size.height *
+                                    .13 /
+                                    1.54,
+                                child: Center(
+                                  child: Text(
+                                    getRandomQuote(),
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.abyssinicaSil(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15),
+                                  ),
                                 ),
                               ),
                             ),
