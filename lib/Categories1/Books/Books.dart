@@ -6,10 +6,16 @@ import 'package:final2/Modal/ProductModal/BookCategoryModel/YogaView.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'BookList.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Books Descritption.dart';
 
+
+
+
+
 class Books extends StatefulWidget {
-  const Books({Key? key}) : super(key: key);
+
+  Books({Key? key}) : super(key: key);
 
   @override
   State<Books> createState() => _BooksState();
@@ -63,6 +69,8 @@ class _BooksState extends State<Books> {
             'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. It is also used to temporarily replace text in a process called greeking, which allows designers to consider the form of a webpage or publication, without the meaning of the text influencing the design.',
         category: 'Self Help'),
   ];
+
+
 
 
   void bookDes(BuildContext ctx, dynamic product) {
@@ -170,7 +178,7 @@ class _BooksState extends State<Books> {
                                           "https://e7.pngegg.com/pngimages/406/551/png-clipart-book-and-cross-illustration-cross-and-bible-designed-logo-love-christianity-thumbnail.png"),
                                     ),
                                     title: Text(
-                                      "Book Title",
+ "Book Title" ,
                                       style: TextStyle(
                                           fontFamily: "Ubuntu",
                                           fontWeight: FontWeight.bold,

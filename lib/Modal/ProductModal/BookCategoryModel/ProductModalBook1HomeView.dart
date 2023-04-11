@@ -28,7 +28,8 @@ class ProductModelBook1HomeView extends StatelessWidget {
                       topRight: Radius.circular(20),
                       topLeft: Radius.circular(20))),
             )),
-            BookDecription(products: product)
+            BookDecription(products: products,)
+
           ],
         );
       },

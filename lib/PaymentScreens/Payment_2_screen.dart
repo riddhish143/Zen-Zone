@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Screens/MusicPlayer/Musicplayer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
@@ -103,7 +103,12 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.white,
-                          boxShadow: [BoxShadow(offset: Offset(2,2), spreadRadius: 0.2 , color: Colors.black)],
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(2, 2),
+                                spreadRadius: 0.2,
+                                color: Colors.black)
+                          ],
                           border: Border.all(color: Colors.black, width: 1)),
                       child: Column(
                         children: [
@@ -340,17 +345,28 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
                                             }).whenComplete(() {
                                               setState(() {
                                                 processing = false;
-                                                MusicPlayer(
-                                                  titleName: widget
-                                                      .products['proname'],
-                                                  image: widget
-                                                      .products['proimages'][0],
-                                                  AuthorName: 'riddhish',
-                                                  product: widget.products,
-                                                  price: widget
-                                                      .products['price']
-                                                      .toStringAsFixed(2),
-                                                );
+                                                Future.delayed(Duration(seconds: 2));
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MusicPlayer(
+                                                              titleName: widget
+                                                                      .products[
+                                                                  'proname'],
+                                                              image: widget
+                                                                      .products[
+                                                                  'proimages'][0],
+                                                              AuthorName:
+                                                                  'riddhish',
+                                                              product: widget
+                                                                  .products,
+                                                              price: widget
+                                                                  .products[
+                                                                      'price']
+                                                                  .toStringAsFixed(
+                                                                      2),
+                                                            )));
                                               });
                                             });
                                           } catch (e) {
@@ -591,4 +607,3 @@ class _PaymentViewScreenState extends State<PaymentViewScreen> {
         });
   }
 }
-

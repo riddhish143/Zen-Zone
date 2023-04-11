@@ -471,7 +471,7 @@ class _BooksHomeViewState extends State<BooksHomeView> {
               );
             }
             return SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery.of(context).size.height / 3.2,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

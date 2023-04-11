@@ -137,38 +137,34 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         ),
                         child: SingleChildScrollView(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Center(
-                                child: Text(
-                                  'Name : ${data['name']}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.abyssinicaSil(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.black),
-                                ),
+                              Text(
+                                'Name : ${data['name']}',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.abyssinicaSil(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.black),
                               ),
-                              Center(
-                                child: Text(
-                                  'Phone : ${data['phone']}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.abyssinicaSil(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.black),
-                                ),
+                              SizedBox(height: 4,),
+                              Text(
+                                'Phone : ${data['phone']}',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.abyssinicaSil(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.black),
                               ),
-                              Center(
-                                child: Text(
-                                  'Address : Andheri Mumbai',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.abyssinicaSil(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.black),
-                                ),
+                              SizedBox(height: 4,),
+                              Text(
+                                'Email :  ${data['email']}',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.abyssinicaSil(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: Colors.black),
                               ),
                             ],
                           ),

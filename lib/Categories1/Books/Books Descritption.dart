@@ -4,19 +4,23 @@ import 'package:final2/PaymentScreens/Payment_Screen_pdf.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'Books.dart';
+
 class BookDecription extends StatefulWidget {
   final dynamic products;
 
-  const BookDecription({
-    super.key,
-    required this.products,
-  });
+  BookDecription(
+  {required this.products,
+    }
+
+  );
 
   @override
   State<BookDecription> createState() => _BookDecriptionState();
 }
 
 class _BookDecriptionState extends State<BookDecription> {
+  var bookopened;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -130,13 +134,7 @@ class _BookDecriptionState extends State<BookDecription> {
                                   Color(0xffafc2f9),
                                 ]),
                                 borderRadius: BorderRadius.circular(5)),
-                            // child: Text(
-                            //   "Open Now",
-                            //   style: TextStyle(
-                            //       color: Colors.black,
-                            //       fontFamily: "Ubuntu",
-                            //       fontSize: 16),
-                            // ),
+
                             child: StreamBuilder(
                                 stream: FirebaseFirestore.instance
                                     .collection('orders')
@@ -208,6 +206,9 @@ class _BookDecriptionState extends State<BookDecription> {
                                               products: widget.products,
                                             );
                                           } else {
+                                            // bookopened = [widget.products['Bookname'] , widget
+                                            //     .products['Bookimages'][0] , widget.products['BookUrl']];
+
                                             return View(
                                               products: widget.products,
                                                 url: widget.products['BookUrl']);
