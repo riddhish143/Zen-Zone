@@ -1,14 +1,15 @@
 // import 'package:flutter/material.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:get/get.dart';
 //
-// class SearchView extends StatefulWidget {
-//   const SearchView({Key? key}) : super(key: key);
+// class SearchPage extends StatefulWidget {
+//   const SearchPage({Key? key}) : super(key: key);
 //
 //   @override
-//   _SearchViewState createState() => _SearchViewState();
+//   _SearchPageState createState() => _SearchPageState();
 // }
 //
-// class _SearchViewState extends State<SearchView> {
+// class _SearchPageState extends State<SearchPage> {
 //   final TextEditingController _searchController = TextEditingController();
 //   List<DocumentSnapshot> _bookResults = [];
 //   List<DocumentSnapshot> _productResults = [];
@@ -40,7 +41,7 @@
 //     setState(() {
 //       _bookResults = bookSnapshot.docs;
 //       _productResults = productSnapshot.docs;
-//       _combinedResults = [..._bookResults, ..._productResults];
+//       _combinedResults = [..._bookResults, ..._productResults] ;
 //       _searching = false;
 //     });
 //   }
@@ -93,19 +94,27 @@
 //   Widget build(BuildContext context) {
 //     final String? imageUrl = e['Bookimages'] != null
 //         ? e['Bookimages'][0]
-//         : e['promages'][0];
+//         : e['proimages'] != null
+//         ? e['proimages'][0]
+//         : null;
+//
 //     final String title = e['Bookname'] != null
 //         ? e['Bookname']
 //         : e['Productname'] != null
 //         ? e['Productname']
-//         : e['proname'];
+//         : e['proname'] != null
+//         ? e['proname']
+//         : '';
+//
 //     final String subtitle = e['Bookdesc'] != null
 //         ? e['Bookdesc']
 //         : e['Productdesc'] != null
 //         ? e['Productdesc']
 //         : e['BookAuthor'] != null
 //         ? e['BookAuthor']
-//         : e['prodesc'];
+//         : e['prodesc'] != null
+//         ? e['prodesc']
+//         : '';
 //
 //     return InkWell(
 //       onTap: () {},
