@@ -1,16 +1,14 @@
 import 'dart:math';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final2/Modal/ProductModal/ProductModalAudio.dart';
+import 'package:final2/Modal/ProductModal/ProductModelVideoHome.dart';
 import 'package:final2/Widgets/Carousal.dart';
-import 'package:final2/Widgets/Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import '../Chat2/HomePage.dart';
 import '../Modal/ProductModal/ProductModalBook1.dart';
+// import '../chat/ChatScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String documentId;
@@ -110,15 +108,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
               backgroundColor: Colors.white,
-              drawer: NavDrawer(
-                  email: data['email'],
-                  Name: data['name'],
-                  Image: data['profileimage']),
+              // drawer: NavDrawer(
+              //     email: data['email'],
+              //     Name: data['name'],
+              //     Image: data['profileimage']),
               appBar: AppBar(
                 iconTheme: IconThemeData(color: Colors.black),
                 elevation: 0,
-                backgroundColor: Colors.white,
+                backgroundColor: Color(0xffeafddd),
                 centerTitle: true,
+                leading: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  },
+                    child: Icon(Icons.message)),
                 title: Text(
                   'FeelBetter',
                   style: GoogleFonts.abyssinicaSil(
@@ -143,192 +146,206 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              body: LiquidPullToRefresh(
-                animSpeedFactor: 20,
-                springAnimationDurationInMilliseconds: 1000,
-                showChildOpacityTransition: false,
-                color: Colors.black,
-                onRefresh: _handleRefresh,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(10),
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      DestinationCarousal(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .86,
-                        height: MediaQuery.of(context).size.height * .13,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: Offset(1, 1),
-                                  spreadRadius: 0.3,
-                                  color: Colors.black)
-                            ],
-                            border: Border.all(color: Colors.black, width: 1)),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * .9,
-                              height:
-                                  MediaQuery.of(context).size.height * .13 / 3,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: [
-                                    Color(0xffaec2fa),
-                                    Color(0xffb6e6c5),
-                                  ]),
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Colors.black, width: 1))),
-                              child: Center(
-                                child: Text(
-                                  'Zen - Zone Tips',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.abyssinicaSil(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              child: Container(
+              body: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('images/Blur/')
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+                  ),
+                ),
+                child: LiquidPullToRefresh(
+                  animSpeedFactor: 20,
+                  springAnimationDurationInMilliseconds: 1000,
+                  showChildOpacityTransition: false,
+                  color: Colors.black,
+                  onRefresh: _handleRefresh,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(10),
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        DestinationCarousal(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * .86,
+                          height: MediaQuery.of(context).size.height * .13,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(1, 1),
+                                    spreadRadius: 0.3,
+                                    color: Colors.black)
+                              ],
+                              border: Border.all(color: Colors.black, width: 1)),
+                          child: Column(
+                            children: [
+                              Container(
                                 width: MediaQuery.of(context).size.width * .9,
-                                height: MediaQuery.of(context).size.height *
-                                    .13 /
-                                    1.54,
+                                height:
+                                    MediaQuery.of(context).size.height * .13 / 3,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xffaec2fa),
+                                      Color(0xffb6e6c5),
+                                    ]),
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.black, width: 1))),
                                 child: Center(
                                   child: Text(
-                                    getRandomQuote(),
+                                    'Zen - Zone Tips',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.abyssinicaSil(
                                         color: Colors.black,
                                         fontWeight: FontWeight.normal,
-                                        fontSize: 15),
+                                        fontSize: 20),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                              Flexible(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * .9,
+                                  height: MediaQuery.of(context).size.height *
+                                      .13 /
+                                      1.54,
+                                  child: Center(
+                                    child: Text(
+                                      getRandomQuote(),
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.abyssinicaSil(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ProfileHeaderLabel(headerLabel: 'Zen-Zone Meditation'),
-                      StreamBuilder<QuerySnapshot>(
-                        stream: _productStream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text('Something went wrong');
-                          }
+                        SizedBox(
+                          height: 20,
+                        ),
+                        ProfileHeaderLabel(headerLabel: 'Zen-Zone Meditation'),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: _productStream,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Something went wrong');
+                            }
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                          if (snapshot.data!.docs.isEmpty) {
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
-                                  child: Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        .37,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
+                            if (snapshot.data!.docs.isEmpty) {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height *
+                                          .37,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: Offset(1, 1),
+                                                spreadRadius: 0.3,
+                                                color: Colors.black)
+                                          ],
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'images/Blur/NoResult.jpg')),
+                                          border: Border.all(
+                                              color: Colors.black, width: 2)),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
                                               offset: Offset(1, 1),
                                               spreadRadius: 0.3,
                                               color: Colors.black)
                                         ],
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                                'images/Blur/NoResult.jpg')),
+                                        color: Colors.white,
                                         border: Border.all(
-                                            color: Colors.black, width: 2)),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: Offset(1, 1),
-                                            spreadRadius: 0.3,
-                                            color: Colors.black)
-                                      ],
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.black, width: 2),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'This category \n has no Meditation items yet !',
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.abyssinicaSil(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
+                                            color: Colors.black, width: 2),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'This category \n has no Meditation items yet !',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.abyssinicaSil(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            );
-                          }
+                                  )
+                                ],
+                              );
+                            }
 
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 3,
-                            child: Container(
+                            return SizedBox(
                               height: MediaQuery.of(context).size.height / 3,
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.all(10),
-                                // child: StaggeredGridView.countBuilder(
-                                //     physics: const NeverScrollableScrollPhysics(),
-                                //     shrinkWrap: true,
-                                //     itemCount: snapshot.data!.docs.length,
-                                //     crossAxisCount: 2,
-                                //     itemBuilder: (context, index) {
-                                //       return ProductModelAudio(
-                                //         products: snapshot.data!.docs[index],
-                                //       );
-                                //     },
-                                //     staggeredTileBuilder: (context) =>
-                                //         const StaggeredTile.fit(1)),
-                                child: ListView.builder(
-                                    itemCount: snapshot.data!.docs.length,
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return ProductModelAudio(
-                                        products: snapshot.data!.docs[index],
-                                      );
-                                    }),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height / 3,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: EdgeInsets.all(10),
+                                  // child: StaggeredGridView.countBuilder(
+                                  //     physics: const NeverScrollableScrollPhysics(),
+                                  //     shrinkWrap: true,
+                                  //     itemCount: snapshot.data!.docs.length,
+                                  //     crossAxisCount: 2,
+                                  //     itemBuilder: (context, index) {
+                                  //       return ProductModelAudio(
+                                  //         products: snapshot.data!.docs[index],
+                                  //       );
+                                  //     },
+                                  //     staggeredTileBuilder: (context) =>
+                                  //         const StaggeredTile.fit(1)),
+                                  child: ListView.builder(
+                                      itemCount: snapshot.data!.docs.length,
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return ProductModelAudio(
+                                          products: snapshot.data!.docs[index],
+                                        );
+                                      }),
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                      BooksHomeView(),
-                    ],
+                            );
+                          },
+                        ),
+                        BooksHomeView(),
+                        SizedBox(height: 5,),
+                        VideoScreenView(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -496,6 +513,124 @@ class _BooksHomeViewState extends State<BooksHomeView> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return ProductModelBook1(
+                          products: snapshot.data!.docs[index]);
+                    }),
+              ),
+            );
+          },
+        )
+      ],
+    );
+  }
+}
+
+class VideoScreenView extends StatefulWidget {
+  const VideoScreenView({Key? key}) : super(key: key);
+
+  @override
+  _VideoScreenViewState createState() => _VideoScreenViewState();
+}
+
+class _VideoScreenViewState extends State<VideoScreenView> {
+  @override
+  Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _productStream =
+    FirebaseFirestore.instance.collection('Video_detail').snapshots();
+    return Column(
+      children: [
+        ProfileHeaderLabel(headerLabel: 'Medito Video'),
+        SizedBox(height: 5,),
+        StreamBuilder<QuerySnapshot>(
+          stream: _productStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.data!.docs.isEmpty) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(60, 100, 60, 10),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .37,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(1, 1),
+                                spreadRadius: 0.3,
+                                color: Colors.black)
+                          ],
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage('images/Blur/NoResult.jpg')),
+                          border: Border.all(color: Colors.black, width: 2)),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(1, 1),
+                              spreadRadius: 0.3,
+                              color: Colors.black)
+                        ],
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black, width: 2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'This category \n has no Meditation Video items yet !',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.abyssinicaSil(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }
+            return SizedBox(
+              height: MediaQuery.of(context).size.height / 4,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.all(0),
+                // child: StaggeredGridView.countBuilder(
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     shrinkWrap: true,
+                //     itemCount: snapshot.data!.docs.length,
+                //     crossAxisCount: 2,
+                //     itemBuilder: (context, index) {
+                //       return ProductModelBook1(
+                //         products: snapshot.data!.docs[index],
+                //       );
+                //     },
+                //     staggeredTileBuilder: (context) =>
+                //         const StaggeredTile.fit(1)),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return ProductModelVideoHome(
                           products: snapshot.data!.docs[index]);
                     }),
               ),

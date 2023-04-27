@@ -45,7 +45,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   Repeated_tabs1(label: 'Audio' , iconData: Icons.multitrack_audio_sharp,),
                   Repeated_tabs1(label: 'Video' , iconData: Icons.video_library_outlined,),
                   Repeated_tabs1(label: 'E-book' , iconData: Icons.picture_as_pdf,),
-                  Repeated_tabs1(label: 'Download' , iconData: Icons.download,),
+                  Repeated_tabs1(label: 'Community' , iconData: Icons.chat,),
                 ]),
           ),
           body: TabBarView(children: [

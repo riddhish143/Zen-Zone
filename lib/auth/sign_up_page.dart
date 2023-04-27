@@ -112,7 +112,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'profileimage': profileImage,
             'phone': phone,
             'address': '',
-            'sid': _uid
+            'sid': _uid,
+            'groups' : []
           });
 
           _formkey.currentState!.reset();

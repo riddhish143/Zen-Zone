@@ -53,6 +53,8 @@ class _StorePageScreenState extends State<StorePageScreen> {
         padding: EdgeInsets.only(left: 10, right: 10, top: 50),
         child: ListView.builder(
             itemCount: 3,
+            shrinkWrap: true,
+            padding: EdgeInsets.all(10),
             itemBuilder: (BuildContext, index) {
               return InkWell(
                 onTap: (){
@@ -68,7 +70,6 @@ class _StorePageScreenState extends State<StorePageScreen> {
                   ),
                   Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             icons[index],

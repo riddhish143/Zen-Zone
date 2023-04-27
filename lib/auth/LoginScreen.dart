@@ -1,13 +1,14 @@
 import 'dart:ui';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final2/Screens/CustomerHomeScreen.dart';
 import 'package:final2/auth/sign_up_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../Chat2/DatabaseServices.dart';
+import '../Chat2/Helper.dart';
 import '../Minor_screen/ForgetEmail.dart';
 
 class loginScreen extends StatefulWidget {
@@ -62,7 +63,7 @@ class _loginScreenState extends State<loginScreen> {
               'profileimage': user.photoURL,
               'phone': '',
               'address': '',
-              'cid': user.uid
+              'cid': user.uid,
             }).then((value) => Navigator.pushNamed(context, '/Customer_screen'))
           : Navigator.pushNamed(context, '/Customer_screen');
     });
@@ -82,7 +83,17 @@ class _loginScreenState extends State<loginScreen> {
     if (_formkey.currentState!.validate()) {
       try {
         await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
+            .signInWithEmailAndPassword(email: email, password: password).then((value) async{
+          if(value != null){
+            QuerySnapshot snapshot =
+            await DatabaseService(sid: FirebaseAuth.instance.currentUser!.uid)
+                .gettingUserData(email);
+            await HelperFunctions.saveUserLoggedInStatus(true);
+            await HelperFunctions.saveUserNameSF(snapshot.docs[0]['name']);
+            await HelperFunctions.saveUserEmailSF(email);
+
+          }
+        });
         await FirebaseAuth.instance.currentUser!.reload();
         if (FirebaseAuth.instance.currentUser!.emailVerified) {
           _formkey.currentState!.reset();
@@ -118,7 +129,7 @@ class _loginScreenState extends State<loginScreen> {
               content: AwesomeSnackbarContent(
                 title: 'On Snap!',
                 message:
-                    'No user found for that Email , Please check once again !',
+                'No user found for that Email , Please check once again !',
                 contentType: ContentType.failure,
               ),
             ),

@@ -20,71 +20,73 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       backgroundColor: Color(0xff8D8CF7),
       body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              height: 70,
-            ),
-            Lottie.network(
-                'https://assets2.lottiefiles.com/packages/lf20_pprxh53t.json',
-                height: size.height * 0.47),
-            SizedBox(
-              height: 70,
-            ),
-            Center(
-              child: Text(
-                textAlign: TextAlign.center,
-                'Find your Zen\n Find your Balance with Zen Zone',
-                style: GoogleFonts.abyssinicaSil(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 25),
+        child: SingleChildScrollView(
+          child: Column(  
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 70,
               ),
-            ),
-            SizedBox(
-              height: 60,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // paddingDivider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Customer',
-                          style: GoogleFonts.abyssinicaSil(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24),
-                        ),
-                        ExtractedColumn1(),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Admin Panel',
-                          style: GoogleFonts.abyssinicaSil(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24),
-                        ),
-                        ExtractedColumn(),
-                      ],
-                    )
-                  ],
+              Lottie.network(
+                  'https://assets2.lottiefiles.com/packages/lf20_pprxh53t.json',
+                  height: size.height * 0.47),
+              SizedBox(
+                height: 70,
+              ),
+              Center(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  'Find your Zen\n Find your Balance with Zen Zone',
+                  style: GoogleFonts.abyssinicaSil(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                // paddingDivider(),
-              ],
-            )
-          ],
+              ),
+              SizedBox(
+                height: 60,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // paddingDivider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Customer',
+                            style: GoogleFonts.abyssinicaSil(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24),
+                          ),
+                          ExtractedColumn1(),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Admin Panel',
+                            style: GoogleFonts.abyssinicaSil(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24),
+                          ),
+                          ExtractedColumn(),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  // paddingDivider(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

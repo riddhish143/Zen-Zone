@@ -41,12 +41,13 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
     }
 
     final List<String> image = [
-      'images/Blur/behance4.jpg',
-      'images/Blur/behance2.jpg',
-      'images/Blur/behance3.jpeg',
+      'images/Blur/quotes1.jpg',
+      'images/Blur/Quotes3.jpg',
+      'images/Blur/Quotes4.jpg',
+      'images/Blur/Qutoe2.jpg',
     ];
     return Container(
-      color: Colors.white,
+      color : Color(0xffeafddd),
       padding: EdgeInsets.only(top: 10),
       child: Stack(
         children: [
@@ -61,7 +62,7 @@ class _DestinationCarousalState extends State<DestinationCarousal> {
                                   spreadRadius: 1),
                             ],
                             borderRadius: BorderRadius.circular(5),
-                            color: colorArray[1],
+                            color: Color(0xffeafddd),
                             border: Border.all(color: Colors.black, width: 1.5),
                             image: DecorationImage(
                                 image: AssetImage(e), fit: BoxFit.cover)),

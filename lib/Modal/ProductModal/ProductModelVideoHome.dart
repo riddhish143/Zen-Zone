@@ -3,16 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../Categories1/Video/VideoScreen.dart';
 
-class ProductModelVideo extends StatefulWidget {
+class ProductModelVideoHome extends StatefulWidget {
   final dynamic products;
 
-  const ProductModelVideo({Key? key, required this.products}) : super(key: key);
+  const ProductModelVideoHome({Key? key, required this.products}) : super(key: key);
 
   @override
-  State<ProductModelVideo> createState() => _ProductModelVideoState();
+  State<ProductModelVideoHome> createState() => _ProductModelVideoHomeState();
 }
 
-class _ProductModelVideoState extends State<ProductModelVideo> {
+class _ProductModelVideoHomeState extends State<ProductModelVideoHome> {
   final GlobalKey backgroundImageKey = GlobalKey();
 
   @override
@@ -21,12 +21,7 @@ class _ProductModelVideoState extends State<ProductModelVideo> {
       padding: EdgeInsets.all(10),
       child: Container(
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  offset: Offset(2, 2),
-                  spreadRadius: 0.3,
-                  color: Colors.grey.shade600)
-            ],
+            boxShadow: [BoxShadow(offset: Offset(3,3), spreadRadius: 0.3 , color: Colors.black)],
             border: Border.all(color: Colors.black, width: 1),
             color: Colors.white,
             borderRadius: BorderRadius.circular(7)),
@@ -45,8 +40,8 @@ class _ProductModelVideoState extends State<ProductModelVideo> {
                                 MovieScreen(products: widget.products)));
                   },
                   child: Container(
-                    width: MediaQuery.of(context).size.width * .90,
-                    height: MediaQuery.of(context).size.height / 4.2,
+                    width: MediaQuery.of(context).size.width * .53,
+                    height: MediaQuery.of(context).size.height / 6,
                     child: Image(
                       fit: BoxFit.fill,
                       image: NetworkImage(widget.products['Thumbnail'][0]),
@@ -60,7 +55,7 @@ class _ProductModelVideoState extends State<ProductModelVideo> {
               child: Column(children: [
                 Container(
                   height: MediaQuery.of(context).size.height / 28,
-                  width: MediaQuery.of(context).size.width ,
+                  width: MediaQuery.of(context).size.width / 2.2,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.black),
                       borderRadius: BorderRadius.circular(5)),
@@ -210,8 +205,8 @@ class _ParallaxFlowDelegate extends FlowDelegate {
 
   _ParallaxFlowDelegate(
       {required this.scrollable,
-      required this.listItemContext,
-      required this.backgroundImageKey})
+        required this.listItemContext,
+        required this.backgroundImageKey})
       : super(repaint: scrollable.position);
 
   @override
@@ -229,7 +224,7 @@ class _ParallaxFlowDelegate extends FlowDelegate {
     );
     final viewportDimension = scrollable.position.viewportDimension;
     final scrollFraction =
-        (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
+    (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
 
     final verticalAlignment = Alignment(0.0, scrollFraction * 4 - 1);
 
@@ -239,12 +234,12 @@ class _ParallaxFlowDelegate extends FlowDelegate {
 
     final listItemSize = context.size;
     final childRect =
-        verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
+    verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
 
     context.paintChild(
       0,
       transform:
-          Transform.translate(offset: Offset(0.0, childRect.top)).transform,
+      Transform.translate(offset: Offset(0.0, childRect.top)).transform,
     );
   }
 

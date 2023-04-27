@@ -74,16 +74,25 @@ class _AudioScreenState extends State<AudioScreen> {
           );
         }
 
-        return SingleChildScrollView(
-          child: StaggeredGridView.countBuilder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: snapshot.data!.docs.length,
-              crossAxisCount: 2,
-              itemBuilder: (context, index) {
-                return ProductModelAudio(products: snapshot.data!.docs[index],);
-              },
-              staggeredTileBuilder: (context) => const StaggeredTile.fit(1)),
+        return Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: StaggeredGridView.countBuilder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.docs.length,
+                crossAxisCount: 2,
+                itemBuilder: (context, index) {
+                  return ProductModelAudio(products: snapshot.data!.docs[index],);
+                },
+                staggeredTileBuilder: (context) => const StaggeredTile.fit(1)),
+          ),
         );
       },
     );

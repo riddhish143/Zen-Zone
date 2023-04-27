@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final2/Setting/Setting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,12 +58,9 @@ class _NavDrawerState extends State<NavDrawer> {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Setting'),
-            onTap: () => null,
-          ),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Notification'),
-            onTap: () => null,
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingScreen()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.help),

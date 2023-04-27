@@ -88,7 +88,7 @@ class _UploadBookState extends State<UploadBook1> {
   }
 
   Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false , allowedExtensions: ['pdf', 'doc'], type: FileType.custom);
     if (result == null) return;
     final path = result.files.single.path!;
     setState(() => file = File(path));
@@ -106,6 +106,9 @@ class _UploadBookState extends State<UploadBook1> {
 
   Future uploadPdf() async{
     if (file == null) return;
+    setState(() {
+      processing = true;
+    });
     final fileName = path.basename(file!.path);
     final destination = 'Book-Pdf/$fileName';
     var pdfFile = FirebaseStorage.instance.ref(destination);

@@ -38,6 +38,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           elevation: 0.0,
           backgroundColor: Colors.white,
           bottom: TabBar(
+            physics: ClampingScrollPhysics(),
               padding: EdgeInsets.only(left: 12),
               isScrollable: true,
               indicatorColor: Colors.black,

@@ -168,7 +168,7 @@ class _MovieScreenState extends State<MovieScreen> {
       Image.network(
         widget.products['Thumbnail'][0],
         width: double.infinity,
-        height: MediaQuery.of(context).size.height*0.3,
+        height: MediaQuery.of(context).size.height*0.36,
         fit: BoxFit.cover,
       ),
       const Positioned.fill(
@@ -177,11 +177,11 @@ class _MovieScreenState extends State<MovieScreen> {
             gradient:LinearGradient(
                 colors: [
                   Colors.transparent,
-                  Colors.pinkAccent,
+                  Colors.black,
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                stops: [0.23,0.3]
+                stops: [0.24,0.3]
             ),
           ),
         ),

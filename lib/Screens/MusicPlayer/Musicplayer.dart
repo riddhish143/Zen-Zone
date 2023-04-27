@@ -178,150 +178,152 @@ class _MusicPlayerState extends State<MusicPlayer> {
       backgroundColor: Colors.white,
       appBar: appbar,
       body: SafeArea(
-        child: Column(
-          children: [
-            Stack(children: [
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 15),
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(widget.product['proimages'][0]),
-                        fit: BoxFit.cover),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                height: avlHeight * 0.5,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 15),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(widget.product['proimages'][0]),
+                          fit: BoxFit.cover),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  height: avlHeight * 0.60,
+                ),
+                Positioned(
+                    bottom: 13,
+                    right: 20,
+                    left: 20,
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.35),
+                              border: Border.all(color: Colors.white38),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            height: avlHeight * 0.11,
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  widget.product['proname'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  "By " + audio[index].publisher,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black),
+                                )
+                              ],
+                            ))),
+                      ),
+                    ))
+              ]),
+              SizedBox(
+                height: avlHeight * 0.1,
               ),
-              Positioned(
-                  bottom: 13,
-                  right: 20,
-                  left: 20,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.35),
-                            border: Border.all(color: Colors.white38),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          height: avlHeight * 0.11,
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Center(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                widget.product['proname'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22,
-                                    color: Colors.white),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                "By " + audio[index].publisher,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              )
-                            ],
-                          ))),
+              Container(
+                margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                height: avlHeight * 0.35,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  children: [
+                    Slider(
+                        activeColor: Colors.black,
+                        min: 0,
+                        max: duration.inSeconds.toDouble(),
+                        value: position.inSeconds.toDouble(),
+                        onChanged: (value) async {
+                          final position = Duration(seconds: value.toInt());
+                          await audioPlayer.seek(position);
+                        }),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(formatTime(position)),
+                          Text(formatTime(duration - position))
+                        ],
+                      ),
                     ),
-                  ))
-            ]),
-            SizedBox(
-              height: avlHeight * 0.01,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-              height: avlHeight * 0.3,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                children: [
-                  Slider(
-                      activeColor: Colors.black,
-                      min: 0,
-                      max: duration.inSeconds.toDouble(),
-                      value: position.inSeconds.toDouble(),
-                      onChanged: (value) async {
-                        final position = Duration(seconds: value.toInt());
-                        await audioPlayer.seek(position);
-                      }),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(formatTime(position)),
-                        Text(formatTime(duration - position))
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                index = (index - 1) % audio.length;
+                                audioPlayer.play(widget.product['AudioUrl']);
+                              });
+                            },
+                            icon: Icon(
+                              Icons.skip_previous,
+                              size: 40,
+                            )),
+                        CircleAvatar(
+                          backgroundColor: Colors.black,
+                          radius: 30,
+                          child: IconButton(
+                            icon: isPlaying
+                                ? Icon(
+                                    Icons.pause,
+                                    size: 30,
+                                  )
+                                : Icon(
+                                    Icons.play_arrow,
+                                    size: 30,
+                                  ),
+                            onPressed: () async {
+                              // CollectionReference orderRef =
+                              // FirebaseFirestore.instance
+                              //     .collection('Heatmaps');
+                              // tap = Uuid().v4();
+                              // await orderRef.doc(tap).set({
+                              //   'tap' : true,
+                              //   'time' : DateTime.now()
+                              // });
+                              isPlaying
+                                  ? audioPlayer.pause()
+                                  : audioPlayer.play(widget.product['AudioUrl']);
+                            },
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                index = (index + 1) % audio.length;
+                                audioPlayer.play(widget.product['AudioUrl']);
+                              });
+                            },
+                            icon: Icon(
+                              Icons.skip_next,
+                              size: 40,
+                            ))
                       ],
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              index = (index - 1) % audio.length;
-                              audioPlayer.play(widget.product['AudioUrl']);
-                            });
-                          },
-                          icon: Icon(
-                            Icons.skip_previous,
-                            size: 40,
-                          )),
-                      CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 30,
-                        child: IconButton(
-                          icon: isPlaying
-                              ? Icon(
-                                  Icons.pause,
-                                  size: 30,
-                                )
-                              : Icon(
-                                  Icons.play_arrow,
-                                  size: 30,
-                                ),
-                          onPressed: () async {
-                            CollectionReference orderRef =
-                            FirebaseFirestore.instance
-                                .collection('Heatmaps');
-                            tap = Uuid().v4();
-                            await orderRef.doc(tap).set({
-                              'tap' : true,
-                              'time' : DateTime.now()
-                            });
-                            isPlaying
-                                ? audioPlayer.pause()
-                                : audioPlayer.play(widget.product['AudioUrl']);
-                          },
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              index = (index + 1) % audio.length;
-                              audioPlayer.play(widget.product['AudioUrl']);
-                            });
-                          },
-                          icon: Icon(
-                            Icons.skip_next,
-                            size: 40,
-                          ))
-                    ],
-                  ),
-                  SizedBox(
-                    height: avlHeight * 0.05,
-                  ),
-                ],
+                    SizedBox(
+                      height: avlHeight * 0.05,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

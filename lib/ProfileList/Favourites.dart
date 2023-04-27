@@ -106,7 +106,8 @@ class EmptyWishlist extends StatelessWidget {
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage('images/Blur/NoResult.jpg')),
-                border: Border.all(color: Colors.black, width: 2)),
+                border: Border.all(color: Colors.black, width: 2)
+            ),
           ),
         ),
         Padding(

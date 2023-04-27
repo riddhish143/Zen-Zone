@@ -35,7 +35,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         child: GNav(
           haptic: false,
           curve: Curves.slowMiddle,
-          backgroundColor: Colors.white,
+          backgroundColor:  Color(0xff41baf2),
           color: Colors.black,
           activeColor: Colors.white,
           rippleColor: Colors.black,

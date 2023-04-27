@@ -89,67 +89,69 @@ class _SubscribedState extends State<Subscribed> {
                       title: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
-                        child: Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              constraints:
-                              BoxConstraints(maxHeight: 120, maxWidth: 120),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(order['orderImage'])),
-                                  border:
-                                  Border.all(color: Colors.black, width: 1)),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.black, width: 2)),
-                                    child: Center(
-                                      child: Text(
-                                        order['OrderName'],
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.abyssinicaSil(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 24,
-                                            color: Colors.black),
+                        child: SingleChildScrollView(
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                constraints:
+                                BoxConstraints(maxHeight: 120, maxWidth: 120),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(order['orderImage'])),
+                                    border:
+                                    Border.all(color: Colors.black, width: 1)),
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: Colors.black, width: 2)),
+                                      child: Center(
+                                        child: Text(
+                                          order['OrderName'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.abyssinicaSil(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 24,
+                                              color: Colors.black),
+                                        ),
                                       ),
+                                      width: MediaQuery.of(context).size.width / 3,
                                     ),
-                                    width: MediaQuery.of(context).size.width / 3,
                                   ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white,
-                                        border: Border.all(
-                                            color: Colors.black, width: 1)),
-                                    child: Center(
-                                      child: Text(
-                                        (' ₹')+ order['orderPrice'].toString(),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.abyssinicaSil(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 24,
-                                            color: Colors.black),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: Colors.black, width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          (' ₹')+ order['orderPrice'].toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.abyssinicaSil(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 24,
+                                              color: Colors.black),
+                                        ),
                                       ),
+                                      width: MediaQuery.of(context).size.width / 3,
                                     ),
-                                    width: MediaQuery.of(context).size.width / 3,
                                   ),
-                                ),
-                              ],
-                            )
-                          ],
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                   ),

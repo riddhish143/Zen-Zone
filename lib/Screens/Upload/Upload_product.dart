@@ -91,6 +91,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
 
   Future uploadAudio() async {
     if (file == null) return;
+    setState(() {
+      processing = true;
+    });
     final fileName = path.basename(file!.path);
     final destination = 'Audio/$fileName';
     var pdfFile = FirebaseStorage.instance.ref(destination);
@@ -205,6 +208,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
           _imageFileList = [];
           mainCategValue = 'Focus';
           _imageUrlList = [];
+          file = null;
         });
         _formKey.currentState!.reset();
       });
@@ -216,6 +220,9 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   void uploadProduct() async {
     await uploadAudio().then((value) => uploadImages()).whenComplete(() {
       uploadData();
+      setState(() {
+        processing = false;
+      });
     });
   }
 

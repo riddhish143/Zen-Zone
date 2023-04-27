@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: 'Zen-Zone',
-        darkTheme: ThemeData.dark(),
         themeMode: ThemeMode.light,
         debugShowCheckedModeBanner: false,
         // home:  StreamBuilder(stream : FirebaseAuth.instance.authStateChanges()  , builder: (ctx ,snapshot) {
