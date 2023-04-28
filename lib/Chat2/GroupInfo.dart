@@ -69,7 +69,16 @@ class _GroupInfoState extends State<GroupInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("Group Info"), actions: [
+      appBar: AppBar(centerTitle: true,
+          elevation: 0,
+          backgroundColor:Color(0xffeafddd) ,
+          leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios_new , color: Colors.black)),
+          title: Text("Group Info" , style: TextStyle(color: Colors.black),),
+         actions: [
         IconButton(
             onPressed: () {
               showDialog(
@@ -81,7 +90,7 @@ class _GroupInfoState extends State<GroupInfo> {
                     content: Text("Are you sure you want to exit the group?"),
                     backgroundColor: Theme.of(context).primaryColor,
                     titleTextStyle: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -113,9 +122,16 @@ class _GroupInfoState extends State<GroupInfo> {
                 },
               );
             },
-            icon: Icon(Icons.exit_to_app))
+            icon: Icon(Icons.exit_to_app , color: Colors.black,))
       ]),
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+          ),
+        ),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [

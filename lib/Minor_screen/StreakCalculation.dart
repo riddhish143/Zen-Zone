@@ -21,46 +21,56 @@ class _MeditationStreakState extends State<MeditationStreak> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xffeafddd),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         title: Text(
           'Statistic',
           style: GoogleFonts.abyssinicaSil(
-              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
+              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black),
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [MyHeatMaps(),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: Colors.black , width: 2),
-                borderRadius: BorderRadius.circular(5)),
-            child: TableCalendar(
-              calendarStyle: CalendarStyle(defaultTextStyle: TextStyle(color: Colors.white)),
-                locale: 'en_us',
-                headerStyle: HeaderStyle(
-                    formatButtonVisible: false,
-                    titleTextStyle: TextStyle(color: Colors.white),
-                    titleCentered: true),
-                focusedDay: today,
-                firstDay: DateTime.utc(2010, 10, 16),
-                lastDay: DateTime.utc(2030, 10, 16)),
-            margin: EdgeInsets.all(10),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+            ),
           ),
-        ]),
+          child: Column(children: [
+            MyHeatMaps(),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.black , width: 2),
+                  borderRadius: BorderRadius.circular(5)),
+              child: TableCalendar(
+                calendarStyle: CalendarStyle(defaultTextStyle: TextStyle(color: Colors.black)),
+                  locale: 'en_us',
+                  headerStyle: HeaderStyle(
+                      formatButtonVisible: false,
+                      titleTextStyle: TextStyle(color: Colors.black),
+                      titleCentered: true),
+                  focusedDay: today,
+                  firstDay: DateTime.utc(2010, 10, 16),
+                  lastDay: DateTime.utc(2030, 10, 16)),
+              margin: EdgeInsets.all(10),
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -114,9 +124,9 @@ class MyHeatMaps extends StatelessWidget {
         {
           DateTime(2023, 4, 17): 30,
         },
-        size: 40,
-        defaultColor: Colors.grey,
-        textColor: Colors.white,
+        size: 30,
+        defaultColor: Colors.white,
+        textColor: Colors.black,
         colorMode: ColorMode.opacity,
         startDate: DateTime.now(),
         fontSize: 15,

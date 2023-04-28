@@ -47,59 +47,81 @@ class _SearchPage1State extends State<SearchPage1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xffeafddd),
         centerTitle: true,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new , color: Colors.black)),
         elevation: 0,
         title: Text(
           "Search",
           style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.w500, color: Colors.white),
+              fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Theme.of(context).primaryColor,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                      cursorColor: Colors.white,
-                      controller: searchController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search groups",
-                          hintStyle: TextStyle(
-                            color: Colors.white.withOpacity(0.6),
-                            fontSize: 16,
-                          )),
-                    )),
-                GestureDetector(
-                  onTap: () {
-                    initializeSearchMethod();
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
           ),
-          isLoading
-              ? Center(
-            child: CircularProgressIndicator(),
-          )
-              : groupList(),
-        ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              color: Color(0xffeafddd),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: TextField(
+                        cursorColor: Colors.white,
+                        controller: searchController,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 2)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 2)),
+                            hintText: "Search groups",
+                            hintStyle: TextStyle(
+                              color: Colors.black.withOpacity(0.9),
+                              fontSize: 16,
+                            )),
+                      )),
+                  GestureDetector(
+                    onTap: () {
+                      initializeSearchMethod();
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(40)),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            isLoading
+                ? Center(
+              child: CircularProgressIndicator(),
+            )
+                : groupList(),
+          ],
+        ),
       ),
     );
   }

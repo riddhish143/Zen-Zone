@@ -81,6 +81,7 @@ dependencies:
   pinput: ^2.2.31
   flutter_heat_map: ^1.2.1
   flutter_heatmap_calendar: ^1.0.5
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

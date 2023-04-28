@@ -7,14 +7,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'DatabaseServices.dart';
 import 'Grouptile.dart';
 import 'Helper.dart';
 import 'SearchPage.dart';
-// import '../widgets/group_tile.dart';
 
-// import '../services/database_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -82,7 +79,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Chats"),
+        title: Text("Chats" , style: TextStyle(color: Colors.black),),
+        backgroundColor:Color(0xffeafddd) ,
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+            child: Icon(Icons.arrow_back_ios_new , color: Colors.black)),
+        elevation: 0.0,
         actions: [
           IconButton(
               onPressed: () {
@@ -90,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                   return SearchPage1();
                 }));
               },
-              icon: Icon(Icons.search)),
+              icon: Icon(Icons.search , color: Colors.black,)),
         ],
       ),
       // drawer: Drawer(
@@ -174,10 +178,20 @@ class _HomePageState extends State<HomePage> {
       //     ],
       //   ),
       // ),
-      body: Center(
-        child: groupList(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+          ),
+        ),
+        child: Center(
+          child: groupList(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
         onPressed: () {
           popUpDialog(context);
         },
@@ -185,6 +199,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(
           Icons.add,
           size: 30,
+          color: Colors.white,
         ),
       ),
     );
@@ -287,12 +302,15 @@ class _HomePageState extends State<HomePage> {
                       decelerationRate: ScrollDecelerationRate.normal),
                   itemCount: len,
                   itemBuilder: (context, index) {
-                    return GroupTile(
-                        groupId:
-                        getId(snapshot.data['groups'][len - index - 1]),
-                        userName: snapshot.data['name'],
-                        groupName:
-                        getName(snapshot.data['groups'][len - index - 1]));
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GroupTile(
+                          groupId:
+                          getId(snapshot.data['groups'][len - index - 1]),
+                          userName: snapshot.data['name'],
+                          groupName:
+                          getName(snapshot.data['groups'][len - index - 1])),
+                    );
                   });
             } else {
               return noGroupWidget();

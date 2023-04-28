@@ -41,6 +41,13 @@ class _MessageTileState extends State<MessageTile> {
         padding:
         EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
         decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(2, 2),
+                  spreadRadius: 0.1,
+                  color: Colors.black)
+            ],
+            border: Border.all(color: Colors.black, width: 1),
             borderRadius: widget.sentByMe
                 ? BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -53,8 +60,8 @@ class _MessageTileState extends State<MessageTile> {
               bottomRight: Radius.circular(20),
             ),
             color: widget.sentByMe
-                ? Theme.of(context).primaryColor
-                : Colors.grey[700]),
+                ? Color(0xffaec2fa)
+                : Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,7 +70,7 @@ class _MessageTileState extends State<MessageTile> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                   letterSpacing: (-0.5),
                 )),
             const SizedBox(
@@ -72,7 +79,7 @@ class _MessageTileState extends State<MessageTile> {
             Text(widget.message,
                 textAlign: TextAlign.start,
                 style:
-                const TextStyle(fontSize: 16, color: Colors.white)),
+                const TextStyle(fontSize: 16, color: Colors.black)),
             Text(DateTime.fromMillisecondsSinceEpoch(
                 widget.messageTime.seconds)
                 .toString())
@@ -94,6 +101,13 @@ class _MessageTileState extends State<MessageTile> {
               : EdgeInsets.only(right: 30),
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(2, 2),
+                    spreadRadius: 0.1,
+                    color: Colors.black)
+              ],
+              border: Border.all(color: Colors.black, width: 1),
               borderRadius: widget.sentByMe
                   ? BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -106,8 +120,8 @@ class _MessageTileState extends State<MessageTile> {
                 bottomRight: Radius.circular(20),
               ),
               color: widget.sentByMe
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey[700]),
+                  ? Color(0xffaec2fa)
+                  : Colors.white),
           child: widget.message != ''
               ? Column(
             children: [
@@ -116,16 +130,20 @@ class _MessageTileState extends State<MessageTile> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.black,
                     letterSpacing: (-0.5),
                   )),
               const SizedBox(
                 height: 8,
               ),
-              Image.network(
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  widget.message),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black, width: 1),),
+                child: Image.network(
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    widget.message),
+              ),
               Text(DateTime.utc(widget.messageTime.seconds)
                   .toString())
             ],

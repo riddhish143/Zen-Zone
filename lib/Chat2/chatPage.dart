@@ -89,8 +89,13 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        title: Text(widget.groupName),
-        backgroundColor: Colors.black87,
+        backgroundColor:Color(0xffeafddd) ,
+        leading: InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_new , color: Colors.black)),
+        title: Text(widget.groupName , style: TextStyle(color: Colors.black),),
         actions: [
           IconButton(
               onPressed: () {
@@ -101,15 +106,17 @@ class _ChatPageState extends State<ChatPage> {
                       adminName: admin);
                 }));
               },
-              icon: Icon(Icons.info))
+              icon: Icon(Icons.info , color: Colors.black,))
         ],
       ),
       body: Container(
         decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://images.pexels.com/photos/949587/pexels-photo-949587.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+          ),
+        ),
         child: Column(
           children: [
             Expanded(
@@ -127,23 +134,23 @@ class _ChatPageState extends State<ChatPage> {
                 height: MediaQuery.of(context).size.height * 0.08,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                 decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    color: Colors.white.withOpacity(.5),
                     borderRadius: BorderRadius.circular(20)),
                 child: Row(
                   children: [
                     Expanded(
                         child: TextFormField(
                           controller: messageController,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             // enabledBorder: OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 onPressed: () => getImage(),
-                                icon: Icon(Icons.photo),
+                                icon: Icon(Icons.photo , color: Colors.black, size: 28,),
                               ),
                               hintText: "Send a message...",
                               hintStyle:
-                              TextStyle(color: Colors.white, fontSize: 16),
+                              TextStyle(color: Colors.black, fontSize: 16),
                               border: InputBorder.none),
                         )),
                     SizedBox(
@@ -157,7 +164,7 @@ class _ChatPageState extends State<ChatPage> {
                         height: 50,
                         width: 50,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.black,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Center(
