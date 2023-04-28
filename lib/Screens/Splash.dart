@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:final2/juctionScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,54 +15,36 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, '/OnBoarding_screen');
+    Timer(Duration(seconds: 4), (){
+      Navigator.pushReplacementNamed(context, JunctionScreen.id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffe5dfe4),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            //
-            Align(
-              alignment: AlignmentDirectional(0.11, -0.07),
-              child: Container(
-                width: 250,
-                height: 70,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Align(
-                  alignment: AlignmentDirectional(0, 0.03),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Zen',
-                          style: GoogleFonts.abyssinicaSil(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 40,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          ' - Zone',
-                          style: GoogleFonts.abyssinicaSil(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 40,
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Container(
+                  height: 200,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage("images/Blur/Zen_Zone_Logo.png")
+                    )
                   ),
                 ),
               ),
-            ),
-          ],
+              Text('Zen-Zone' , style: GoogleFonts.robotoSlab(color: Colors.black , fontSize: 28 , fontWeight: FontWeight.bold),)
+            ],
+          )
         ),
       ),
     );

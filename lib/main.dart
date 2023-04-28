@@ -26,7 +26,7 @@ import 'Provider/FavouriteProvider.dart';
 import 'Screens/CustomerHomeScreen.dart';
 import 'Screens/OnBoarding1.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'juctionScreen.dart';
 import 'Screens/Profile1.dart';
 import 'Screens/Upload/Test.dart';
 import 'Screens/Upload/UploadPdf1.dart';
@@ -72,12 +72,13 @@ class _MyAppState extends State<MyApp> {
         //         return CustomerHomeScreen();
         //       }
         //       else{
-        //          return WelcomeScreen();
+        //          return SplashScreen();
         //       }
         // },),
         // home: Test(),
-        initialRoute: "/Welcome_screen",
+        initialRoute: "/Splash_screen",
         routes: {
+          JunctionScreen.id : (context) => JunctionScreen(),
           '/Splash_screen': (context) => const SplashScreen(),
           '/OnBoarding_screen': (context) => onBoarding(),
           '/Welcome_screen': (context) => const WelcomeScreen(),

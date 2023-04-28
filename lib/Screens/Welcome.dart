@@ -18,18 +18,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xff8D8CF7),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(  
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffeafddd), Color(0xffcff6e7) , Color(0xff41baf2)],
+            ),
+          ),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
-                height: 70,
+                height: 100,
               ),
               Lottie.network(
                   'https://assets2.lottiefiles.com/packages/lf20_pprxh53t.json',
-                  height: size.height * 0.47),
+                  height: size.height * 0.35),
               SizedBox(
                 height: 70,
               ),
@@ -80,7 +88,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 80,
                   ),
                   // paddingDivider(),
                 ],
