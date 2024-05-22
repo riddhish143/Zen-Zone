@@ -4,14 +4,14 @@ Developing a meditation app was  a great idea as the practice of meditation is b
 
 ## Features
 
-### Book Reading
-### Meditation Music
-### Daily Streak
-### Meditation Podcast
-### Chat Functionality
-### Notifications
-### Multimedia 
-### User Profiles
+##### Book Reading
+##### Meditation Music
+##### Daily Streak
+##### Meditation Podcast
+##### Chat Functionality
+##### Notifications
+##### Multimedia 
+##### User Profiles
 
 
 ## Getting Started
